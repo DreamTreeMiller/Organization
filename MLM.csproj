@@ -58,8 +58,10 @@
     <Compile Include="Department.cs" />
     <Compile Include="Director.cs" />
     <Compile Include="Employee.cs" />
+    <Compile Include="IManageEmployees.cs" />
     <Compile Include="Intern.cs" />
     <Compile Include="Organization.cs" />
+    <Compile Include="Enumerables.cs" />
     <Compile Include="Worker.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

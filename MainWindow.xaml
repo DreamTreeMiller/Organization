@@ -7,6 +7,23 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<StackPanel Orientation="Horizontal"
+					VerticalAlignment="Center"
+					Grid.Row="0">
+				<TextBlock Text="Start time: "/>
+				<TextBlock x:Name="starttime"/>
+				<TextBlock Text=" End time: " />
+				<TextBlock x:Name="endtime" />
+				<TextBlock Text=" Elapsed: "/>
+				<TextBlock x:Name="elapsedtime" />
+		</StackPanel>
+		<ListBox x:Name="unixmilliseconds"
+				 Grid.Row="1"
+				 ScrollViewer.VerticalScrollBarVisibility="Auto">
+		</ListBox>
     </Grid>
 </Window>
