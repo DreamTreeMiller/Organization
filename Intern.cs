@@ -9,9 +9,9 @@ namespace MLM
 	class Intern : Worker
 	{
 		public Intern (string FN, string LN, DateTime DOB,
-					  DateTime hired,
-					  string depName, string job, uint salaryBase=500) 
-				: base (FN, LN, DOB, hired, depName, job, Positions.Intern, salaryBase)
+					   DateTime hired,
+					   Department department, string job, uint salaryBase=500) 
+				: base (FN, LN, DOB, hired, department, job, Positions.Intern, salaryBase)
 		{
 		}
 		public override uint Salary

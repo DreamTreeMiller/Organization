@@ -23,14 +23,7 @@ namespace MLM
 
 		public Department(string dptName, Department parentDpt)
 		{
-			// We take first 6 bytes of Guid and compose a unique ulong ID out of them
-			byte[] guid = Guid.NewGuid().ToByteArray();
-			DepID = ((ulong)guid[3] << 8 * 5) |        // This is the oder of bytes 
-					((ulong)guid[2] << 8 * 4) |        // according to the string format of Guid
-					((ulong)guid[1] << 8 * 3) |
-					((ulong)guid[0] << 8 * 2) |
-					((ulong)guid[5] << 8 * 1) |
-					 (ulong)guid[4];
+			DepID					= UniqueID.Generate();
 			Name					= dptName;
 			CreatedOn				= DateTime.Now;
 			ParentDept				= parentDpt;
@@ -73,7 +66,7 @@ namespace MLM
 				AddEmployee(worker);
 				return 0;			// Employee was updated successfully
 			}
-			return -1;		// No such employee in the dept
+			return -1;				// No such employee in the dept
 		}
 
 		public Worker RemoveEmployee(Worker worker)
@@ -140,7 +133,7 @@ namespace MLM
 			return null;
 		}
 
-		public Department RemoveDepartment(uint dptID)
+		public Department RemoveDepartment(ulong dptID)
 		{
 			foreach (Department d in SubDepts)
 				if (d.DepID == dptID)
@@ -151,9 +144,11 @@ namespace MLM
 			return null;
 		}
 
-		public void SelfExclude()
+		public void SelfExcludeOfDepartment()
 		{
-
+			ParentDept.Employees.AddRange(this.Employees);
+			foreach (Department d in SubDepts) d.ParentDept = this.ParentDept;
+			ParentDept.SubDepts.AddRange(this.SubDepts);
 		}
 	
 	
