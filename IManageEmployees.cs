@@ -8,6 +8,7 @@ namespace MLM
 {
 	interface IManageEmployees
 	{
+		Director GetDirector();
 		/// <summary>
 		/// Returns employee with specified ID
 		/// </summary>
@@ -42,6 +43,6 @@ namespace MLM
 		/// </summary>
 		/// <param name="worker"></param>
 		/// <returns>0 if an employee was updated successfully, -1 if such employee does not work in the dept</returns>
-		int EditEmployee(Worker worker);
+		int UpdateEmployee(Worker worker);
 	}
 }

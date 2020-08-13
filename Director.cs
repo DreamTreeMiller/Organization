@@ -11,15 +11,15 @@ namespace MLM
 		public Director(string FN, string LN, DateTime DOB,
 						DateTime hired,
 						string depName, string job, Positions position = Positions.DeptDirector,
-						uint salary = 1300)
-				: base(FN, LN, DOB, hired, depName, job, position, salary)
+						uint salaryBase = 1300)
+				: base(FN, LN, DOB, hired, depName, job, position, salaryBase)
 		{ }
 
 		public override uint Salary => base.salaryBase;
 
 		public override void GetPaid(uint accumulatedSalary)
 		{
-			base.salaryBase = accumulatedSalary;
+			base.salaryBase = accumulatedSalary > 1300 ? accumulatedSalary : 1300;
 		}
 	}
 }

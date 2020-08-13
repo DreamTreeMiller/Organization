@@ -8,14 +8,23 @@ namespace MLM
 {
 	enum Positions
 	{
+		// Managers level
 		President		 = 1,
 		VicePresident	 = 2,
 		DivisionHead	 = 3,
-		ViceDivisionHead = 4,
-		DeptDirector	 = 5,
+		DeptDirector	 = 4,
+		// Employee level
+		ViceDivisionHead = 5,
 		ViceDeptDirector = 6,
 		Employee		 = 7,
+		// Intern
 		Intern			 = 8
+	}
+
+	enum PaymentType
+	{
+		Standard,
+		Random
 	}
 
 
