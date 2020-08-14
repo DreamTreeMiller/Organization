@@ -18,8 +18,7 @@ namespace MLM
 		public string	JobTitle	{ get; set; }		// responsibilities
 		public Positions Position	{ get; set; }       // withing organization President, VP, Head of Division, Dept Director
 		protected uint	salaryBase;						// Salary base. for each type of worker meaning is different
-		public abstract uint Salary	{ get; }			// Salary - for each type calculated differently
-		public abstract void GetPaid(uint calc = 0);	// Method to receive salary. for each type is different
+		public abstract uint Salary	{ get; set; }		// Salary - for each type calculated differently
 
 		public Worker(string FN, string LN, DateTime DOB, 
 						DateTime hired,
@@ -47,6 +46,11 @@ namespace MLM
 		public override int GetHashCode()
 		{
 			return (int)ID;
+		}
+
+		public override string ToString()
+		{
+			return base.ToString();
 		}
 	}
 }
