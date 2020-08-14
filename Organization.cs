@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,6 @@ namespace MLM
 {
 	class Organization : Department
 	{
-		public new static DateTime CreatedOn;
 		public Organization (string orgName) 
 				: base (orgName, null)
 		{
@@ -42,7 +42,7 @@ namespace MLM
 												Hierarchy level)
 		{
 			Random r = new Random();
-			int numOfDeptsAtThisLevel = 0;
+			int numOfDeptsAtThisLevel;
 			List<Worker> newEmployeesList = CreateEmployeesList(maxNumOfWorkersInDept,
 																level,
 																level == Hierarchy.Top ? this : parentDept,
@@ -55,23 +55,25 @@ namespace MLM
 			{ 
 				parentDept.Employees = newEmployeesList;
 			}
-			switch (level)
-			{
-				case Hierarchy.Top:
-					numOfDeptsAtThisLevel = r.Next(3, maxSubDepts);
-					level = Hierarchy.Division;
-					break;
-				default:
-					numOfDeptsAtThisLevel = r.Next(0, maxSubDepts);
-					level = Hierarchy.Department;
-					break;
-			}
 
 			if (maxDepth > 1)
 			{
+				string depName = String.IsNullOrEmpty(deptNameCode)? "Division" : "Department";
+				switch (level)
+				{
+					case Hierarchy.Top:
+						numOfDeptsAtThisLevel = r.Next(3, maxSubDepts < 3 ? 3 : maxSubDepts);
+						level = Hierarchy.Division;
+						break;
+					default:
+						numOfDeptsAtThisLevel = r.Next(1, maxSubDepts < 1 ? 1 : maxSubDepts);
+						level = Hierarchy.Department;
+						break;
+				}
+
 				for (int i = 1; i <= numOfDeptsAtThisLevel; i++)
 				{
-					Department newDpt = new Department("Department"+ deptNameCode + $"_{i}", this);
+					Department newDpt = new Department(depName + deptNameCode + $"_{i}", this);
 					if (parentDept == null)
 					{
 						this.AddDepartment(newDpt);
@@ -97,7 +99,6 @@ namespace MLM
 		{
 			Random r = new Random();
 			List<Worker> empList = new List<Worker>();
-			deptNameCode = level == Hierarchy.Top ? deptNameCode : "Department_" + deptNameCode;
 			string		posHeadStr		= "";
 			string		posViceHeadStr	= "";
 			Positions	posHead			= Positions.DeptDirector;
@@ -114,9 +115,9 @@ namespace MLM
 				case Hierarchy.Division:
 					maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 5) ? 5 : r.Next(5, maxNumOfWorkersInDept);
 					posHead			= Positions.DivisionHead;
-					posHeadStr		= "Head of the Division " + deptNameCode;
+					posHeadStr		= "Head of the Division_" + deptNameCode;
 					posViceHead		= Positions.ViceDivisionHead;
-					posViceHeadStr	= "Deputy Head of the Division" + deptNameCode;
+					posViceHeadStr	= "Deputy Head of the Division_" + deptNameCode;
 					break;
 				case Hierarchy.Department:
 					maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 3) ? 3 : r.Next(3, maxNumOfWorkersInDept);
@@ -163,16 +164,16 @@ namespace MLM
 										 Positions.Employee));
 			// Adding interns
 			for (int i = 1; i <= numOfInterns; i++)
-				empList.Add(new Employee("First_" + UniqueID.Name(),
+				empList.Add(new   Intern("First_" + UniqueID.Name(),
 										 "Last_" + UniqueID.Name(),
 										 new DateTime(r.Next(1990, 2003), r.Next(1, 13), r.Next(1, 29)),
 										 new DateTime(r.Next(CreatedOn.Year, 2020),
 													  r.Next(CreatedOn.Month, 13),
 													  r.Next(1, 29)),
 										 department,
-										 "Intern",
-										 Positions.Intern));
+										 "Intern"));
 			return empList;
 		}
+	
 	}
 }

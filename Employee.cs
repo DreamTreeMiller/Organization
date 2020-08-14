@@ -22,13 +22,7 @@ namespace MLM
 		public override uint Salary
 		{
 			get { return (uint)(base.salaryBase * this.HoursWorked); }
+			set { this.HoursWorked = value; }
 		}
-
-		// 
-		public override void GetPaid(uint hours)
-		{
-			this.HoursWorked = hours;
-		}
-
 	}
 }

@@ -15,11 +15,10 @@ namespace MLM
 				: base(FN, LN, DOB, hired, department, jobTitle, position, salaryBase)
 		{ }
 
-		public override uint Salary => base.salaryBase;
-
-		public override void GetPaid(uint accumulatedSalary)
+		public override uint Salary
 		{
-			base.salaryBase = accumulatedSalary > 1300 ? accumulatedSalary : 1300;
+			get { return base.salaryBase; }
+			set { base.salaryBase = value > 1300 ? value : 1300; }
 		}
 	}
 }

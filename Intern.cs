@@ -16,12 +16,8 @@ namespace MLM
 		}
 		public override uint Salary
 		{
-			get { return base.salaryBase; }
-		}
-
-		public override void GetPaid(uint calc = 0)
-		{
-			// Do nothing becase salary is already set up through constructor
+			get { return salaryBase; }
+			set { }		// Do nothing becase salary is already set up through constructor
 		}
 	}
 }

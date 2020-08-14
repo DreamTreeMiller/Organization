@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,7 +15,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MLM
 {
@@ -23,19 +23,157 @@ namespace MLM
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		#region Constructor
 		Organization Apple;
+		//ObservableCollection<string> orgList;
+		//List<string> ListLeagueList;
+
 		public MainWindow()
 		{
 			InitializeComponent();
 			Apple = new Organization("Apple Inc.");
-			//unixmilliseconds.ItemsSource = ;
+			Apple.CreateRandomOrganization(5, 3, "", 10, null, Hierarchy.Top);
+			Apple.CalculateTotalDeptSalary(PaymentType.Random);
 		}
+
+		#endregion
+
+		#region On loaded
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+				var item = new TreeViewItem()
+				{
+					DataContext = Apple,
+					// Set the header
+					Header = Apple,
+					// And the full path
+					
+					Tag = Apple
+				};
+
+				// Add a dummy item
+				item.Items.Add(null);
+				
+				// Listen out for item being expanded
+				item.Expanded += Folder_Expanded;
+
+				// Add it the main tree-view
+				AppleTree.Items.Add(item);
+		}
+
+		#endregion
+
+
+		#region Folder Expanded
+
+		private void Folder_Expanded(object sender, RoutedEventArgs e)
+		{
+			#region Inittial Checks
+
+			var item = (TreeViewItem)sender;
+
+			// If the item only contains the dummy data
+			if (item.Items.Count != 1 || item.Items[0] != null)
+				return;
+
+			// Clear dummy data
+			item.Items.Clear();
+
+			#endregion
+
+			#region Get Departments
+
+			// Create a blank list for directories
+			var departments = ((Department)item.Tag).SubDepts;
+
+			// For each dept ...
+			departments.ForEach(dep =>
+			{
+				// Create directory item
+				var subItem = new TreeViewItem()
+				{
+					DataContext = dep,
+					// Set forlder name
+					Header = dep,
+					// And tag as full path
+					Tag = dep
+				};
+
+				// Add dummy item so we can exapnd folder
+				subItem.Items.Add(null);
+
+				// Handle expanding
+				subItem.Expanded += this.Folder_Expanded;
+
+				// Add this item to the parent
+				item.Items.Add(subItem);
+			});
+
+			#endregion
+
+			#region Get Files
+
+			// Create a blank list for files
+			var employees = ((Department)item.Tag).Employees;
+
+
+			// For each file ...
+			employees.ForEach(w =>
+			{
+				// Create file item
+				var subItem = new TreeViewItem()
+				{
+					// Set header as employee's name
+					Header = 
+					$"{w.FirstName} " + $"{w.LastName}" +
+							 $"{w.JobTitle} " + $"${w.Salary:### ###}",
+					// No more 
+					Tag = null
+				};
+
+				// Add this item to the parent
+				item.Items.Add(subItem);
+			});
+
+			#endregion
+		}
+
+		#endregion
+
+		#region Helpers
+
+		/// <summary>
+		/// Find the file or folder name from a full path
+		/// </summary>
+		/// <param name="path">The full path</param>
+		/// <returns></returns>
+		public static string GetFileFolderName(string path)
+		{
+			// If we have no path, return empty
+			if (string.IsNullOrEmpty(path))
+				return string.Empty;
+
+			// Make all slashes back slashes
+			var normalizedPath = path.Replace('/', '\\');
+
+			// Find the last backslash in the path
+			var lastIndex = normalizedPath.LastIndexOf('\\');
+
+			// If we don't find a backslash, return the path itself
+			if (lastIndex <= 0)
+				return path;
+
+			// Return the name after the last back slash
+			return path.Substring(lastIndex + 1);
+		}
+
+		#endregion
 	}
 }
 
 #region Experiments
-		//DateTime start, end;
-		//TimeSpan elapsed;
+//DateTime start, end;
+//TimeSpan elapsed;
 //Worker w = new Employee("John", "Smith", DateTime.Parse("01.01.1995"),
 //  DateTime.Today, "BigDept", "HardWork", "Developer", 12);
 
@@ -84,4 +222,22 @@ namespace MLM
 //	//guidlist.Add(ID);
 //	guidlist.Add($"{ID:x}");
 //}
+//private int sal;
+//public int Salary
+//{
+//	get { return sal;  }
+//	set { }
+//}
+
+//public Test()
+//{
+//	this.sal = 400;
+//}
+//Test t = new Test();
+//orgList = new ObservableCollection<string>()
+//{
+//	$"{t.Salary}"
+//};
+//t.Salary = 300;
+//orgList.Add($"{t.Salary}");
 #endregion

@@ -102,5 +102,13 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icons8-opened-folder-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SaveFileFloppyIcon.png" />
+    <Resource Include="Images\SendFilePaperClip.png" />
+    <Resource Include="Images\SendMessage.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

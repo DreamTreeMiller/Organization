@@ -1,36 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace MLM
 {
 	class Department : IManageEmployees
 	{
-		public ulong DepID					{ get; }
-		public string Name					{ get; set; }
-		public DateTime CreatedOn			{ get; set; }
-		public Department ParentDept		{ get; set; }
+		public ulong DepID { get; }
+		public string Name { get; set; }
+		public DateTime CreatedOn { get; set; }
+		public Department ParentDept { get; set; }
 		//public Director Director			{ get; set; }
-		public List<Worker> Employees		{ get; set; }
-		public uint TotalDepartmentSalary	{ get; set; }		// Sum of salaries received by
-																// - all dept workers - employees & interns
-																// - all sub-departments
-																// - director
-		public List<Department> SubDepts	{ get; set; }
+		public List<Worker> Employees { get; set; }
+		public uint TotalDepartmentSalary { get; set; }     // Sum of salaries received by
+															// - all dept workers - employees & interns
+															// - all sub-departments
+															// - director
+		public List<Department> SubDepts { get; set; }
 
 		public Department(string dptName, Department parentDpt)
 		{
-			DepID					= UniqueID.Generate();
-			Name					= dptName;
-			CreatedOn				= DateTime.Now;
-			ParentDept				= parentDpt;
-			Employees				= new List<Worker>();
-			TotalDepartmentSalary	= 0;
-			SubDepts				= new List<Department>();
+			DepID = UniqueID.Generate();
+			Name = dptName;
+			CreatedOn = DateTime.Now;
+			ParentDept = parentDpt;
+			Employees = new List<Worker>();
+			TotalDepartmentSalary = 0;
+			SubDepts = new List<Department>();
 		}
+
+		public override string ToString()
+		{
+			return $"ID: {DepID,16} " +
+					$"{Name,20} " +
+					$"Created on: {CreatedOn:dd.MM.yyyy} " +
+					$"Employees: {Employees.Count:7}" +
+					$"Total Salary: ${TotalDepartmentSalary:### ### ###}";
+		}
+
 		public Director GetDirector()
 		{
 			foreach (Worker w in Employees)
@@ -54,7 +66,7 @@ namespace MLM
 		public int AddEmployee(Worker worker)
 		{
 			foreach (Worker w in Employees)
-				if (w.ID == worker.ID) return -1;		// Worker with such ID already works in dept
+				if (w.ID == worker.ID) return -1;       // Worker with such ID already works in dept
 			Employees.Add(worker);
 			return 0;
 		}
@@ -64,9 +76,9 @@ namespace MLM
 			if (RemoveEmployee(worker.ID) != null)
 			{
 				AddEmployee(worker);
-				return 0;			// Employee was updated successfully
+				return 0;           // Employee was updated successfully
 			}
-			return -1;				// No such employee in the dept
+			return -1;              // No such employee in the dept
 		}
 
 		public Worker RemoveEmployee(Worker worker)
@@ -89,7 +101,7 @@ namespace MLM
 					Employees.Remove(w);
 					return w;
 				}
-			return null;	// such employee was not found
+			return null;    // such employee was not found
 		}
 
 		public uint CalculateTotalDeptSalary(PaymentType pymnt)
@@ -99,16 +111,16 @@ namespace MLM
 			foreach (Worker w in Employees)
 				if (!(w is Director))
 				{
-					w.GetPaid( (pymnt == PaymentType.Standard) ? 
-														22 * 8 : 	// Standard 8 hours per 22 working days
-										(uint)r.Next(100, 240));    // Random selection of hours
+					w.Salary = (pymnt == PaymentType.Standard) ?
+														22 * 8 :    // Standard 8 hours per 22 working days
+										 (uint)r.Next(100, 240);    // Random selection of hours
 					TotalDepartmentSalary += w.Salary;
 				}
 			foreach (Department d in SubDepts)
 				TotalDepartmentSalary += d.CalculateTotalDeptSalary(pymnt);
 
 			Director dir = GetDirector();
-			dir.GetPaid(TotalDepartmentSalary * 15 / 100);
+			dir.Salary = TotalDepartmentSalary * 15 / 100;
 			UpdateEmployee(dir);
 			TotalDepartmentSalary += dir.Salary;
 			return TotalDepartmentSalary;
@@ -150,7 +162,27 @@ namespace MLM
 			foreach (Department d in SubDepts) d.ParentDept = this.ParentDept;
 			ParentDept.SubDepts.AddRange(this.SubDepts);
 		}
-	
-	
+
+		public ObservableCollection<string> MakeObsCollection(string pad)
+		{
+			ObservableCollection<string> dptList = new ObservableCollection<string>
+			{
+				pad + this
+			};
+			foreach (Worker w in Employees)
+				dptList.Add(pad + "  " + w);
+			foreach (Department d in SubDepts)
+				dptList = ConcatCollections(dptList,(d.MakeObsCollection(pad + "    ")));
+			return dptList;
+		}
+
+		ObservableCollection<string> ConcatCollections(ObservableCollection<string> body,
+													ObservableCollection<string> tail)
+		{
+			foreach (var s in tail)
+				body.Add(s);
+			return body;
+		}
+
 	}
 }

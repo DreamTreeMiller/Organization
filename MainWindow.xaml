@@ -5,25 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MLM"
         mc:Ignorable="d"
+		Loaded="Window_Loaded"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="30"/>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
-		<StackPanel Orientation="Horizontal"
-					VerticalAlignment="Center"
-					Grid.Row="0">
-				<TextBlock Text="Start time: "/>
-				<TextBlock x:Name="starttime"/>
-				<TextBlock Text=" End time: " />
-				<TextBlock x:Name="endtime" />
-				<TextBlock Text=" Elapsed: "/>
-				<TextBlock x:Name="elapsedtime" />
-		</StackPanel>
+
+		<TreeView x:Name="AppleTree" >
+			<TreeView.Resources>
+
+				<Style TargetType="{x:Type TreeViewItem}">
+					<Setter Property="HeaderTemplate">
+						<Setter.Value>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Width="20" Margin="3" Source="Images/icons8-opened-folder-96.png"/>
+									<!--
+									{Binding
+										RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}},
+										Path=Tag}
+									-->
+									<TextBlock VerticalAlignment="Center" 
+										Text="{Binding Path=Name}"
+										MinWidth="50"
+										HorizontalAlignment="Left"/>
+									<TextBlock VerticalAlignment="Center" 
+										Text="{Binding Source=Header, Path=LaststName}"
+										Width="70"
+										HorizontalAlignment="Left"/>
+								</StackPanel>
+							</DataTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+				
+			</TreeView.Resources>
+		</TreeView>
+		<!--
 		<ListBox x:Name="unixmilliseconds"
 				 Grid.Row="1"
 				 ScrollViewer.VerticalScrollBarVisibility="Auto">
 		</ListBox>
+		-->
     </Grid>
 </Window>
