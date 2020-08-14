@@ -19,7 +19,7 @@ namespace MLM
 		{
 			Worker w = origin.GetEmployee(empID);
 			if (w == null) return -1;       // No worker with such ID works in origin dept
-			w.DepName = destination.Name;
+			w.Department = destination;
 			destination.AddEmployee(w);
 			return 0;
 		}
@@ -96,35 +96,41 @@ namespace MLM
 										 string deptNameCode)
 		{
 			Random r = new Random();
-			Director head;
-			Employee vicehead;
 			List<Worker> empList = new List<Worker>();
 			deptNameCode = level == Hierarchy.Top ? deptNameCode : "Department_" + deptNameCode;
-			string job;
-			Positions posHead = Positions.DeptDirector;
-			Positions posViceHead = Positions.ViceDeptDirector;
+			string		posHeadStr		= "";
+			string		posViceHeadStr	= "";
+			Positions	posHead			= Positions.DeptDirector;
+			Positions	posViceHead		= Positions.ViceDeptDirector;
 			switch (level)
 			{
 				case Hierarchy.Top:
 					maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 7) ? 7 : r.Next(7, maxNumOfWorkersInDept);
-					posHead = Positions.President;
-					posViceHead = Positions.VicePresident;
+					posHead			= Positions.President;
+					posHeadStr = "President";
+					posViceHead		= Positions.VicePresident;
+					posViceHeadStr	= "Vice President";
 					break;
 				case Hierarchy.Division:
 					maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 5) ? 5 : r.Next(5, maxNumOfWorkersInDept);
-					posHead = Positions.DivisionHead;
-					posViceHead = Positions.ViceDivisionHead;
+					posHead			= Positions.DivisionHead;
+					posHeadStr		= "Head of the Division " + deptNameCode;
+					posViceHead		= Positions.ViceDivisionHead;
+					posViceHeadStr	= "Deputy Head of the Division" + deptNameCode;
 					break;
 				case Hierarchy.Department:
 					maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 3) ? 3 : r.Next(3, maxNumOfWorkersInDept);
-					posHead = Positions.DeptDirector;
-					posViceHead = Positions.ViceDeptDirector;
+					posHead			= Positions.DeptDirector;
+					posHeadStr		= "Director_" + deptNameCode;
+					posViceHead		= Positions.ViceDeptDirector;
+					posViceHeadStr	= "Vice Director_" + deptNameCode;
 					break;
 			}
 
-			int numOfEmployees = r.Next(1, maxNumOfWorkersInDept - 2 + 1);
-			int numOfInterns = maxNumOfWorkersInDept - 2 - numOfEmployees;
+			int numOfEmployees	= r.Next(1, maxNumOfWorkersInDept - 2 + 1);
+			int numOfInterns	= maxNumOfWorkersInDept - 2 - numOfEmployees;
 
+			// Adding head of the organization/division/department
 			empList.Add(new Director("First_" + UniqueID.Name(),
 									 "Last_"  + UniqueID.Name(),
 									 new DateTime(r.Next(1950, 1981), r.Next(1,13), r.Next(1,29)),
@@ -132,9 +138,9 @@ namespace MLM
 												  r.Next(CreatedOn.Month, 13), 
 												  r.Next(1, 29)),
 									 department,
-									 "Manager",
+									 posHeadStr,
 									 posHead));
-
+			// Adding vice head
 			empList.Add(new Employee("First_" + UniqueID.Name(),
 									 "Last_" + UniqueID.Name(),
 									 new DateTime(r.Next(1950, 1981), r.Next(1, 13), r.Next(1, 29)),
@@ -142,10 +148,30 @@ namespace MLM
 												  r.Next(CreatedOn.Month, 13),
 												  r.Next(1, 29)),
 									 department,
-									 "Assistan to Manager",
+									 posViceHeadStr,
 									 posViceHead));
-			for (int i = 1; i < numOfEmployees; i++)
-
+			// Adding employees
+			for (int i = 1; i <= numOfEmployees; i++)
+				empList.Add(new Employee("First_" + UniqueID.Name(),
+										 "Last_" + UniqueID.Name(),
+										 new DateTime(r.Next(1950, 1996), r.Next(1, 13), r.Next(1, 29)),
+										 new DateTime(r.Next(CreatedOn.Year, 2020),
+													  r.Next(CreatedOn.Month, 13),
+													  r.Next(1, 29)),
+										 department,
+										 "Employee",
+										 Positions.Employee));
+			// Adding interns
+			for (int i = 1; i <= numOfInterns; i++)
+				empList.Add(new Employee("First_" + UniqueID.Name(),
+										 "Last_" + UniqueID.Name(),
+										 new DateTime(r.Next(1990, 2003), r.Next(1, 13), r.Next(1, 29)),
+										 new DateTime(r.Next(CreatedOn.Year, 2020),
+													  r.Next(CreatedOn.Month, 13),
+													  r.Next(1, 29)),
+										 department,
+										 "Intern",
+										 Positions.Intern));
 			return empList;
 		}
 	}

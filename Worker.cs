@@ -15,7 +15,7 @@ namespace MLM
 		public DateTime EmployedOn	{ get; set; }
 		public Department Department { get; set; }
 		public string DepName => Department.Name;		// Name of department
-		public string	Job			{ get; set; }		// responsibilities
+		public string	JobTitle	{ get; set; }		// responsibilities
 		public Positions Position	{ get; set; }       // withing organization President, VP, Head of Division, Dept Director
 		protected uint	salaryBase;						// Salary base. for each type of worker meaning is different
 		public abstract uint Salary	{ get; }			// Salary - for each type calculated differently
@@ -23,7 +23,7 @@ namespace MLM
 
 		public Worker(string FN, string LN, DateTime DOB, 
 						DateTime hired,
-						Department department, string job, Positions position,
+						Department department, string jobTitle, Positions position,
 						uint salaryBase = 0)
 		{
 			this.ID				= UniqueID.Generate(); 
@@ -32,7 +32,7 @@ namespace MLM
 			this.DateOfBirth	= DOB;
 			this.EmployedOn		= hired;
 			this.Department		= department;
-			this.Job			= job;
+			this.JobTitle			= jobTitle;
 			this.Position		= position;
 			this.salaryBase		= salaryBase;
 		}

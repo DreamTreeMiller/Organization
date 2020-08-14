@@ -10,9 +10,9 @@ namespace MLM
 	{
 		public Director(string FN, string LN, DateTime DOB,
 						DateTime hired,
-						Department department, string job, Positions position = Positions.DeptDirector,
+						Department department, string jobTitle, Positions position = Positions.DeptDirector,
 						uint salaryBase = 1300)
-				: base(FN, LN, DOB, hired, department, job, position, salaryBase)
+				: base(FN, LN, DOB, hired, department, jobTitle, position, salaryBase)
 		{ }
 
 		public override uint Salary => base.salaryBase;

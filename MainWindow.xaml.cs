@@ -23,32 +23,12 @@ namespace MLM
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public class Test
-		{
-			public int value { get; set; }
-		}
-
-		public void UpdateValue(Test x, int y)
-		{
-			x.value = y;
-		}
-		public void UpdateValue(int x, int y)
-		{
-			x = y;
-		}
+		Organization Apple;
 		public MainWindow()
 		{
-			int x = 6;
 			InitializeComponent();
-			Test t = new Test() { value = 5 };
-			List<string> guidlist = new List<string>();
-			guidlist.Add($"t.value = {t.value}");			// 5
-			UpdateValue(t, 6);
-			guidlist.Add($"t.value = {t.value}");			// 6
-			guidlist.Add($"x = {x}");						// 6
-			UpdateValue(x, 7);
-			guidlist.Add($"x = {x}");						// 6
-			unixmilliseconds.ItemsSource = guidlist;
+			Apple = new Organization("Apple Inc.");
+			//unixmilliseconds.ItemsSource = ;
 		}
 	}
 }
