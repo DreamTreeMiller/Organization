@@ -17,20 +17,47 @@
 						<Setter.Value>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="20" Margin="3" Source="Images/icons8-opened-folder-96.png"/>
+									<Image Width="20" Margin="3" 
+										   Source="{Binding RelativeSource=
+																{RelativeSource Mode=FindAncestor, 
+																AncestorType={x:Type TreeViewItem}},
+															Path=Tag,
+															Converter={x:Static local:HeaderToImageConverter.Instance}}"/>
 									<!--
-									{Binding
-										RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}},
-										Path=Tag}
+									Images/icons8-opened-folder-96.png
+									
 									-->
 									<TextBlock VerticalAlignment="Center" 
 										Text="{Binding Path=Name}"
-										MinWidth="50"
+										MinWidth="0"
 										HorizontalAlignment="Left"/>
 									<TextBlock VerticalAlignment="Center" 
-										Text="{Binding Source=Header, Path=LaststName}"
-										Width="70"
+										Text="{Binding Path=FirstName}"
+										MinWidth="0"
 										HorizontalAlignment="Left"/>
+									<TextBlock Text=" "/>
+									<TextBlock VerticalAlignment="Center" 
+										Text="{Binding Path=LastName}"
+										MinWidth="0"
+										HorizontalAlignment="Left"/>
+									<TextBlock Text=" "/>
+									<TextBlock VerticalAlignment="Center" 
+										Text="{Binding Path=JobTitle}"
+										MinWidth="0"
+										HorizontalAlignment="Left"/>
+									<TextBlock Text=" "/>
+									<TextBlock VerticalAlignment="Center" 
+										Text="{Binding StringFormat={}{0:C0}, Path=Salary}"
+										MinWidth="0"
+										HorizontalAlignment="Left"/>
+									<TextBlock Text=" "/>
+									<TextBlock VerticalAlignment="Center" 
+										Text="{Binding StringFormat={}{0:C0}, Path=TotalDepartmentSalary}"
+										MinWidth="0"
+										HorizontalAlignment="Left"/>
+									<TextBlock Text=" "/>
+									<TextBlock Text=" "/>
+
 								</StackPanel>
 							</DataTemplate>
 						</Setter.Value>

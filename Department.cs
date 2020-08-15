@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace MLM
 {
-	class Department : IManageEmployees
+	class Department
 	{
 		public ulong DepID { get; }
 		public string Name { get; set; }
@@ -73,9 +73,17 @@ namespace MLM
 
 		public int UpdateEmployee(Worker worker)
 		{
-			if (RemoveEmployee(worker.ID) != null)
+			if (Employees.Contains(worker))
 			{
-				AddEmployee(worker);
+				int wi = Employees.IndexOf(worker);
+				Employees[wi].FirstName		= worker.FirstName;
+				Employees[wi].LastName		= worker.LastName;
+				Employees[wi].DateOfBirth	= worker.DateOfBirth;
+				Employees[wi].EmployedOn	= worker.EmployedOn;
+				Employees[wi].Department	= worker.Department;
+				Employees[wi].JobTitle		= worker.JobTitle;
+				Employees[wi].Position		= worker.Position;
+				Employees[wi].salaryBase	= worker.salaryBase;
 				return 0;           // Employee was updated successfully
 			}
 			return -1;              // No such employee in the dept

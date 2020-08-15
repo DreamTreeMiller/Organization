@@ -18,7 +18,7 @@ namespace MLM
 		public string DepName => Department.Name;		// Name of department
 		public string	JobTitle	{ get; set; }		// responsibilities
 		public Positions Position	{ get; set; }       // withing organization President, VP, Head of Division, Dept Director
-		protected uint	salaryBase;                     // Salary base. for each type of worker meaning is different
+		public uint salaryBase { get; set; }            // Salary base. for each type of worker meaning is different
 		public abstract uint Salary { get; set; }       // Salary - for each type calculated differently
 
 		static ObservableCollection<Worker> AllEmployees { get; set; }

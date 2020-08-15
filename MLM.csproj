@@ -58,7 +58,8 @@
     <Compile Include="Department.cs" />
     <Compile Include="Director.cs" />
     <Compile Include="Employee.cs" />
-    <Compile Include="IManageEmployees.cs" />
+    <Compile Include="HeaderToImageConverter.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Intern.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="Enumerables.cs" />
@@ -106,9 +107,10 @@
     <Resource Include="Images\icons8-opened-folder-96.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\SaveFileFloppyIcon.png" />
-    <Resource Include="Images\SendFilePaperClip.png" />
-    <Resource Include="Images\SendMessage.png" />
+    <Resource Include="Images\human-green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\apple-logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -25,8 +25,8 @@ namespace MLM
 	{
 		#region Constructor
 		Organization Apple;
-		//ObservableCollection<string> orgList;
-		//List<string> ListLeagueList;
+		ObservableCollection<string> orgList = new ObservableCollection<string>();
+		List<Positions> lp;
 
 		public MainWindow()
 		{
@@ -34,6 +34,25 @@ namespace MLM
 			Apple = new Organization("Apple Inc.");
 			Apple.CreateRandomOrganization(5, 3, "", 10, null, Hierarchy.Top);
 			Apple.CalculateTotalDeptSalary(PaymentType.Random);
+
+			//lp = new List<Positions>()
+			//{
+			//	Positions.ViceDivisionHead,
+			//	Positions.Intern,
+			//	Positions.VicePresident,
+			//	Positions.DivisionHead,
+			//	Positions.President,
+			//	Positions.DeptDirector,
+			//	Positions.Employee,
+			//	Positions.ViceDeptDirector
+			//};
+
+			//lp.Sort((Positions x, Positions y) => { return x.CompareTo(y); });
+
+			//foreach (Positions p in lp)
+			//	orgList.Add($"{p}");
+
+			//testlist.ItemsSource = orgList;
 		}
 
 		#endregion
@@ -111,9 +130,9 @@ namespace MLM
 
 			#endregion
 
-			#region Get Files
+			#region Get Employees
 
-			// Create a blank list for files
+			// Create a blank list for employees
 			var employees = ((Department)item.Tag).Employees;
 
 
@@ -123,10 +142,11 @@ namespace MLM
 				// Create file item
 				var subItem = new TreeViewItem()
 				{
+					DataContext = w,
 					// Set header as employee's name
-					Header = 
-					$"{w.FirstName} " + $"{w.LastName}" +
-							 $"{w.JobTitle} " + $"${w.Salary:### ###}",
+					Header = w,
+					//$"{w.FirstName} " + $"{w.LastName}" +
+					//		 $"{w.JobTitle} " + $"${w.Salary:### ###}",
 					// No more 
 					Tag = null
 				};

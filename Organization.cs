@@ -9,10 +9,12 @@ namespace MLM
 {
 	class Organization : Department
 	{
+		public static Random r = new Random();
+
 		public Organization (string orgName) 
 				: base (orgName, null)
 		{
-			Random r = new Random();
+			r = new Random();
 			CreatedOn = new DateTime(r.Next(2000, 2020), r.Next(1, 13), r.Next(1, 29));
 		}
 		public int MoveEmployee(ulong empID, Department origin, Department destination)
@@ -41,7 +43,6 @@ namespace MLM
 												Department parentDept,
 												Hierarchy level)
 		{
-			Random r = new Random();
 			int numOfDeptsAtThisLevel;
 			List<Worker> newEmployeesList = CreateEmployeesList(maxNumOfWorkersInDept,
 																level,
@@ -62,11 +63,11 @@ namespace MLM
 				switch (level)
 				{
 					case Hierarchy.Top:
-						numOfDeptsAtThisLevel = r.Next(3, maxSubDepts < 3 ? 3 : maxSubDepts);
+						numOfDeptsAtThisLevel = r.Next(3, maxSubDepts < 3 ? 4 : maxSubDepts+1);
 						level = Hierarchy.Division;
 						break;
 					default:
-						numOfDeptsAtThisLevel = r.Next(1, maxSubDepts < 1 ? 1 : maxSubDepts);
+						numOfDeptsAtThisLevel = r.Next(1, maxSubDepts < 1 ? 2 : maxSubDepts+1);
 						level = Hierarchy.Department;
 						break;
 				}
@@ -97,7 +98,6 @@ namespace MLM
 										 Department department,
 										 string deptNameCode)
 		{
-			Random r = new Random();
 			List<Worker> empList = new List<Worker>();
 			string		posHeadStr		= "";
 			string		posViceHeadStr	= "";
@@ -108,7 +108,7 @@ namespace MLM
 				case Hierarchy.Top:
 					maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 7) ? 7 : r.Next(7, maxNumOfWorkersInDept);
 					posHead			= Positions.President;
-					posHeadStr = "President";
+					posHeadStr		= "President";
 					posViceHead		= Positions.VicePresident;
 					posViceHeadStr	= "Vice President";
 					break;
@@ -160,11 +160,10 @@ namespace MLM
 													  r.Next(CreatedOn.Month, 13),
 													  r.Next(1, 29)),
 										 department,
-										 "Employee",
-										 Positions.Employee));
+										 "Employee"));
 			// Adding interns
 			for (int i = 1; i <= numOfInterns; i++)
-				empList.Add(new   Intern("First_" + UniqueID.Name(),
+				empList.Add(new Intern	("First_" + UniqueID.Name(),
 										 "Last_" + UniqueID.Name(),
 										 new DateTime(r.Next(1990, 2003), r.Next(1, 13), r.Next(1, 29)),
 										 new DateTime(r.Next(CreatedOn.Year, 2020),
@@ -172,6 +171,8 @@ namespace MLM
 													  r.Next(1, 29)),
 										 department,
 										 "Intern"));
+
+			empList.Sort(new CompareByPosition());
 			return empList;
 		}
 	
