@@ -129,7 +129,7 @@ namespace MLM
 
 			Director dir = GetDirector();
 			dir.Salary = TotalDepartmentSalary * 15 / 100;
-			UpdateEmployee(dir);
+			//UpdateEmployee(dir);
 			TotalDepartmentSalary += dir.Salary;
 			return TotalDepartmentSalary;
 		}

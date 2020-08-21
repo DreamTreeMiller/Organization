@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace MLM
 {
@@ -18,7 +19,7 @@ namespace MLM
 		public string DepName => Department.Name;		// Name of department
 		public string	JobTitle	{ get; set; }		// responsibilities
 		public Positions Position	{ get; set; }       // withing organization President, VP, Head of Division, Dept Director
-		public uint salaryBase { get; set; }            // Salary base. for each type of worker meaning is different
+		public uint salaryBase		{ get; set; }       // Salary base. for each type of worker meaning is different
 		public abstract uint Salary { get; set; }       // Salary - for each type calculated differently
 
 		static ObservableCollection<Worker> AllEmployees { get; set; }
@@ -41,13 +42,17 @@ namespace MLM
 		public override bool Equals(object obj)
 		{
 			if (obj == null) return false;
+			// This line is necessary because DisconnectedItem exception is thrown
+			// when we change department in TreeView
+			// But I don't know why DataGrid calls Equals method ...
+			if (obj == BindingOperations.DisconnectedSource) return false;
 			Worker w = obj as Worker;
 			return this.ID.Equals(w.ID);
 		}
 
 		public override int GetHashCode()
 		{
-			return (int)ID;
+			return base.GetHashCode();
 		}
 
 		public override string ToString()

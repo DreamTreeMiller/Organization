@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -32,27 +33,9 @@ namespace MLM
 		{
 			InitializeComponent();
 			Apple = new Organization("Apple Inc.");
-			Apple.CreateRandomOrganization(5, 3, "", 10, null, Hierarchy.Top);
+			Apple.CreateRandomOrganization(5, 10, "", 100, null, Hierarchy.Top);
 			Apple.CalculateTotalDeptSalary(PaymentType.Random);
 
-			//lp = new List<Positions>()
-			//{
-			//	Positions.ViceDivisionHead,
-			//	Positions.Intern,
-			//	Positions.VicePresident,
-			//	Positions.DivisionHead,
-			//	Positions.President,
-			//	Positions.DeptDirector,
-			//	Positions.Employee,
-			//	Positions.ViceDeptDirector
-			//};
-
-			//lp.Sort((Positions x, Positions y) => { return x.CompareTo(y); });
-
-			//foreach (Positions p in lp)
-			//	orgList.Add($"{p}");
-
-			//testlist.ItemsSource = orgList;
 		}
 
 		#endregion
@@ -72,6 +55,7 @@ namespace MLM
 
 				// Add a dummy item
 				item.Items.Add(null);
+				item.Selected += Department_Selected;
 				
 				// Listen out for item being expanded
 				item.Expanded += Folder_Expanded;
@@ -80,10 +64,20 @@ namespace MLM
 				AppleTree.Items.Add(item);
 		}
 
+		private void Department_Selected(object sender, RoutedEventArgs e)
+		{
+			var es = e.OriginalSource as TreeViewItem;
+			var dep = ((Department)es.Tag);
+			employeesView.ItemsSource = dep.Employees;
+			totalDeptSalary.Text = $"Total department salary: " +
+				dep.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+
+		}
+
 		#endregion
 
 
-		#region Folder Expanded
+		#region Department Expanded
 
 		private void Folder_Expanded(object sender, RoutedEventArgs e)
 		{
@@ -108,19 +102,18 @@ namespace MLM
 			// For each dept ...
 			departments.ForEach(dep =>
 			{
-				// Create directory item
+				// Create department item
 				var subItem = new TreeViewItem()
 				{
-					DataContext = dep,
 					// Set forlder name
+					DataContext = dep,
 					Header = dep,
 					// And tag as full path
 					Tag = dep
 				};
 
-				// Add dummy item so we can exapnd folder
+				// Add dummy item so we can exapnd department
 				subItem.Items.Add(null);
-
 				// Handle expanding
 				subItem.Expanded += this.Folder_Expanded;
 
@@ -130,66 +123,40 @@ namespace MLM
 
 			#endregion
 
-			#region Get Employees
-
-			// Create a blank list for employees
-			var employees = ((Department)item.Tag).Employees;
-
-
-			// For each file ...
-			employees.ForEach(w =>
-			{
-				// Create file item
-				var subItem = new TreeViewItem()
-				{
-					DataContext = w,
-					// Set header as employee's name
-					Header = w,
-					//$"{w.FirstName} " + $"{w.LastName}" +
-					//		 $"{w.JobTitle} " + $"${w.Salary:### ###}",
-					// No more 
-					Tag = null
-				};
-
-				// Add this item to the parent
-				item.Items.Add(subItem);
-			});
-
-			#endregion
 		}
 
 		#endregion
 
-		#region Helpers
 
-		/// <summary>
-		/// Find the file or folder name from a full path
-		/// </summary>
-		/// <param name="path">The full path</param>
-		/// <returns></returns>
-		public static string GetFileFolderName(string path)
-		{
-			// If we have no path, return empty
-			if (string.IsNullOrEmpty(path))
-				return string.Empty;
-
-			// Make all slashes back slashes
-			var normalizedPath = path.Replace('/', '\\');
-
-			// Find the last backslash in the path
-			var lastIndex = normalizedPath.LastIndexOf('\\');
-
-			// If we don't find a backslash, return the path itself
-			if (lastIndex <= 0)
-				return path;
-
-			// Return the name after the last back slash
-			return path.Substring(lastIndex + 1);
-		}
-
-		#endregion
 	}
 }
+
+#region Get Employees
+
+//// Create a blank list for employees
+//var employees = ((Department)item.Tag).Employees;
+
+
+//// For each file ...
+//employees.ForEach(w =>
+//{
+//	// Create file item
+//	var subItem = new TreeViewItem()
+//	{
+//		DataContext = w,
+//		// Set header as employee's name
+//		Header = w,
+//		//$"{w.FirstName} " + $"{w.LastName}" +
+//		//		 $"{w.JobTitle} " + $"${w.Salary:### ###}",
+//		// No more 
+//		Tag = null
+//	};
+
+//	// Add this item to the parent
+//	item.Items.Add(subItem);
+//});
+
+#endregion
 
 #region Experiments
 //DateTime start, end;
@@ -260,4 +227,33 @@ namespace MLM
 //};
 //t.Salary = 300;
 //orgList.Add($"{t.Salary}");
+
+//#region Helpers
+
+///// <summary>
+///// Find the file or folder name from a full path
+///// </summary>
+///// <param name="path">The full path</param>
+///// <returns></returns>
+//public static string GetFileFolderName(string path)
+//{
+//	// If we have no path, return empty
+//	if (string.IsNullOrEmpty(path))
+//		return string.Empty;
+
+//	// Make all slashes back slashes
+//	var normalizedPath = path.Replace('/', '\\');
+
+//	// Find the last backslash in the path
+//	var lastIndex = normalizedPath.LastIndexOf('\\');
+
+//	// If we don't find a backslash, return the path itself
+//	if (lastIndex <= 0)
+//		return path;
+
+//	// Return the name after the last back slash
+//	return path.Substring(lastIndex + 1);
+//}
+
+//#endregion
 #endregion

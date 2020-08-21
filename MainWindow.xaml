@@ -7,11 +7,94 @@
         mc:Ignorable="d"
 		Loaded="Window_Loaded"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-		<TreeView x:Name="AppleTree" >
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40"/>
+			<RowDefinition/>
+			<RowDefinition Height="40"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="2*"/>
+		</Grid.ColumnDefinitions>
+		<ToolBarPanel Grid.Row="0"
+					  Grid.ColumnSpan="3"
+					  ClipToBounds="True"
+					  Margin="3"
+					  HorizontalAlignment="Left"
+					  Background="Transparent"
+					 >
+			<ToolBar x:Name="orgToolBar"
+					 ToolBarTray.IsLocked="True"
+					 Margin="0, 0, -15, 0"
+					 Background="Transparent"
+					 >
+				<Button x:Name="openFileBtn"
+						Width="30"
+						Margin="3"
+						VerticalAlignment="Center"
+						>
+					<Image Source="Images/icons8-opened-folder-96.png"/>
+					<Button.ToolTip>
+						<ToolTip>
+							Загрузить из файла
+						</ToolTip>
+					</Button.ToolTip>
+				</Button>
+				<!--TextBlock VerticalAlignment="Center" 
+						   Text="Open from file" 
+						   TextAlignment="Center"
+						   Margin="3"
+						   /-->
+				<Button x:Name="saveFileBtn"
+						Width="30"
+						Margin="3"
+						VerticalAlignment="Center">
+					<Image Source="Images/SaveFileFloppyIcon.png"/>
+					<Button.ToolTip>
+						<ToolTip>
+							Сохранить в файл
+						</ToolTip>
+					</Button.ToolTip>
+				</Button>
+				<!--TextBlock VerticalAlignment="Center" 
+						   Text="Save" 
+						   TextAlignment="Center"
+						   Margin="3"
+						   /-->
+				<Menu x:Name="deptMenu" 
+					  VerticalAlignment="Center"
+					  Margin="3"
+					  >
+					<MenuItem Header="Department"
+							  VerticalAlignment="Center">
+						<MenuItem Header="Create" />
+						<MenuItem Header="Edit" />
+						<MenuItem Header="Move" />
+						<MenuItem Header="Delete" />
+					</MenuItem>
+				</Menu>
+				<Menu x:Name="workerMenu" 
+					  VerticalAlignment="Center"
+					  Margin="3"
+					  >
+					<MenuItem Header="Employee"
+							  VerticalAlignment="Center">
+						<MenuItem Header="Create" />
+						<MenuItem Header="Edit" />
+						<MenuItem Header="Move" />
+						<MenuItem Header="Delete" />
+					</MenuItem>
+				</Menu>
+			</ToolBar>
+		</ToolBarPanel>
+		<TreeView x:Name="AppleTree" 
+				  Grid.Row="1"
+				  Grid.Column="0"
+				  Margin="5,5,0,5"
+				  >
 			<TreeView.Resources>
-
 				<Style TargetType="{x:Type TreeViewItem}">
 					<Setter Property="HeaderTemplate">
 						<Setter.Value>
@@ -63,14 +146,50 @@
 						</Setter.Value>
 					</Setter>
 				</Style>
-				
 			</TreeView.Resources>
 		</TreeView>
+		<GridSplitter Grid.Column="1"
+					  Grid.Row="1"
+					  Width="5"
+					  HorizontalAlignment="Center"
+					  VerticalAlignment="Stretch"
+					  Background="Transparent"
+					  />
+		<DataGrid x:Name="employeesView"
+				  Grid.Row="1"
+				  Grid.Column="2"
+				  Margin="0,5,5,5"
+				  AutoGenerateColumns="False"
+				  CanUserResizeColumns="True"
+				  ColumnWidth="*"
+				  GridLinesVisibility="None"
+				  RowBackground="LightGray" 
+				  AlternatingRowBackground="White"
+				  >
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="ID"			Binding="{Binding ID}" />
+				<DataGridTextColumn Header="FirstName"	Binding="{Binding FirstName}" />
+				<DataGridTextColumn Header="LastName"	Binding="{Binding LastName}"/>
+				<DataGridTextColumn Header="Department" Binding="{Binding DepName}" />
+				<DataGridTextColumn Header="JobTitle"	Binding="{Binding JobTitle}" />
+				<DataGridTextColumn Header="Salary"		Binding="{Binding StringFormat={}{0:C0}, Path=Salary}" 
+									/>
+			</DataGrid.Columns>
+			
+		</DataGrid>
+		<TextBlock x:Name="totalDeptSalary"
+				   Grid.Row="2"
+				   Grid.Column="2"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Right"
+				   Margin="0,0,30,0"
+				   FontWeight="Bold"
+				   />
 		<!--
 		<ListBox x:Name="unixmilliseconds"
 				 Grid.Row="1"
 				 ScrollViewer.VerticalScrollBarVisibility="Auto">
 		</ListBox>
 		-->
-    </Grid>
+	</Grid>
 </Window>
