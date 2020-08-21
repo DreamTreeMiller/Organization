@@ -26,8 +26,6 @@ namespace MLM
 	{
 		#region Constructor
 		Organization Apple;
-		ObservableCollection<string> orgList = new ObservableCollection<string>();
-		List<Positions> lp;
 
 		public MainWindow()
 		{
@@ -43,39 +41,46 @@ namespace MLM
 		#region On loaded
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-				var item = new TreeViewItem()
-				{
-					DataContext = Apple,
-					// Set the header
-					Header = Apple,
-					// And the full path
-					
-					Tag = Apple
-				};
+			var item = new TreeViewItem()
+			{
+				// Set the header
+				Header = Apple.Name,
 
-				// Add a dummy item
+				// Add reference to the node content
+				Tag = Apple
+			};
+
+			// Add a dummy item if the item being expanded has subitems
+			// We do this in order to show "expand" arrow next to a tree node name
+			// If a node cannot be expanded, arrow does not appear
+			if ((item.Tag as Department).SubDepts.Count != 0)
 				item.Items.Add(null);
-				item.Selected += Department_Selected;
+
+			// Listen out for item being selected
+			item.Selected += Department_Selected;
 				
-				// Listen out for item being expanded
-				item.Expanded += Folder_Expanded;
+			// Listen out for item being expanded
+			item.Expanded += Folder_Expanded;
 
-				// Add it the main tree-view
-				AppleTree.Items.Add(item);
+			// Add it the main tree-view
+			AppleTree.Items.Add(item);
 		}
+		#endregion
 
+		#region Department selected
 		private void Department_Selected(object sender, RoutedEventArgs e)
 		{
 			var es = e.OriginalSource as TreeViewItem;
 			var dep = ((Department)es.Tag);
+			// Binds employees of the current department to a DataGrid
 			employeesView.ItemsSource = dep.Employees;
+			
+			// Shows total department salary at the bottom right corner of the window
 			totalDeptSalary.Text = $"Total department salary: " +
 				dep.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
-
 		}
 
 		#endregion
-
 
 		#region Department Expanded
 
@@ -105,15 +110,22 @@ namespace MLM
 				// Create department item
 				var subItem = new TreeViewItem()
 				{
-					// Set forlder name
-					DataContext = dep,
-					Header = dep,
-					// And tag as full path
+					// Set the department name as a node texxt
+					Header = dep.Name,
+
+					// Set tag as a content of the current node
 					Tag = dep
 				};
 
-				// Add dummy item so we can exapnd department
-				subItem.Items.Add(null);
+				// Add a dummy item if the item being expanded has subitems
+				// We do this in order to show "expand" arrow next to a tree node name
+				// If a node cannot be expanded, arrow does not appear
+				if ((subItem.Tag as Department).SubDepts.Count != 0)
+					subItem.Items.Add(null);
+
+				// Listen out for item being selected
+				item.Selected += Department_Selected;
+
 				// Handle expanding
 				subItem.Expanded += this.Folder_Expanded;
 
@@ -125,8 +137,48 @@ namespace MLM
 
 		}
 
+
 		#endregion
 
+		#region Open & Save JSON files
+		private void saveFileBtn_Click(object sender, RoutedEventArgs e)
+		{
+			if (Apple == null) return;
+
+			// Configure save file dialog box
+			Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+			dlg.FileName = "Apple"; // Default file name
+			dlg.DefaultExt = ".json"; // Default file extension
+			dlg.Filter = "JSON documents (.json)|*.json"; // Filter files by extension
+
+			// Show save file dialog box
+			bool? result = dlg.ShowDialog();
+
+			// Process save file dialog box results
+			if (result != true) return;
+
+			// Save document
+			JsonSerializer.Serialize(dlg.FileName, Apple);
+		}
+		private void openFileBtn_Click(object sender, RoutedEventArgs e)
+		{
+			// Configure open file dialog box
+			Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+			dlg.FileName = "CompanyName"; // Default file name
+			dlg.DefaultExt = ".json"; // Default file extension
+			dlg.Filter = "JSON documents (.json)|*.json"; // Filter files by extension
+
+			// Show open file dialog box
+			bool? result = dlg.ShowDialog();
+
+			// Process open file dialog box results
+			if (result != true) return;
+
+			// Open document
+			JsonSerializer.Deserialize(dlg.FileName);
+		}
+
+		#endregion
 
 	}
 }

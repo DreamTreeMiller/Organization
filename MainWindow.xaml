@@ -33,36 +33,27 @@
 				<Button x:Name="openFileBtn"
 						Width="30"
 						Margin="3"
-						VerticalAlignment="Center"
+						VerticalAlignment="Center" Click="openFileBtn_Click"
 						>
 					<Image Source="Images/icons8-opened-folder-96.png"/>
 					<Button.ToolTip>
 						<ToolTip>
-							Загрузить из файла
+							Загрузить из JSON файла
 						</ToolTip>
 					</Button.ToolTip>
 				</Button>
-				<!--TextBlock VerticalAlignment="Center" 
-						   Text="Open from file" 
-						   TextAlignment="Center"
-						   Margin="3"
-						   /-->
 				<Button x:Name="saveFileBtn"
 						Width="30"
 						Margin="3"
-						VerticalAlignment="Center">
+						VerticalAlignment="Center" Click="saveFileBtn_Click"
+						>
 					<Image Source="Images/SaveFileFloppyIcon.png"/>
 					<Button.ToolTip>
 						<ToolTip>
-							Сохранить в файл
+							Сохранить в JSON файл
 						</ToolTip>
 					</Button.ToolTip>
 				</Button>
-				<!--TextBlock VerticalAlignment="Center" 
-						   Text="Save" 
-						   TextAlignment="Center"
-						   Margin="3"
-						   /-->
 				<Menu x:Name="deptMenu" 
 					  VerticalAlignment="Center"
 					  Margin="3"
@@ -111,36 +102,10 @@
 									
 									-->
 									<TextBlock VerticalAlignment="Center" 
-										Text="{Binding Path=Name}"
-										MinWidth="0"
-										HorizontalAlignment="Left"/>
-									<TextBlock VerticalAlignment="Center" 
-										Text="{Binding Path=FirstName}"
-										MinWidth="0"
-										HorizontalAlignment="Left"/>
-									<TextBlock Text=" "/>
-									<TextBlock VerticalAlignment="Center" 
-										Text="{Binding Path=LastName}"
-										MinWidth="0"
-										HorizontalAlignment="Left"/>
-									<TextBlock Text=" "/>
-									<TextBlock VerticalAlignment="Center" 
-										Text="{Binding Path=JobTitle}"
-										MinWidth="0"
-										HorizontalAlignment="Left"/>
-									<TextBlock Text=" "/>
-									<TextBlock VerticalAlignment="Center" 
-										Text="{Binding StringFormat={}{0:C0}, Path=Salary}"
-										MinWidth="0"
-										HorizontalAlignment="Left"/>
-									<TextBlock Text=" "/>
-									<TextBlock VerticalAlignment="Center" 
-										Text="{Binding StringFormat={}{0:C0}, Path=TotalDepartmentSalary}"
-										MinWidth="0"
-										HorizontalAlignment="Left"/>
-									<TextBlock Text=" "/>
-									<TextBlock Text=" "/>
-
+											   MinWidth="0"
+											   Text="{Binding}"
+										HorizontalAlignment="Left"
+											   />
 								</StackPanel>
 							</DataTemplate>
 						</Setter.Value>
@@ -163,7 +128,7 @@
 				  CanUserResizeColumns="True"
 				  ColumnWidth="*"
 				  GridLinesVisibility="None"
-				  RowBackground="LightGray" 
+				  RowBackground="WhiteSmoke" 
 				  AlternatingRowBackground="White"
 				  >
 			<DataGrid.Columns>
@@ -172,8 +137,13 @@
 				<DataGridTextColumn Header="LastName"	Binding="{Binding LastName}"/>
 				<DataGridTextColumn Header="Department" Binding="{Binding DepName}" />
 				<DataGridTextColumn Header="JobTitle"	Binding="{Binding JobTitle}" />
-				<DataGridTextColumn Header="Salary"		Binding="{Binding StringFormat={}{0:C0}, Path=Salary}" 
-									/>
+				<DataGridTextColumn x:Name="salaryColumn" Header="Salary" Binding="{Binding StringFormat={}{0:C0}, Path=Salary}">
+					<DataGridTextColumn.CellStyle>
+						<Style>
+							<Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
+						</Style>
+					</DataGridTextColumn.CellStyle>
+				</DataGridTextColumn>
 			</DataGrid.Columns>
 			
 		</DataGrid>
