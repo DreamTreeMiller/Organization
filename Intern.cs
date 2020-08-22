@@ -10,14 +10,14 @@ namespace MLM
 	{
 		public Intern (string FN, string LN, DateTime DOB,
 					   DateTime hired,
-					   Department department, string jobTitle, uint salaryBase=500) 
-				: base (FN, LN, DOB, hired, department, jobTitle, Positions.Intern, salaryBase)
+					   uint deptID, string jobTitle, uint salaryBase=500) 
+				: base (FN, LN, DOB, hired, deptID, jobTitle, Positions.Intern, salaryBase)
 		{
 		}
 		public override uint Salary
 		{
 			get { return salaryBase; }
-			set { }		// Do nothing becase salary is already set up through constructor
+			set { }		// Do nothing becase salary is already set by the constructor
 		}
 	}
 }

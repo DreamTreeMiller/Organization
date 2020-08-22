@@ -58,16 +58,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Create.cs" />
     <Compile Include="Department.cs" />
+    <Compile Include="DepartmentsTable.cs" />
     <Compile Include="Director.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="HeaderToImageConverter.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="IDepartments.cs" />
+    <Compile Include="IOrganization.cs" />
+    <Compile Include="IWorkers.cs" />
     <Compile Include="Intern.cs" />
     <Compile Include="JsonSerializer.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="Enumerables.cs" />
     <Compile Include="Worker.cs" />
+    <Compile Include="WorkersTable.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -30,10 +30,8 @@ namespace MLM
 		public MainWindow()
 		{
 			InitializeComponent();
-			Apple = new Organization("Apple Inc.");
-			Apple.CreateRandomOrganization(5, 10, "", 100, null, Hierarchy.Top);
-			Apple.CalculateTotalDeptSalary(PaymentType.Random);
-
+			Apple = Create.Organization(5, 5, "Apple Inc.", 30);
+			Apple.CalculateTotalDeptSalary(Apple.GetRootDeptID(), PaymentType.Random);
 		}
 
 		#endregion
@@ -41,13 +39,16 @@ namespace MLM
 		#region On loaded
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			// Get root department
+			Department d = Apple.GetRootDepartment();
+
 			var item = new TreeViewItem()
 			{
 				// Set the header
-				Header = Apple.Name,
+				Header = d.DeptName,
 
 				// Add reference to the node content
-				Tag = Apple
+				Tag = d
 			};
 
 			// Add a dummy item if the item being expanded has subitems
@@ -71,13 +72,14 @@ namespace MLM
 		private void Department_Selected(object sender, RoutedEventArgs e)
 		{
 			var es = e.OriginalSource as TreeViewItem;
-			var dep = ((Department)es.Tag);
+			var dept = (Department)es.Tag;
+
 			// Binds employees of the current department to a DataGrid
-			employeesView.ItemsSource = dep.Employees;
+			employeesView.ItemsSource = Apple.DepartmentWorkersList(dept.DeptID);
 			
 			// Shows total department salary at the bottom right corner of the window
 			totalDeptSalary.Text = $"Total department salary: " +
-				dep.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+				dept.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
 		}
 
 		#endregion
@@ -105,16 +107,18 @@ namespace MLM
 			var departments = ((Department)item.Tag).SubDepts;
 
 			// For each dept ...
-			departments.ForEach(dep =>
+			departments.ForEach(dept =>
 			{
+				Department d = Apple.GetDepartment(dept);
+
 				// Create department item
 				var subItem = new TreeViewItem()
 				{
 					// Set the department name as a node texxt
-					Header = dep.Name,
+					Header = d.DeptName,
 
 					// Set tag as a content of the current node
-					Tag = dep
+					Tag = d
 				};
 
 				// Add a dummy item if the item being expanded has subitems
@@ -147,7 +151,7 @@ namespace MLM
 
 			// Configure save file dialog box
 			Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-			dlg.FileName = "Apple"; // Default file name
+			dlg.FileName = Apple.GetRootDepartment().DeptName; // Default file name
 			dlg.DefaultExt = ".json"; // Default file extension
 			dlg.Filter = "JSON documents (.json)|*.json"; // Filter files by extension
 
@@ -175,7 +179,7 @@ namespace MLM
 			if (result != true) return;
 
 			// Open document
-			JsonSerializer.Deserialize(dlg.FileName);
+			Apple = JsonSerializer.Deserialize(dlg.FileName);
 		}
 
 		#endregion
@@ -183,32 +187,6 @@ namespace MLM
 	}
 }
 
-#region Get Employees
-
-//// Create a blank list for employees
-//var employees = ((Department)item.Tag).Employees;
-
-
-//// For each file ...
-//employees.ForEach(w =>
-//{
-//	// Create file item
-//	var subItem = new TreeViewItem()
-//	{
-//		DataContext = w,
-//		// Set header as employee's name
-//		Header = w,
-//		//$"{w.FirstName} " + $"{w.LastName}" +
-//		//		 $"{w.JobTitle} " + $"${w.Salary:### ###}",
-//		// No more 
-//		Tag = null
-//	};
-
-//	// Add this item to the parent
-//	item.Items.Add(subItem);
-//});
-
-#endregion
 
 #region Experiments
 //DateTime start, end;

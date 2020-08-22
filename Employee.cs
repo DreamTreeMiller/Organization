@@ -11,9 +11,9 @@ namespace MLM
 		public uint HoursWorked { get; set; }	// recalulated on the last day of the month
 		public Employee(string FN, string LN, DateTime DOB,
 						DateTime hired,
-						Department department, string jobTitle, Positions position = Positions.Employee,
+						uint deptID, string jobTitle, Positions position = Positions.Employee,
 						uint hourlyRate = 12)
-				: base(FN, LN, DOB, hired, department, jobTitle, position, hourlyRate)
+				: base(FN, LN, DOB, hired, deptID, jobTitle, position, hourlyRate)
 		{
 			this.HoursWorked = 22 * 8;
 		}

@@ -135,7 +135,7 @@
 				<DataGridTextColumn Header="ID"			Binding="{Binding ID}" />
 				<DataGridTextColumn Header="FirstName"	Binding="{Binding FirstName}" />
 				<DataGridTextColumn Header="LastName"	Binding="{Binding LastName}"/>
-				<DataGridTextColumn Header="Department" Binding="{Binding DepName}" />
+				<!-- DataGridTextColumn Header="Department" Binding="{Binding DepName}" /-->
 				<DataGridTextColumn Header="JobTitle"	Binding="{Binding JobTitle}" />
 				<DataGridTextColumn x:Name="salaryColumn" Header="Salary" Binding="{Binding StringFormat={}{0:C0}, Path=Salary}">
 					<DataGridTextColumn.CellStyle>

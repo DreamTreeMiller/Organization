@@ -16,9 +16,12 @@ namespace MLM
 			System.IO.File.WriteAllText(path, json);
 		}
 
-		public static void Deserialize (string path)
+		public static Organization Deserialize (string path)
 		{
-
+			Organization org;
+			string json = System.IO.File.ReadAllText(path);
+			org = (Organization)JsonConvert.DeserializeObject(json);
+			return org;
 		}
 	}
 }

@@ -7,174 +7,171 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	class Organization : Department
+	class Organization : IOrganization
 	{
-		public static Random r = new Random();
+		private Random r = new Random();
 
+		/// <summary>
+		/// Collection of all departments of the organization
+		/// </summary>
+		public DepartmentsTable	DepartmentsTable { get; set; }
+
+		/// <summary>
+		/// Collection of all workers of the organization 
+		/// </summary>
+		public WorkersTable		WorkersTable	 { get; set; }
+
+		/// <summary>
+		/// Constructor. Creates root department with 0 as parent dept ID, 
+		/// and with 0 workers and 0 subdepartments. Adds it to the collection of all departments
+		/// </summary>
+		/// <param name="orgName">Name of the organization. It is assigned to the root dept name.</param>
 		public Organization (string orgName) 
-				: base (orgName, null)
 		{
-			r = new Random();
-			CreatedOn = new DateTime(r.Next(2000, 2020), r.Next(1, 13), r.Next(1, 29));
+			Random r = new Random();
+			Department root = new Department(orgName, 0);
+			root.CreatedOn = new DateTime(r.Next(2000, 2020), r.Next(1, 13), r.Next(1, 29));
+			DepartmentsTable = new DepartmentsTable();
+			WorkersTable = new WorkersTable();
+			AddDepartment(null, root);
 		}
-		public int MoveEmployee(ulong empID, Department origin, Department destination)
+
+		/// <summary>
+		/// Moves worker to the department with specified ID
+		/// </summary>
+		/// <param name="workerID">Worker's ID</param>
+		/// <param name="destinationDeptID">ID of destination department</param>
+		/// <returns>
+		/// 0 if moved successfully
+		/// -1 if worker with such ID does not exist
+		/// -2 if department with such ID does not exist
+		/// </returns>
+		public int MoveWorker(uint workerID,  uint destinationDeptID)
 		{
-			Worker w = origin.GetEmployee(empID);
-			if (w == null) return -1;       // No worker with such ID works in origin dept
-			w.Department = destination;
-			destination.AddEmployee(w);
+			Worker w = WorkersTable.GetWorker(workerID);
+			if (w == null) return -1;
+			if (GetDepartment(destinationDeptID) == null) return -2;
+			w.DeptID = destinationDeptID;
 			return 0;
 		}
 
 		/// <summary>
-		/// Generates random workers and subdepts
+		/// Calculates total salary of specified department by calculating salaries of:
+		/// - employees, inters
+		/// - sub departments
+		/// - director whose salary is calculated based on dept employees' and sub departments' salaries
 		/// </summary>
-		/// <param name="maxDepth">1 - no sub departments, 2 - top and 1 level of departments, etc.</param>
-		/// <param name="maxSubDepts">Maximum number of subdepartments on next level</param>
-		/// <param name="deptNameCode">Code to add to department name "4", "53", "2117", etc. Top most is "1".
-		/// First call of the method with "" code (empty string)</param>
-		/// <param name="maxNumOfWorkersInDept">Maximum number of workers in the current deparment</param>
-		/// <param name="parentDept">Parent department. First call of the method with 'null'</param>
-		/// <param name="level">Top - level 1, Division - level 2, Department - level 3, 4 ...</param>
-		public void CreateRandomOrganization   (int maxDepth, 
-												int maxSubDepts, 
-												string deptNameCode,
-												int maxNumOfWorkersInDept, 
-												Department parentDept,
-												Hierarchy level)
+		/// <param name="deptID">Department ID</param>
+		/// <param name="pymnt">Type of payment: 
+		/// Standard - all employees work same number of hours.
+		/// Random - each employee is assigned with a random number of hours between 100 and 240.
+		/// </param>
+		/// <returns>Total salary of the specified department</returns>
+		public uint CalculateTotalDeptSalary(uint deptID, PaymentType pymnt)
 		{
-			int numOfDeptsAtThisLevel;
-			List<Worker> newEmployeesList = CreateEmployeesList(maxNumOfWorkersInDept,
-																level,
-																level == Hierarchy.Top ? this : parentDept,
-																deptNameCode == "" ? this.Name : deptNameCode);
-			if (parentDept == null)
-			{ 
-				this.Employees = newEmployeesList; 
-			}
-			else
-			{ 
-				parentDept.Employees = newEmployeesList;
-			}
-
-			if (maxDepth > 1)
-			{
-				string depName = String.IsNullOrEmpty(deptNameCode)? "Division" : "Department";
-				switch (level)
+			uint TotalDeptSal = 0;
+			foreach (Worker w in DepartmentWorkersList(deptID))
+				if (!(w is Director))
 				{
-					case Hierarchy.Top:
-						numOfDeptsAtThisLevel = r.Next(3, maxSubDepts < 3 ? 4 : maxSubDepts+1);
-						level = Hierarchy.Division;
-						break;
-					default:
-						numOfDeptsAtThisLevel = r.Next(1, maxSubDepts < 1 ? 2 : maxSubDepts+1);
-						level = Hierarchy.Department;
-						break;
+					w.Salary = (pymnt == PaymentType.Standard) ?
+														22 * 8 :    // Standard 8 hours per 22 working days
+										 (uint)r.Next(100, 240);    // Random selection of hours
+					TotalDeptSal += w.Salary;
 				}
+			foreach (Department d in SubDepartments(deptID))
+				TotalDeptSal += CalculateTotalDeptSalary(d.DeptID, pymnt);
 
-				for (int i = 1; i <= numOfDeptsAtThisLevel; i++)
-				{
-					Department newDpt = new Department(depName + deptNameCode + $"_{i}", this);
-					if (parentDept == null)
-					{
-						this.AddDepartment(newDpt);
-					}
-					else
-					{
-						parentDept.AddDepartment(newDpt);
-					}
-					CreateRandomOrganization(maxDepth - 1,
-											 maxSubDepts,
-											 deptNameCode + $"_{i}",
-											 maxNumOfWorkersInDept,
-											 newDpt,
-											 level);
-				}
-			}
+			Director dir = GetDirector(deptID);
+			dir.Salary = TotalDeptSal * 15 / 100;
+			//UpdateEmployee(dir);
+			TotalDeptSal += dir.Salary;
+			GetDepartment(deptID).TotalDepartmentSalary = TotalDeptSal;
+			return TotalDeptSal;
 		}
 
-		List<Worker> CreateEmployeesList(int maxNumOfWorkersInDept, 
-										 Hierarchy level, 
-										 Department department,
-										 string deptNameCode)
+		#region Implementation of IWorkers interface
+
+		/// <summary>
+		/// Adds worker to the organization workers' list. 
+		/// Worker must have valid dept ID. 
+		/// Number of workers of the specified department is increased by 1
+		/// </summary>
+		/// <param name="worker"></param>
+		/// <returns>
+		///  0 if worker was added successfully
+		/// -1 if worker with same ID already exists
+		/// </returns>
+		public int AddWorker(Worker worker)
 		{
-			List<Worker> empList = new List<Worker>();
-			string		posHeadStr		= "";
-			string		posViceHeadStr	= "";
-			Positions	posHead			= Positions.DeptDirector;
-			Positions	posViceHead		= Positions.ViceDeptDirector;
-			switch (level)
-			{
-				case Hierarchy.Top:
-					maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 7) ? 7 : r.Next(7, maxNumOfWorkersInDept);
-					posHead			= Positions.President;
-					posHeadStr		= "President";
-					posViceHead		= Positions.VicePresident;
-					posViceHeadStr	= "Vice President";
-					break;
-				case Hierarchy.Division:
-					maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 5) ? 5 : r.Next(5, maxNumOfWorkersInDept);
-					posHead			= Positions.DivisionHead;
-					posHeadStr		= "Head of the Division_" + deptNameCode;
-					posViceHead		= Positions.ViceDivisionHead;
-					posViceHeadStr	= "Deputy Head of the Division_" + deptNameCode;
-					break;
-				case Hierarchy.Department:
-					maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 3) ? 3 : r.Next(3, maxNumOfWorkersInDept);
-					posHead			= Positions.DeptDirector;
-					posHeadStr		= "Director_" + deptNameCode;
-					posViceHead		= Positions.ViceDeptDirector;
-					posViceHeadStr	= "Vice Director_" + deptNameCode;
-					break;
-			}
-
-			int numOfEmployees	= r.Next(1, maxNumOfWorkersInDept - 2 + 1);
-			int numOfInterns	= maxNumOfWorkersInDept - 2 - numOfEmployees;
-
-			// Adding head of the organization/division/department
-			empList.Add(new Director("First_" + UniqueID.Name(),
-									 "Last_"  + UniqueID.Name(),
-									 new DateTime(r.Next(1950, 1981), r.Next(1,13), r.Next(1,29)),
-									 new DateTime(r.Next(CreatedOn.Year, 2020), 
-												  r.Next(CreatedOn.Month, 13), 
-												  r.Next(1, 29)),
-									 department,
-									 posHeadStr,
-									 posHead));
-			// Adding vice head
-			empList.Add(new Employee("First_" + UniqueID.Name(),
-									 "Last_" + UniqueID.Name(),
-									 new DateTime(r.Next(1950, 1981), r.Next(1, 13), r.Next(1, 29)),
-									 new DateTime(r.Next(CreatedOn.Year, 2020),
-												  r.Next(CreatedOn.Month, 13),
-												  r.Next(1, 29)),
-									 department,
-									 posViceHeadStr,
-									 posViceHead));
-			// Adding employees
-			for (int i = 1; i <= numOfEmployees; i++)
-				empList.Add(new Employee("First_" + UniqueID.Name(),
-										 "Last_" + UniqueID.Name(),
-										 new DateTime(r.Next(1950, 1996), r.Next(1, 13), r.Next(1, 29)),
-										 new DateTime(r.Next(CreatedOn.Year, 2020),
-													  r.Next(CreatedOn.Month, 13),
-													  r.Next(1, 29)),
-										 department,
-										 "Employee"));
-			// Adding interns
-			for (int i = 1; i <= numOfInterns; i++)
-				empList.Add(new Intern	("First_" + UniqueID.Name(),
-										 "Last_" + UniqueID.Name(),
-										 new DateTime(r.Next(1990, 2003), r.Next(1, 13), r.Next(1, 29)),
-										 new DateTime(r.Next(CreatedOn.Year, 2020),
-													  r.Next(CreatedOn.Month, 13),
-													  r.Next(1, 29)),
-										 department,
-										 "Intern"));
-
-			empList.Sort(new CompareByPosition());
-			return empList;
+			int result = WorkersTable.AddWorker(worker);
+			if (result == 0)
+				GetDepartment(worker.DeptID).NumberOfEmployees++;
+			return result;
 		}
-	
+
+		public Worker GetWorker(uint workerID)
+		{
+			return WorkersTable.GetWorker(workerID);
+		}
+
+		public Director GetDirector(uint deptID)
+		{
+			return WorkersTable.GetDirector(deptID);
+		}
+
+		public List<Worker> DepartmentWorkersList(uint deptID)
+		{
+			return WorkersTable.DepartmentWorkersList(deptID);
+		}
+
+		public Worker RemoveWorker(uint workerID)
+		{
+			Worker w = WorkersTable.RemoveWorker(workerID);
+			if (w != null)
+				GetDepartment(w.DeptID).NumberOfEmployees--;
+			return w;
+		}
+
+		#endregion
+
+		#region Implementation of IDepartments interface
+
+		public Department GetDepartment(uint deptID)
+		{
+			return DepartmentsTable.GetDepartment(deptID);
+		}
+
+		public Department GetRootDepartment()
+		{
+			return DepartmentsTable.GetRootDepartment();
+		}
+
+		public uint GetRootDeptID()
+		{
+			return DepartmentsTable.GetRootDeptID();
+		}
+
+		public List<Department> SubDepartments(uint deptID)
+		{
+			return DepartmentsTable.SubDepartments(deptID);
+		}
+
+		public int AddDepartment(Department parentDept, Department childDept)
+		{
+			return DepartmentsTable.AddDepartment(parentDept, childDept);
+		}
+
+		public int RemoveEmptyDepartment(uint deptID)
+		{
+			return DepartmentsTable.RemoveEmptyDepartment(deptID);
+		}
+
+		public int SelfExcludeOfDepartment(uint deptID)
+		{
+			return DepartmentsTable.SelfExcludeOfDepartment(deptID);
+		}
+
+		#endregion
+
 	}
 }
