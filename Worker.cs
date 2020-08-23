@@ -132,25 +132,25 @@ namespace MLM
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <returns></returns>
-		public override bool Equals(object obj)
-		{
-			if (obj == null) return false;
-			// This line is necessary because DisconnectedItem exception is thrown
-			// when we change department in TreeView
-			// But I don't know why DataGrid calls Equals method ...
-			if (obj == BindingOperations.DisconnectedSource) return false;
-			Worker w = obj as Worker;
-			return this.ID.Equals(w.ID);
-		}
+		//public override bool Equals(object obj)
+		//{
+		//	if (obj == null) return false;
+		//	// This line is necessary because DisconnectedItem exception is thrown
+		//	// when we change department in TreeView
+		//	// But I don't know why DataGrid calls Equals method ...
+		//	if (obj == BindingOperations.DisconnectedSource) return false;
+		//	Worker w = obj as Worker;
+		//	return this.ID.Equals(w.ID);
+		//}
 
 		/// <summary>
 		/// Have to implement because Equals is implemented. 
 		/// </summary>
 		/// <returns></returns>
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
+		//public override int GetHashCode()
+		//{
+		//	return base.GetHashCode();
+		//}
 
 		public override string ToString()
 		{

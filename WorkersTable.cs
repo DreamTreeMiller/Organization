@@ -32,7 +32,7 @@ namespace MLM
 		/// </returns>
 		public int AddWorker(Worker worker)
 		{
-			if (Workers.Contains(worker)) return -1;       // Worker with such ID already works in dept
+			if (Workers.Find(w => w.ID == worker.ID) != null) return -1;       // Worker with such ID already works in dept
 			Workers.Add(worker);
 			return 0;
 		}
@@ -47,10 +47,13 @@ namespace MLM
 		/// </returns>
 		public Worker GetWorker(uint workerID) 
 		{
-			int wi = Workers.FindIndex(w => w.ID == workerID);
-			if (wi != -1)
-				return Workers[wi];
-			return null;
+			return Workers.Find(w => w.ID == workerID);
+
+			// In the beginning I wrote as below
+			//int wi = Workers.FindIndex(w => w.ID == workerID);
+			//if (wi != -1)
+			//	return Workers[wi];
+			//return null;
 		}
 
 		/// <summary>
@@ -63,10 +66,13 @@ namespace MLM
 		/// </returns>
 		public Director GetDirector(uint deptID)
 		{
-			int wi = Workers.FindIndex(w => w.DeptID == deptID && (w is Director));
-			if (wi != -1)
-				return Workers[wi] as Director;
-			return null;
+			return Workers.Find(w => w.DeptID == deptID && (w is Director)) as Director;
+
+			// In the beginning I wrote as below
+			//int wi = Workers.FindIndex(w => w.DeptID == deptID && (w is Director));
+			//if (wi != -1)
+			//	return Workers[wi] as Director;
+			//return null;
 		}
 
 		/// <summary>
