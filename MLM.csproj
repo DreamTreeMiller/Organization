@@ -59,6 +59,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Create.cs" />
+    <Compile Include="DeleteItemConfirmationDialog.xaml.cs">
+      <DependentUpon>DeleteItemConfirmationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Department.cs" />
     <Compile Include="DepartmentsTable.cs" />
     <Compile Include="Director.cs" />
@@ -74,6 +77,10 @@
     <Compile Include="Enumerables.cs" />
     <Compile Include="Worker.cs" />
     <Compile Include="WorkersTable.cs" />
+    <Page Include="DeleteItemConfirmationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

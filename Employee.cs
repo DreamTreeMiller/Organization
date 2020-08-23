@@ -8,20 +8,20 @@ namespace MLM
 {
 	class Employee : Worker
 	{
-		public uint HoursWorked { get; set; }	// recalulated on the last day of the month
+		public int HoursWorked { get; set; }	// recalulated on the last day of the month
 		public Employee(string FN, string LN, DateTime DOB,
 						DateTime hired,
 						uint deptID, string jobTitle, Positions position = Positions.Employee,
-						uint hourlyRate = 12)
+						int hourlyRate = 12)
 				: base(FN, LN, DOB, hired, deptID, jobTitle, position, hourlyRate)
 		{
 			this.HoursWorked = 22 * 8;
 		}
 
 		// for an employee salaryBase is an hourly base of payment
-		public override uint Salary
+		public override int Salary
 		{
-			get { return (uint)(base.salaryBase * this.HoursWorked); }
+			get { return base.salaryBase * this.HoursWorked; }
 			set { this.HoursWorked = value; }
 		}
 	}

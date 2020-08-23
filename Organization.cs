@@ -55,6 +55,8 @@ namespace MLM
 			return 0;
 		}
 
+		#region Salary manipulations
+
 		/// <summary>
 		/// Calculates total salary of specified department by calculating salaries of:
 		/// - employees, inters
@@ -67,27 +69,61 @@ namespace MLM
 		/// Random - each employee is assigned with a random number of hours between 100 and 240.
 		/// </param>
 		/// <returns>Total salary of the specified department</returns>
-		public uint CalculateTotalDeptSalary(uint deptID, PaymentType pymnt)
+		public int CalculateTotalDeptSalary(uint deptID, PaymentType pymnt)
 		{
-			uint TotalDeptSal = 0;
+			int TotalDeptSal = 0;
 			foreach (Worker w in DepartmentWorkersList(deptID))
 				if (!(w is Director))
 				{
 					w.Salary = (pymnt == PaymentType.Standard) ?
 														22 * 8 :    // Standard 8 hours per 22 working days
-										 (uint)r.Next(100, 240);    // Random selection of hours
+											   r.Next(100, 240);    // Random selection of hours
 					TotalDeptSal += w.Salary;
 				}
 			foreach (Department d in SubDepartments(deptID))
 				TotalDeptSal += CalculateTotalDeptSalary(d.DeptID, pymnt);
 
 			Director dir = GetDirector(deptID);
-			dir.Salary = TotalDeptSal * 15 / 100;
+			dir.Salary = TotalDeptSal / 100 * 15;
 			//UpdateEmployee(dir);
 			TotalDeptSal += dir.Salary;
 			GetDepartment(deptID).TotalDepartmentSalary = TotalDeptSal;
 			return TotalDeptSal;
 		}
+
+		/// <summary>
+		/// Updates total department salary of specified department and all parent departments up to the root
+		/// </summary>
+		/// <param name="startDeptID">ID of starting department</param>
+		/// <param name="newTotalDeptSalary">Salary difference either positive or negative</param>
+		private void UpdateUpperDeptSalaries(uint startDeptID, int salaryDiff)
+		{
+			Department d = DepartmentsTable.GetDepartment(startDeptID);
+			Director dir = WorkersTable.GetDirector(startDeptID);
+
+			// Important!!! This method is called when a worker is already updated, added or deleted)
+			// but Total Department Salary is still NOT updated!
+			int currTotalDeptSal = d.TotalDepartmentSalary;
+			int newSubDeptAndWorkersSalary = currTotalDeptSal + salaryDiff;
+
+			if (dir != null)
+			{
+				// ==> if director present - one way to update salary
+
+				// Get new total workers and sub-dept salaries in order to calculate new salary of dept boss
+				newSubDeptAndWorkersSalary -= dir.Salary;
+				dir.Salary = newSubDeptAndWorkersSalary / 100 * 15;
+				d.TotalDepartmentSalary = newSubDeptAndWorkersSalary + dir.Salary;
+			}
+			else
+			{
+				// ==> if not another - new total department salary is already calculated
+				d.TotalDepartmentSalary = newSubDeptAndWorkersSalary;
+			}
+			if (d.ParentDept == 0) return;
+			UpdateUpperDeptSalaries(d.ParentDept, d.TotalDepartmentSalary - currTotalDeptSal);
+		}
+		#endregion
 
 		#region Implementation of IWorkers interface
 
@@ -128,7 +164,10 @@ namespace MLM
 		{
 			Worker w = WorkersTable.RemoveWorker(workerID);
 			if (w != null)
+			{
+				UpdateUpperDeptSalaries(w.DeptID, -w.Salary);
 				GetDepartment(w.DeptID).NumberOfEmployees--;
+			}
 			return w;
 		}
 

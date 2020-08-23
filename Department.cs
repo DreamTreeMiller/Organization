@@ -76,7 +76,7 @@ namespace MLM
 		/// - director. 
 		/// Director's salary is 15% of salaries of all dept workers and all sub-departments
 		/// /// </summary>
-		public uint TotalDepartmentSalary { get; set; }
+		public int TotalDepartmentSalary { get; set; }
 
 		/// <summary>
 		/// Constructor to create dummy worker with particular ID in order to check 

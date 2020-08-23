@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ namespace MLM
 
 		/// <summary>
 		/// Finds all workers who work in the same department with deptID
+		/// and puts them in the collection List
 		/// </summary>
 		/// <param name="deptID">ID of the department</param>
 		/// <returns>Collection of workers who works in the department with deptID</returns>

@@ -11,11 +11,11 @@ namespace MLM
 		public Director(string FN, string LN, DateTime DOB,
 						DateTime hired,
 						uint deptID, string jobTitle, Positions position = Positions.DeptDirector,
-						uint salaryBase = 1300)
+						int salaryBase = 1300)
 				: base(FN, LN, DOB, hired, deptID, jobTitle, position, salaryBase)
 		{ }
 
-		public override uint Salary
+		public override int Salary
 		{
 			get { return base.salaryBase; }
 			set { base.salaryBase = value > 1300 ? value : 1300; }

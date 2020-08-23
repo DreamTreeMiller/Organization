@@ -82,12 +82,12 @@ namespace MLM
 		/// <summary>
 		/// Base how salary is calculated: money. For Employee type - hours worked
 		/// </summary>
-		public uint salaryBase		{ get; set; }
+		public int salaryBase		{ get; set; }
 
 		/// <summary>
 		/// Worker's salary calculated based on salaryBase or other parameters
 		/// </summary>
-		public abstract uint Salary { get; set; }       
+		public abstract int Salary { get; set; }       
 
 		/// <summary>
 		/// Constructor to create dummy worker with particular ID in order to check 
@@ -113,7 +113,7 @@ namespace MLM
 		public Worker(string FN, string LN, DateTime DOB, 
 						DateTime hired,
 						uint depID, string jobTitle, Positions position,
-						uint salaryBase = 0)
+						int salaryBase = 0)
 		{
 			this.ID				= NextID(); 
 			this.FirstName		= FN;

@@ -75,7 +75,7 @@ namespace MLM
 			var dept = (Department)es.Tag;
 
 			// Binds employees of the current department to a DataGrid
-			employeesView.ItemsSource = Apple.DepartmentWorkersList(dept.DeptID);
+			WorkersView.ItemsSource = Apple.DepartmentWorkersList(dept.DeptID);
 			
 			// Shows total department salary at the bottom right corner of the window
 			totalDeptSalary.Text = $"Total department salary: " +
@@ -184,6 +184,77 @@ namespace MLM
 
 		#endregion
 
+		#region Manipulations with department
+
+		private void CreateDepartment_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBox.Show("Create department");
+		}
+
+		private void EditDepartment_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void MoveDepartment_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void DeleteDepartment_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		#endregion
+
+		#region Manipulations with worker
+
+		private void CreateWorker_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void EditWorker_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void MoveWorker_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void DeleteWorker_Click(object sender, RoutedEventArgs e)
+		{
+			var ws = WorkersView.SelectedItem as Worker;
+			if (ws == null) return;
+			DeleteItemConfirmationDialog delCon = 
+				new DeleteItemConfirmationDialog(
+					$"Are you sure you want to delete worker:\n\n" +
+					$"ID: {ws.ID}, {ws.FirstName} {ws.LastName} ?\n\n" +
+					"Worker will be deleted permnanently!");
+			bool? result = delCon.ShowDialog();
+
+			if (result != true) return;
+			Apple.RemoveWorker(ws.ID);
+			WorkersView.ItemsSource = Apple.DepartmentWorkersList(ws.DeptID);
+			Department d = Apple.GetDepartment(ws.DeptID);
+			totalDeptSalary.Text = $"Total department salary: " +
+				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+		}
+
+		#endregion
+
+		private void Deletion_Confirmation(string warning)
+		{
+		}
+		/*
+			MessageBox.Show(
+				$"TreeView Selected Item: {AppleTree.SelectedItem}\n" +
+				$"DataGrid Selected Item: {employeesView.SelectedItem}" 
+				);
+		 */
 	}
 }
 
@@ -251,7 +322,7 @@ namespace MLM
 //	this.sal = 400;
 //}
 //Test t = new Test();
-//orgList = new ObservableCollection<string>()
+//orgList = new f()
 //{
 //	$"{t.Salary}"
 //};

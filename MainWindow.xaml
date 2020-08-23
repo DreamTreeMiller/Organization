@@ -60,10 +60,10 @@
 					  >
 					<MenuItem Header="Department"
 							  VerticalAlignment="Center">
-						<MenuItem Header="Create" />
-						<MenuItem Header="Edit" />
-						<MenuItem Header="Move" />
-						<MenuItem Header="Delete" />
+						<MenuItem x:Name="CreateDepartment" Header="Create" Click="CreateDepartment_Click" />
+						<MenuItem x:Name="EditDepartment" Header="Edit" Click="EditDepartment_Click" />
+						<MenuItem x:Name="MoveDepartment" Header="Move" Click="MoveDepartment_Click" />
+						<MenuItem x:Name="DeleteDepartment" Header="Delete" Click="DeleteDepartment_Click" />
 					</MenuItem>
 				</Menu>
 				<Menu x:Name="workerMenu" 
@@ -72,10 +72,10 @@
 					  >
 					<MenuItem Header="Employee"
 							  VerticalAlignment="Center">
-						<MenuItem Header="Create" />
-						<MenuItem Header="Edit" />
-						<MenuItem Header="Move" />
-						<MenuItem Header="Delete" />
+						<MenuItem x:Name="CreateWorker" Header="Create" Click="CreateWorker_Click" />
+						<MenuItem x:Name="EditWorker" Header="Edit" Click="EditWorker_Click" />
+						<MenuItem x:Name="MoveWorker" Header="Move" Click="MoveWorker_Click" />
+						<MenuItem x:Name="DeleteWorker" Header="Delete" Click="DeleteWorker_Click" />
 					</MenuItem>
 				</Menu>
 			</ToolBar>
@@ -120,7 +120,7 @@
 					  VerticalAlignment="Stretch"
 					  Background="Transparent"
 					  />
-		<DataGrid x:Name="employeesView"
+		<DataGrid x:Name="WorkersView"
 				  Grid.Row="1"
 				  Grid.Column="2"
 				  Margin="0,5,5,5"
