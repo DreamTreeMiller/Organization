@@ -129,6 +129,12 @@ namespace MLM
 					$"Total Salary: ${TotalDepartmentSalary:### ### ###}";
 		}
 	}
+	
+	public class DeptSimple
+	{
+		public uint DeptID { get; set; }
+		public string DeptName { get; set; }
+	}
 }
 
 #region Not clear if I need it

@@ -9,6 +9,18 @@ namespace MLM
 {
 	class WorkersTable
 	{
+		public static List<PositionsTuple> PositionsNames  = new List<PositionsTuple>()
+		{
+		new PositionsTuple() { Pos = Positions.President, PositionName = "President"},
+		new PositionsTuple() { Pos = Positions.VicePresident, PositionName = "VicePresident"},
+		new PositionsTuple() { Pos = Positions.DivisionHead, PositionName = "Head of the Division"},
+		new PositionsTuple() { Pos = Positions.ViceDivisionHead, PositionName = "Deputy Head of the Division"},
+		new PositionsTuple() { Pos = Positions.DeptDirector, PositionName = "Director"},
+		new PositionsTuple() { Pos = Positions.ViceDeptDirector, PositionName = "Vice Director"},
+		new PositionsTuple() { Pos = Positions.Employee, PositionName = "Employee"},
+		new PositionsTuple() { Pos = Positions.Intern, PositionName = "Intern"}
+		};
+
 		/// <summary>
 		/// Collection (DataBase table) of all workers of the organization
 		/// </summary>

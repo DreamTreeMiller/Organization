@@ -212,7 +212,22 @@ namespace MLM
 
 		private void CreateWorker_Click(object sender, RoutedEventArgs e)
 		{
+			var tvis = AppleTree.SelectedItem as TreeViewItem;
+			if (tvis == null) return;
+			//var d = ((Department)tag);
+			List<DeptSimple> deptListView = Apple.GetDeptSimpleList();
+			AddWorker addWorkerWin = new AddWorker(deptListView, WorkersTable.PositionsNames);
 
+			bool? result = addWorkerWin.ShowDialog();
+			if (result != true) return;
+
+			Apple.AddWorker(
+				addWorkerWin.FirstNameEntryBox.Text,
+				addWorkerWin.LastNameEntryBox.Text,
+				(DateTime)addWorkerWin.DateOfBirthPicker.SelectedDate,
+				(addWorkerWin.DeparmmentEntryBox.SelectedItem as DeptSimple).DeptID,
+				(addWorkerWin.PositionEntryBox.SelectedItem as PositionsTuple).Pos
+				);
 		}
 
 		private void EditWorker_Click(object sender, RoutedEventArgs e)

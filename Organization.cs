@@ -145,6 +145,46 @@ namespace MLM
 			return result;
 		}
 
+
+		public int AddWorker(string fn, string ln, DateTime dob, uint deptID, Positions pos)
+		{
+			Worker newWorker = null;
+			switch(pos)
+			{
+				case Positions.President:
+					newWorker = new Director(fn, ln, dob, DateTime.Now, deptID, "President", pos);
+					break;
+				case Positions.VicePresident:
+					newWorker = new Employee(fn, ln, dob, DateTime.Now, deptID, "VicePresident", pos);
+					break;
+				case Positions.DivisionHead:
+					newWorker = new Director(fn, ln, dob, DateTime.Now, deptID, 
+						"Head of the " + GetDepartment(deptID).DeptName, pos);
+					break;
+				case Positions.ViceDivisionHead:
+					newWorker = new Employee(fn, ln, dob, DateTime.Now, deptID,
+						"Deputy Head of the " + GetDepartment(deptID).DeptName, pos);
+					break;
+				case Positions.DeptDirector:
+					newWorker = new Director(fn, ln, dob, DateTime.Now, deptID, 
+						"Director" + GetDepartment(deptID).DeptName.Substring(10), pos);
+					break;
+				case Positions.ViceDeptDirector:
+					newWorker = new Employee(fn, ln, dob, DateTime.Now, deptID,
+						"Vice Director" + GetDepartment(deptID).DeptName.Substring(10), pos);
+					break;
+				case Positions.Employee:
+					newWorker = new Employee(fn, ln, dob, DateTime.Now, deptID, "Employee", pos);
+					break;
+				case Positions.Intern:
+					newWorker = new Intern(fn, ln, dob, DateTime.Now, deptID, "Intern");
+					break;
+				default:
+					break;
+			}
+			return AddWorker(newWorker);
+		}
+
 		public Worker GetWorker(uint workerID)
 		{
 			return WorkersTable.GetWorker(workerID);
@@ -212,5 +252,12 @@ namespace MLM
 
 		#endregion
 
+		public List<DeptSimple> GetDeptSimpleList()
+		{
+			List<DeptSimple> result = new List<DeptSimple>();
+			foreach (Department d in DepartmentsTable.Departments)
+				result.Add(new DeptSimple() { DeptID = d.DeptID, DeptName = d.DeptName });
+			return result;
+		}
 	}
 }

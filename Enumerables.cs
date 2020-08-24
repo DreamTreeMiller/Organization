@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	enum Positions
+	public enum Positions
 	{
 		President,
 		VicePresident,
@@ -18,13 +18,19 @@ namespace MLM
 		Intern
 	}
 
-	enum PaymentType
+	public class PositionsTuple
+	{
+		public Positions Pos { get; set; }
+		public string PositionName { get; set; }
+	}
+
+	public enum PaymentType
 	{
 		Standard,
 		Random
 	}
 
-	enum Hierarchy
+	public enum Hierarchy
 	{
 		Top, Division, Department
 	}
