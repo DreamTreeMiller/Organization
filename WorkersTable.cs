@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	class WorkersTable : IWorkers
+	class WorkersTable
 	{
 		/// <summary>
 		/// Collection (DataBase table) of all workers of the organization

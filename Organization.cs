@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	class Organization : IOrganization
+	class Organization
 	{
 		private Random r = new Random();
 

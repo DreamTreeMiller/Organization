@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	class DepartmentsTable : IDepartments
+	class DepartmentsTable
 	{
 		/// <summary>
 		/// List (database table) of organization departments

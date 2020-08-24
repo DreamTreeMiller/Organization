@@ -15,7 +15,7 @@ namespace MLM
 												string orgName,
 												int maximumNumOfWorkersInDept)
 		{
-			IOrganization orgToCreate = new Organization(orgName);
+			Organization orgToCreate = new Organization(orgName);
 			CreateRandomOrganization(maximumDepth,
 									 maximumSubDepts,
 									 "",

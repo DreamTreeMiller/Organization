@@ -68,9 +68,6 @@
     <Compile Include="Employee.cs" />
     <Compile Include="HeaderToImageConverter.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="IDepartments.cs" />
-    <Compile Include="IOrganization.cs" />
-    <Compile Include="IWorkers.cs" />
     <Compile Include="Intern.cs" />
     <Compile Include="JsonSerializer.cs" />
     <Compile Include="Organization.cs" />
