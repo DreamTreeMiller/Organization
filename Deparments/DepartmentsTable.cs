@@ -11,14 +11,14 @@ namespace MLM
 		/// <summary>
 		/// List (database table) of organization departments
 		/// </summary>
-		public List<Department> Departments { get; set; }
+		public List<BaseDepartment> Departments { get; set; }
 
 		/// <summary>
 		/// Constructor. Initializes Departments collection
 		/// </summary>
 		public DepartmentsTable()
 		{
-			Departments = new List<Department>();
+			Departments = new List<BaseDepartment>();
 		}
 
 		/// <summary>
@@ -31,7 +31,7 @@ namespace MLM
 		/// -1 if paretn already has child dept with the same ID, 
 		/// -2 if parent and child are the same
 		/// </returns>
-		public int AddDepartment(Department parentDept, Department childDept)
+		public int AddDepartment(BaseDepartment parentDept, BaseDepartment childDept)
 		{
 			// Creation of root department
 			// it means childDept is root department
@@ -42,7 +42,7 @@ namespace MLM
 			}
 
 			// Checking if parents and child are not the same
-			if (parentDept.Equals(childDept)) return -2;
+			if (parentDept.DeptID == childDept.DeptID) return -2;
 
 			// Checking if parent does not contain child
 			if (parentDept.SubDepts.Contains(childDept.DeptID)) return -1;
@@ -62,7 +62,7 @@ namespace MLM
 		/// Department with specified ID
 		/// null if a department with such ID does not exist
 		/// </returns>
-		public Department GetDepartment(uint deptID)
+		public BaseDepartment GetDepartment(uint deptID)
 		{
 			int di = Departments.FindIndex(d => d.DeptID == deptID);
 			if (di != -1)
@@ -74,7 +74,7 @@ namespace MLM
 		/// Returns root department. Its parent's Dept ID is 0
 		/// </summary>
 		/// <returns>Root department</returns>
-		public Department GetRootDepartment()
+		public BaseDepartment GetRootDepartment()
 		{
 			int di = Departments.FindIndex(d => d.ParentDept == 0);
 			if (di != -1)
@@ -99,7 +99,7 @@ namespace MLM
 		/// <returns>
 		/// Collection of departments which have specified department ID as parent department ID
 		/// </returns>
-		public List<Department> SubDepartments(uint deptID)
+		public List<BaseDepartment> SubDepartments(uint deptID)
 		{
 			return Departments.FindAll(w => w.ParentDept == deptID); ;
 		}

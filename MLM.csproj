@@ -58,30 +58,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddWorker.xaml.cs">
+    <Compile Include="UI\AddWorker.xaml.cs">
       <DependentUpon>AddWorker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Create.cs" />
-    <Compile Include="DeleteItemConfirmationDialog.xaml.cs">
+    <Compile Include="Organizaton\Create.cs" />
+    <Compile Include="UI\DeleteItemConfirmationDialog.xaml.cs">
       <DependentUpon>DeleteItemConfirmationDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Department.cs" />
-    <Compile Include="DepartmentsTable.cs" />
-    <Compile Include="Director.cs" />
-    <Compile Include="Employee.cs" />
+    <Compile Include="Deparments\BaseDepartment.cs" />
+    <Compile Include="Deparments\Department.cs" />
+    <Compile Include="Deparments\DepartmentsTable.cs" />
+    <Compile Include="Workers\Director.cs" />
+    <Compile Include="Deparments\Division.cs" />
+    <Compile Include="Workers\Employee.cs" />
     <Compile Include="HeaderToImageConverter.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="Intern.cs" />
+    <Compile Include="Deparments\HQ.cs" />
+    <Compile Include="Workers\Intern.cs" />
     <Compile Include="JsonSerializer.cs" />
-    <Compile Include="Organization.cs" />
+    <Compile Include="UI\MoveWorker.xaml.cs">
+      <DependentUpon>MoveWorker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Organizaton\Organization.cs" />
     <Compile Include="Enumerables.cs" />
-    <Compile Include="Worker.cs" />
-    <Compile Include="WorkersTable.cs" />
-    <Page Include="AddWorker.xaml">
+    <Compile Include="Workers\Worker.cs" />
+    <Compile Include="Workers\WorkersTable.cs" />
+    <Page Include="UI\AddWorker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DeleteItemConfirmationDialog.xaml">
+    <Page Include="UI\DeleteItemConfirmationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -97,6 +103,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\MoveWorker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -29,8 +29,8 @@ namespace MLM
 			//// By default, we presume an image
 			var image = "Images/icons8-opened-folder-96.png";
 
-            if ((value is Department))
-                if ((value as Department).DeptName == "Apple Inc.")
+            if ((value is BaseDepartment))
+                if ((value as BaseDepartment).DeptName == "Apple Inc.")
                     image = "Images/apple-logo.png";
 
             if (value == null)

@@ -20,18 +20,13 @@ namespace MLM
 	public partial class AddWorker : Window
 	{
 
-		public AddWorker(List<DeptSimple> DeptList, List<PositionsTuple> PosList)
+		public AddWorker(string DeptName, List<PositionsTuple> PosList)
 		{
 			InitializeComponent();
 
-			//DeptSimple deptSimple = new DeptSimple();
-			//DeparmmentEntryBox.DataContext = deptSimple;
-			DeparmmentEntryBox.ItemsSource = DeptList;
-
-			//PositionsTuple positionsTuple = new PositionsTuple();
-			//PositionEntryBox.DataContext = positionsTuple;
-			PositionEntryBox.ItemsSource = PosList; // WorkersTable.PositionsNames;
-
+			DeptNameDisplay.Text = DeptName;
+			// List of available positions - WorkersTable.PositionsNames
+			PositionEntryBox.ItemsSource = PosList;  
 		}
 
 		private void btnOk_AddEmployee_Click(object sender, RoutedEventArgs e)
@@ -39,11 +34,29 @@ namespace MLM
 			if (DateOfBirthPicker.SelectedDate == null ||
 				(String.IsNullOrEmpty(FirstNameEntryBox.Text) && 
 				 String.IsNullOrEmpty(LastNameEntryBox.Text)) ||
-				DeparmmentEntryBox.SelectedItem == null ||
 				PositionEntryBox.SelectedItem == null)
 				this.DialogResult = false;
 			else 
 				this.DialogResult = true;
+		}
+
+		private void PositionEntryBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			switch ((PositionEntryBox.SelectedItem as PositionsTuple).Pos)
+			{
+				case Positions.Intern:
+					SalaryBaseResult.Text = "$500 per month";
+					break;
+				case Positions.President:
+				case Positions.DivisionHead:
+				case Positions.DeptDirector:
+					SalaryBaseResult.Text = "15% of salaries of employees and subdepartments.\n" +
+											"Minimum $1,300 per month";
+					break;
+				default:
+					SalaryBaseResult.Text = "$12 per hour";
+					break;
+			}
 		}
 	}
 }

@@ -29,7 +29,7 @@ namespace MLM
 		public Organization (string orgName) 
 		{
 			Random r = new Random();
-			Department root = new Department(orgName, 0);
+			BaseDepartment root = new HQ(orgName);
 			root.CreatedOn = new DateTime(r.Next(2000, 2020), r.Next(1, 13), r.Next(1, 29));
 			DepartmentsTable = new DepartmentsTable();
 			WorkersTable = new WorkersTable();
@@ -49,9 +49,13 @@ namespace MLM
 		public int MoveWorker(uint workerID,  uint destinationDeptID)
 		{
 			Worker w = WorkersTable.GetWorker(workerID);
+
 			if (w == null) return -1;
 			if (GetDepartment(destinationDeptID) == null) return -2;
+			uint oldDeptID = w.DeptID;
+			UpdateUpperDeptSalaries(oldDeptID, -w.Salary);
 			w.DeptID = destinationDeptID;
+			UpdateUpperDeptSalaries(destinationDeptID, w.Salary);
 			return 0;
 		}
 
@@ -80,7 +84,7 @@ namespace MLM
 											   r.Next(100, 240);    // Random selection of hours
 					TotalDeptSal += w.Salary;
 				}
-			foreach (Department d in SubDepartments(deptID))
+			foreach (BaseDepartment d in SubDepartments(deptID))
 				TotalDeptSal += CalculateTotalDeptSalary(d.DeptID, pymnt);
 
 			Director dir = GetDirector(deptID);
@@ -98,7 +102,7 @@ namespace MLM
 		/// <param name="newTotalDeptSalary">Salary difference either positive or negative</param>
 		private void UpdateUpperDeptSalaries(uint startDeptID, int salaryDiff)
 		{
-			Department d = DepartmentsTable.GetDepartment(startDeptID);
+			BaseDepartment d = DepartmentsTable.GetDepartment(startDeptID);
 			Director dir = WorkersTable.GetDirector(startDeptID);
 
 			// Important!!! This method is called when a worker is already updated, added or deleted)
@@ -141,11 +145,26 @@ namespace MLM
 		{
 			int result = WorkersTable.AddWorker(worker);
 			if (result == 0)
+			{
+				UpdateUpperDeptSalaries(worker.DeptID, worker.Salary);
 				GetDepartment(worker.DeptID).NumberOfEmployees++;
+			}
 			return result;
 		}
 
-
+		/// <summary>
+		/// Creates new worker of specified type and adds him to the organization
+		/// </summary>
+		/// <param name="fn">First name</param>
+		/// <param name="ln">Last name</param>
+		/// <param name="dob">Date of birth</param>
+		/// <param name="deptID">Department ID</param>
+		/// <param name="pos">Position</param>
+		/// <returns>
+		///  0 if worker was added successfully
+		/// -1 if worker with same ID already exists which should not happen in principle
+		/// because worker is newly created 
+		/// </returns>
 		public int AddWorker(string fn, string ln, DateTime dob, uint deptID, Positions pos)
 		{
 			Worker newWorker = null;
@@ -215,12 +234,12 @@ namespace MLM
 
 		#region Implementation of IDepartments interface
 
-		public Department GetDepartment(uint deptID)
+		public BaseDepartment GetDepartment(uint deptID)
 		{
 			return DepartmentsTable.GetDepartment(deptID);
 		}
 
-		public Department GetRootDepartment()
+		public BaseDepartment GetRootDepartment()
 		{
 			return DepartmentsTable.GetRootDepartment();
 		}
@@ -230,12 +249,12 @@ namespace MLM
 			return DepartmentsTable.GetRootDeptID();
 		}
 
-		public List<Department> SubDepartments(uint deptID)
+		public List<BaseDepartment> SubDepartments(uint deptID)
 		{
 			return DepartmentsTable.SubDepartments(deptID);
 		}
 
-		public int AddDepartment(Department parentDept, Department childDept)
+		public int AddDepartment(BaseDepartment parentDept, BaseDepartment childDept)
 		{
 			return DepartmentsTable.AddDepartment(parentDept, childDept);
 		}
@@ -252,12 +271,5 @@ namespace MLM
 
 		#endregion
 
-		public List<DeptSimple> GetDeptSimpleList()
-		{
-			List<DeptSimple> result = new List<DeptSimple>();
-			foreach (Department d in DepartmentsTable.Departments)
-				result.Add(new DeptSimple() { DeptID = d.DeptID, DeptName = d.DeptName });
-			return result;
-		}
 	}
 }

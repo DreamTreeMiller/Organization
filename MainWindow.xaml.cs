@@ -31,7 +31,7 @@ namespace MLM
 		{
 			InitializeComponent();
 			Apple = Create.Organization(5, 5, "Apple Inc.", 30);
-			Apple.CalculateTotalDeptSalary(Apple.GetRootDeptID(), PaymentType.Random);
+			//Apple.CalculateTotalDeptSalary(Apple.GetRootDeptID(), PaymentType.Random);
 		}
 
 		#endregion
@@ -40,7 +40,7 @@ namespace MLM
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Get root department
-			Department d = Apple.GetRootDepartment();
+			BaseDepartment d = Apple.GetRootDepartment();
 
 			var item = new TreeViewItem()
 			{
@@ -54,7 +54,7 @@ namespace MLM
 			// Add a dummy item if the item being expanded has subitems
 			// We do this in order to show "expand" arrow next to a tree node name
 			// If a node cannot be expanded, arrow does not appear
-			if ((item.Tag as Department).SubDepts.Count != 0)
+			if ((item.Tag as BaseDepartment).SubDepts.Count != 0)
 				item.Items.Add(null);
 
 			// Listen out for item being selected
@@ -72,7 +72,7 @@ namespace MLM
 		private void Department_Selected(object sender, RoutedEventArgs e)
 		{
 			var es = e.OriginalSource as TreeViewItem;
-			var dept = (Department)es.Tag;
+			var dept = (BaseDepartment)es.Tag;
 
 			// Binds employees of the current department to a DataGrid
 			WorkersView.ItemsSource = Apple.DepartmentWorkersList(dept.DeptID);
@@ -104,12 +104,12 @@ namespace MLM
 			#region Get Departments
 
 			// Create a blank list for directories
-			var departments = ((Department)item.Tag).SubDepts;
+			var departments = ((BaseDepartment)item.Tag).SubDepts;
 
 			// For each dept ...
 			departments.ForEach(dept =>
 			{
-				Department d = Apple.GetDepartment(dept);
+				BaseDepartment d = Apple.GetDepartment(dept);
 
 				// Create department item
 				var subItem = new TreeViewItem()
@@ -124,7 +124,7 @@ namespace MLM
 				// Add a dummy item if the item being expanded has subitems
 				// We do this in order to show "expand" arrow next to a tree node name
 				// If a node cannot be expanded, arrow does not appear
-				if ((subItem.Tag as Department).SubDepts.Count != 0)
+				if ((subItem.Tag as BaseDepartment).SubDepts.Count != 0)
 					subItem.Items.Add(null);
 
 				// Listen out for item being selected
@@ -210,13 +210,41 @@ namespace MLM
 
 		#region Manipulations with worker
 
+		/// <summary>
+		/// Creates new worker
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void CreateWorker_Click(object sender, RoutedEventArgs e)
 		{
 			var tvis = AppleTree.SelectedItem as TreeViewItem;
 			if (tvis == null) return;
-			//var d = ((Department)tag);
-			List<DeptSimple> deptListView = Apple.GetDeptSimpleList();
-			AddWorker addWorkerWin = new AddWorker(deptListView, WorkersTable.PositionsNames);
+			var d = tvis.Tag as BaseDepartment;
+
+			// For each hierarchy level provide proper list of available positions
+			// i.e. you can't add Head of the Division at the Department level
+			List<PositionsTuple> availablePositionsList = new List<PositionsTuple>(WorkersTable.PositionsNames);
+			
+			// if d is HQ 
+			if (d is HQ)
+				// take off Division and Department leaders & vice leaders positions from the list
+				availablePositionsList.RemoveRange(2, 4);
+
+			// if d is Division 
+			if (d is Division)
+			{
+				// take off President and Vice President from the list
+				availablePositionsList.RemoveRange(0, 2);
+
+				// and Department Director and Vice Director
+				availablePositionsList.RemoveRange(2, 2);
+			}
+			// if d is Department
+			if (d is Department)
+				// take off President and Vice President, Head and Vice Head of Division from the list
+				availablePositionsList.RemoveRange(0, 4);
+
+			AddWorker addWorkerWin = new AddWorker(d.DeptName, availablePositionsList);
 
 			bool? result = addWorkerWin.ShowDialog();
 			if (result != true) return;
@@ -225,9 +253,12 @@ namespace MLM
 				addWorkerWin.FirstNameEntryBox.Text,
 				addWorkerWin.LastNameEntryBox.Text,
 				(DateTime)addWorkerWin.DateOfBirthPicker.SelectedDate,
-				(addWorkerWin.DeparmmentEntryBox.SelectedItem as DeptSimple).DeptID,
+				d.DeptID,
 				(addWorkerWin.PositionEntryBox.SelectedItem as PositionsTuple).Pos
 				);
+			WorkersView.ItemsSource = Apple.DepartmentWorkersList(d.DeptID);
+			totalDeptSalary.Text = $"Total department salary: " +
+				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
 		}
 
 		private void EditWorker_Click(object sender, RoutedEventArgs e)
@@ -235,6 +266,11 @@ namespace MLM
 
 		}
 
+		/// <summary>
+		/// Moves worker from one dept to another
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void MoveWorker_Click(object sender, RoutedEventArgs e)
 		{
 
@@ -254,16 +290,12 @@ namespace MLM
 			if (result != true) return;
 			Apple.RemoveWorker(ws.ID);
 			WorkersView.ItemsSource = Apple.DepartmentWorkersList(ws.DeptID);
-			Department d = Apple.GetDepartment(ws.DeptID);
+			BaseDepartment d = Apple.GetDepartment(ws.DeptID);
 			totalDeptSalary.Text = $"Total department salary: " +
 				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
 		}
 
 		#endregion
-
-		private void Deletion_Confirmation(string warning)
-		{
-		}
 		/*
 			MessageBox.Show(
 				$"TreeView Selected Item: {AppleTree.SelectedItem}\n" +

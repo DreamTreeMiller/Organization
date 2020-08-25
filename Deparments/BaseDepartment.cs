@@ -11,7 +11,7 @@ using System.Windows.Data;
 
 namespace MLM
 {
-	class Department
+	 abstract class BaseDepartment
 	{
 		/// <summary>
 		/// Current ID to assign to the next department
@@ -22,7 +22,7 @@ namespace MLM
 		/// Static constructor
 		/// 
 		/// </summary>
-		static Department()
+		static BaseDepartment()
 		{
 			staticID = 0;
 		}
@@ -78,12 +78,15 @@ namespace MLM
 		/// /// </summary>
 		public int TotalDepartmentSalary { get; set; }
 
+		//public BaseDepartment()
+		//{ }
+
 		/// <summary>
 		/// Constructor to create dummy worker with particular ID in order to check 
 		/// if a worker with such ID already exists
 		/// </summary>
 		/// <param name="workerID"></param>
-		public Department(uint deptID)
+		public BaseDepartment(uint deptID)
 		{
 			this.DeptID = deptID;
 		}
@@ -93,31 +96,15 @@ namespace MLM
 		/// </summary>
 		/// <param name="deptName"></param>
 		/// <param name="parentDept"></param>
-		public Department(string deptName, uint parentDept)
+		public BaseDepartment(string deptName, uint parentDeptID)
 		{
 			DeptID					= NextID();
 			DeptName				= deptName;
 			CreatedOn				= DateTime.Now;
-			ParentDept				= parentDept;
+			ParentDept				= parentDeptID;
 			SubDepts				= new List<uint>();
 			NumberOfEmployees		= 0;
 			TotalDepartmentSalary	= 0;
-		}
-
-		public override bool Equals(object obj)
-		{
-			if (obj == null) return false;
-			// This line is necessary because DisconnectedItem exception is thrown
-			// when we change department in TreeView
-			// But I don't know why DataGrid calls Equals method ...
-			if (obj == BindingOperations.DisconnectedSource) return false;
-			Department d = obj as Department;
-			return this.DeptID.Equals(d.DeptID);
-		}
-
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
 		}
 
 		public override string ToString()
@@ -130,11 +117,6 @@ namespace MLM
 		}
 	}
 	
-	public class DeptSimple
-	{
-		public uint DeptID { get; set; }
-		public string DeptName { get; set; }
-	}
 }
 
 #region Not clear if I need it

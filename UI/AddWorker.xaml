@@ -86,7 +86,13 @@
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Right"
 				   />
-		<ComboBox x:Name="DeparmmentEntryBox"
+		<TextBlock x:Name="DeptNameDisplay"
+				   Grid.Column="1" Grid.Row="4"
+				   Margin="10,0,0,0"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Left"
+				   />
+		<!--ComboBox x:Name="DeparmmentEntryBox"
 				  Grid.Column="1" Grid.Row="4"  Grid.ColumnSpan="3"
 				  Margin="10,0,0,0"
 				  VerticalAlignment="Center"
@@ -98,7 +104,7 @@
 					<TextBlock Text="{Binding DeptName}" />
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
-		</ComboBox>
+		</ComboBox-->
 		<TextBlock x:Name="positiontitle"
 				   Grid.Column="0" Grid.Row="5"
 				   Text="Position"
@@ -108,10 +114,11 @@
 				   />
 		<ComboBox x:Name="PositionEntryBox"
 				  Grid.Column="1" Grid.Row="5"  Grid.ColumnSpan="3"
-				  Margin="10,10,0,0"
+				  Margin="10,0,0,0"
 				  VerticalAlignment="Top"
 				  HorizontalAlignment="Left" 
-				  MinWidth="70"
+				  MinWidth="70" SelectionChanged="PositionEntryBox_SelectionChanged"
+				  
 				  >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -128,7 +135,6 @@
 				   />
 		<TextBlock x:Name="SalaryBaseResult"
 				   Grid.Column="1" Grid.Row="6"  Grid.ColumnSpan="3"
-				   Text="Salary Base"
 				   Margin="10,0,0,0"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Left"

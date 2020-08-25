@@ -42,37 +42,46 @@ namespace MLM
 										  uint CreatedDeptID,
 										  Hierarchy level)
 			{
-				int numOfDeptsAtThisLevel;
+				// Creating a random list of employees of current department
 				CreateDeptEmployees(maxNumOfWorkersInDept,
 									level,
 									CreatedDeptID,
 									deptNameCode == "" ? orgName : deptNameCode);
+
+				// if we still need to create sub-departments
 				if (maxDepth > 1)
 				{
-					string depName = String.IsNullOrEmpty(deptNameCode) ? "Division" : "Department";
+					BaseDepartment parentD = orgToCreate.GetDepartment(CreatedDeptID);
 					switch (level)
 					{
 						case Hierarchy.Top:
-							numOfDeptsAtThisLevel = r.Next(3, maxSubDepts < 3 ? 4 : maxSubDepts + 1);
 							level = Hierarchy.Division;
+							for (int i = 1; i <= r.Next(3, maxSubDepts < 3 ? 4 : maxSubDepts + 1); i++)
+							{
+								BaseDepartment newDpt = new Division("Division" + $"_{i}", CreatedDeptID);
+								orgToCreate.AddDepartment(parentD, newDpt);
+								CreateRandomOrganization(maxDepth - 1,
+														 maxSubDepts,
+														 deptNameCode + $"_{i}",
+														 maxNumOfWorkersInDept,
+														 newDpt.DeptID,
+														 level);
+							}
 							break;
-						default:
-							numOfDeptsAtThisLevel = r.Next(1, maxSubDepts < 1 ? 2 : maxSubDepts + 1);
+						case Hierarchy.Division:
 							level = Hierarchy.Department;
+							for (int i = 1; i <= r.Next(1, maxSubDepts < 1 ? 2 : maxSubDepts + 1); i++)
+							{
+								BaseDepartment newDpt = new Department("Department" + deptNameCode + $"_{i}", CreatedDeptID);
+								orgToCreate.AddDepartment(parentD, newDpt);
+								CreateRandomOrganization(maxDepth - 1,
+														 maxSubDepts,
+														 deptNameCode + $"_{i}",
+														 maxNumOfWorkersInDept,
+														 newDpt.DeptID,
+														 level);
+							}
 							break;
-					}
-
-					Department parentD = orgToCreate.GetDepartment(CreatedDeptID);
-					for (int i = 1; i <= numOfDeptsAtThisLevel; i++)
-					{
-						Department newDpt = new Department(depName + deptNameCode + $"_{i}", CreatedDeptID);
-						orgToCreate.AddDepartment(parentD, newDpt);
-						CreateRandomOrganization(maxDepth - 1,
-												 maxSubDepts,
-												 deptNameCode + $"_{i}",
-												 maxNumOfWorkersInDept,
-												 newDpt.DeptID,
-												 level);
 					}
 				}
 			}
