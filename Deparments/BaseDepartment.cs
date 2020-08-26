@@ -11,7 +11,7 @@ using System.Windows.Data;
 
 namespace MLM
 {
-	 abstract class BaseDepartment
+	 public abstract class BaseDepartment
 	{
 		/// <summary>
 		/// Current ID to assign to the next department
@@ -118,27 +118,3 @@ namespace MLM
 	}
 	
 }
-
-#region Not clear if I need it
-//public ObservableCollection<string> MakeObsCollection(string pad)
-//{
-//	ObservableCollection<string> dptList = new ObservableCollection<string>
-//	{
-//		pad + this
-//	};
-//	foreach (Worker w in Employees)
-//		dptList.Add(pad + "  " + w);
-//	foreach (Department d in SubDepts)
-//		dptList = ConcatCollections(dptList,(d.MakeObsCollection(pad + "    ")));
-//	return dptList;
-//}
-
-//ObservableCollection<string> ConcatCollections(ObservableCollection<string> body,
-//											ObservableCollection<string> tail)
-//{
-//	foreach (var s in tail)
-//		body.Add(s);
-//	return body;
-//}
-
-#endregion

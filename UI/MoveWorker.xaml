@@ -5,8 +5,130 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MLM"
         mc:Ignorable="d"
-        Title="MoveWorker" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Move Worker" Height="300" Width="500"
+		WindowStartupLocation="CenterScreen"
+		>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="2*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="50" />
+			<RowDefinition Height="50" />
+			<RowDefinition Height="30" />
+			<RowDefinition Height="30" />
+			<RowDefinition Height="30" />
+			<RowDefinition Height="30" />
+			<RowDefinition Height="50" />
+		</Grid.RowDefinitions>
+		<TextBlock x:Name="headertitle" 
+				   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+				   Text="Transfer Worker to Another Department"
+				   HorizontalAlignment="Center"
+				   VerticalAlignment="Center" 
+				   FontSize="14"
+				   FontWeight="Bold"
+				   />
+		<TextBlock x:Name="warningmsgposition"
+				   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+				   Text="After transfer all positions except 'Employee' and 'Intern' will be downgraded to 'Employee' and salary recalculated accordingly!!!"
+				   Foreground="Red"
+				   FontWeight="Bold"
+				   TextAlignment="Center"
+				   Width="400"
+				   TextWrapping="Wrap"
+				   HorizontalAlignment="Center"
+				   VerticalAlignment="Top"
+				   />
+		<TextBlock x:Name="workernametitile"
+				   Grid.Row="2" Grid.Column="0"
+				   Text="Full Name:"
+				   Margin="0,0,10,0"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Right"
+				   />
+		<StackPanel Orientation="Horizontal"
+					Grid.Row="2" Grid.Column="1"
+					>
+			<TextBlock x:Name="FirstNameDisplay" 
+					   VerticalAlignment="Center"
+					   Margin="10,0,0,0"
+					   />
+			<TextBlock Text=" " />
+			<TextBlock x:Name="LastNameDisplay"
+					   VerticalAlignment="Center"
+					   Margin="10,0,0,0"
+					   />
+		</StackPanel>
+		<TextBlock x:Name="currentdepartmenttitile"
+				   Grid.Row="3" Grid.Column="0"
+				   Text="Current department:"
+				   Margin="0,0,10,0"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Right"
+				   />
+		<TextBlock x:Name="CurrentDepartmentDisplay"
+				   Grid.Row="3" Grid.Column="1" 
+				   Margin="10,0,0,0"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Left"
+				   />
+		<TextBlock x:Name="destinationdepartmenttitile"
+				   Grid.Row="4" Grid.Column="0"
+				   Text="Destination department:"
+				   Margin="0,0,10,0"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Right"
+				   />
+		<ComboBox x:Name="DeparmmentEntryBox"
+				  Grid.Row="4" Grid.Column="1"  
+				  Margin="10,0,0,0"
+				  VerticalAlignment="Center"
+				  HorizontalAlignment="Left"
+				  MinWidth="100"
+				  >
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding DeptName}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+		<UniformGrid Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2"
+					 Columns="2" Rows="1"
+					 Width="300"
+					 >
+			<Button Name="btnOk_MoveWorker"
+					Content="OK"
+					Height="30"
+					Width="70" 
+					BorderThickness="0"
+					Foreground="White"
+					Background="LightSlateGray"
+					IsDefault="True" Click="btnOk_MoveWorker_Click" 
+					>
+				<Button.Resources>
+					<Style TargetType="Border">
+						<Setter Property="CornerRadius" Value="10"/>
+					</Style>
+				</Button.Resources>
+			</Button>
+			<Button Name="btnCancel_MoveWorker"
+					Content="Cancel" 
+					IsCancel="True"
+					Height="30"
+					Width="70" 
+					BorderThickness="0"
+					Foreground="White"
+					Background="LightSlateGray"
+					>
+				<Button.Resources>
+					<Style TargetType="Border">
+						<Setter Property="CornerRadius" Value="10"/>
+					</Style>
+				</Button.Resources>
+			</Button>
+		</UniformGrid>
+
+	</Grid>
 </Window>

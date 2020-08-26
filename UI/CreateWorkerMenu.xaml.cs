@@ -58,5 +58,10 @@ namespace MLM
 					break;
 			}
 		}
+
+		private void PositionChangeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
 	}
 }

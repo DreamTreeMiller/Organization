@@ -58,8 +58,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="UI\AddWorker.xaml.cs">
-      <DependentUpon>AddWorker.xaml</DependentUpon>
+    <Compile Include="UI\CreateWorkerMenu.xaml.cs">
+      <DependentUpon>CreateWorkerMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Organizaton\Create.cs" />
     <Compile Include="UI\DeleteItemConfirmationDialog.xaml.cs">
@@ -68,6 +68,9 @@
     <Compile Include="Deparments\BaseDepartment.cs" />
     <Compile Include="Deparments\Department.cs" />
     <Compile Include="Deparments\DepartmentsTable.cs" />
+    <Compile Include="EditWorker.xaml.cs">
+      <DependentUpon>EditWorker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Workers\Director.cs" />
     <Compile Include="Deparments\Division.cs" />
     <Compile Include="Workers\Employee.cs" />
@@ -83,7 +86,7 @@
     <Compile Include="Enumerables.cs" />
     <Compile Include="Workers\Worker.cs" />
     <Compile Include="Workers\WorkersTable.cs" />
-    <Page Include="UI\AddWorker.xaml">
+    <Page Include="UI\CreateWorkerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -103,6 +106,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="EditWorker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\MoveWorker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

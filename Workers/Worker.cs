@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace MLM
 {
-	abstract class Worker
+	public abstract class Worker
 	{
 		/// <summary>
 		/// Current ID to assign to the next worker
@@ -125,32 +125,6 @@ namespace MLM
 			this.Position		= position;
 			this.salaryBase		= salaryBase;
 		}
-
-		/// <summary>
-		/// Overriding of a standard Equals method. Two workers are equal if their IDs are the same.
-		/// I am not sure yet, if this criteria is good ...
-		/// </summary>
-		/// <param name="obj"></param>
-		/// <returns></returns>
-		//public override bool Equals(object obj)
-		//{
-		//	if (obj == null) return false;
-		//	// This line is necessary because DisconnectedItem exception is thrown
-		//	// when we change department in TreeView
-		//	// But I don't know why DataGrid calls Equals method ...
-		//	if (obj == BindingOperations.DisconnectedSource) return false;
-		//	Worker w = obj as Worker;
-		//	return this.ID.Equals(w.ID);
-		//}
-
-		/// <summary>
-		/// Have to implement because Equals is implemented. 
-		/// </summary>
-		/// <returns></returns>
-		//public override int GetHashCode()
-		//{
-		//	return base.GetHashCode();
-		//}
 
 		public override string ToString()
 		{

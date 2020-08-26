@@ -69,6 +69,7 @@ namespace MLM
 							}
 							break;
 						case Hierarchy.Division:
+						case Hierarchy.Department:
 							level = Hierarchy.Department;
 							for (int i = 1; i <= r.Next(1, maxSubDepts < 1 ? 2 : maxSubDepts + 1); i++)
 							{

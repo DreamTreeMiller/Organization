@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
+
 namespace MLM
 {
 	/// <summary>
@@ -75,7 +76,7 @@ namespace MLM
 			var dept = (BaseDepartment)es.Tag;
 
 			// Binds employees of the current department to a DataGrid
-			WorkersView.ItemsSource = Apple.DepartmentWorkersList(dept.DeptID);
+			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(dept.DeptID);
 			
 			// Shows total department salary at the bottom right corner of the window
 			totalDeptSalary.Text = $"Total department salary: " +
@@ -223,7 +224,7 @@ namespace MLM
 
 			// For each hierarchy level provide proper list of available positions
 			// i.e. you can't add Head of the Division at the Department level
-			List<PositionsTuple> availablePositionsList = new List<PositionsTuple>(WorkersTable.PositionsNames);
+			var availablePositionsList = Apple.AvailablePositionsList();
 			
 			// if d is HQ 
 			if (d is HQ)
@@ -256,13 +257,22 @@ namespace MLM
 				d.DeptID,
 				(addWorkerWin.PositionEntryBox.SelectedItem as PositionsTuple).Pos
 				);
-			WorkersView.ItemsSource = Apple.DepartmentWorkersList(d.DeptID);
+			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(d.DeptID);
 			totalDeptSalary.Text = $"Total department salary: " +
 				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
 		}
 
 		private void EditWorker_Click(object sender, RoutedEventArgs e)
 		{
+			// Worker to be edited
+			var ws = WorkersView.SelectedItem as Worker;
+			if (ws == null) return;
+
+			EditWorker editWorkerWin = new EditWorker(ws, Apple.GetDepartment(ws.DeptID).DeptName,
+														  Apple.AvailablePositionsList());
+			bool? result = editWorkerWin.ShowDialog();
+
+			if (result != true) return;
 
 		}
 
@@ -273,6 +283,38 @@ namespace MLM
 		/// <param name="e"></param>
 		private void MoveWorker_Click(object sender, RoutedEventArgs e)
 		{
+			// Worker to be moved
+			var ws = WorkersView.SelectedItem as Worker;
+			if (ws == null) return;
+
+			// Get current department of the being moved worker
+			var currDept = Apple.GetDepartment(ws.DeptID);
+
+			// Take out current department from the list of destination departments
+			var deptTable = Apple.GetDepartmentsList();
+			deptTable.Remove(currDept);
+
+			// Open Move Worker dialog windo
+			MoveWorker moveWorkerWin = new MoveWorker(ws, currDept.DeptName, deptTable);
+
+			bool? result = moveWorkerWin.ShowDialog();
+			if (result != true) return;
+
+			// Gen destination department of the being moved worker from ComboBox selection
+			var newDept = moveWorkerWin.DeparmmentEntryBox.SelectedItem as BaseDepartment;
+
+			// Worker can be moved to another department only either as Employee or Intern
+			if (ws.Position != Positions.Employee && ws.Position != Positions.Intern)
+				ws.Position = Positions.Employee;
+
+			// Move worker to another department. 
+			// Salaries of current and destination departments, and departments above, will be updated
+			Apple.MoveWorker(ws.ID, newDept.DeptID);
+
+			// Display new total salary of current department after moving of the worker
+			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(currDept.DeptID);
+			totalDeptSalary.Text = $"Total department salary: " +
+				currDept.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
 
 		}
 
@@ -289,7 +331,7 @@ namespace MLM
 
 			if (result != true) return;
 			Apple.RemoveWorker(ws.ID);
-			WorkersView.ItemsSource = Apple.DepartmentWorkersList(ws.DeptID);
+			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(ws.DeptID);
 			BaseDepartment d = Apple.GetDepartment(ws.DeptID);
 			totalDeptSalary.Text = $"Total department salary: " +
 				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	class DepartmentsTable
+	public class DepartmentsTable
 	{
 		/// <summary>
 		/// List (database table) of organization departments
 		/// </summary>
-		public List<BaseDepartment> Departments { get; set; }
+		private List<BaseDepartment> Departments { get; set; }
 
 		/// <summary>
 		/// Constructor. Initializes Departments collection
@@ -90,6 +90,16 @@ namespace MLM
 		public uint GetRootDeptID()
 		{
 			return GetRootDepartment().DeptID;
+		}
+
+		/// <summary>
+		/// Returns a copy of list of departments
+		/// </summary>
+		/// <returns></returns>
+		public List<BaseDepartment> GetDepartmentsList()
+		{
+
+			return new List<BaseDepartment>(Departments);
 		}
 
 		/// <summary>

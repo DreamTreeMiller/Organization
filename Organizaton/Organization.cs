@@ -14,12 +14,12 @@ namespace MLM
 		/// <summary>
 		/// Collection of all departments of the organization
 		/// </summary>
-		public DepartmentsTable	DepartmentsTable { get; set; }
+		private DepartmentsTable	DepartmentsTable { get; set; }
 
 		/// <summary>
 		/// Collection of all workers of the organization 
 		/// </summary>
-		public WorkersTable		WorkersTable	 { get; set; }
+		private WorkersTable		WorkersTable	 { get; set; }
 
 		/// <summary>
 		/// Constructor. Creates root department with 0 as parent dept ID, 
@@ -76,7 +76,7 @@ namespace MLM
 		public int CalculateTotalDeptSalary(uint deptID, PaymentType pymnt)
 		{
 			int TotalDeptSal = 0;
-			foreach (Worker w in DepartmentWorkersList(deptID))
+			foreach (Worker w in OneDepartmentWorkersList(deptID))
 				if (!(w is Director))
 				{
 					w.Salary = (pymnt == PaymentType.Standard) ?
@@ -214,9 +214,14 @@ namespace MLM
 			return WorkersTable.GetDirector(deptID);
 		}
 
-		public List<Worker> DepartmentWorkersList(uint deptID)
+		public List<PositionsTuple> AvailablePositionsList()
 		{
-			return WorkersTable.DepartmentWorkersList(deptID);
+			return WorkersTable.AvailablePositionsList();
+		}
+
+		public List<Worker> OneDepartmentWorkersList(uint deptID)
+		{
+			return WorkersTable.OneDepartmentWorkersList(deptID);
 		}
 
 		public Worker RemoveWorker(uint workerID)
@@ -249,6 +254,14 @@ namespace MLM
 			return DepartmentsTable.GetRootDeptID();
 		}
 
+		/// <summary>
+		/// Returns a copy of list of departments
+		/// </summary>
+		/// <returns></returns>
+		public List<BaseDepartment> GetDepartmentsList()
+		{
+			return DepartmentsTable.GetDepartmentsList();
+		}
 		public List<BaseDepartment> SubDepartments(uint deptID)
 		{
 			return DepartmentsTable.SubDepartments(deptID);

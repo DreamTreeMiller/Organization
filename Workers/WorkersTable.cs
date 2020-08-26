@@ -9,22 +9,35 @@ namespace MLM
 {
 	class WorkersTable
 	{
-		public static List<PositionsTuple> PositionsNames  = new List<PositionsTuple>()
+		/// <summary>
+		/// List of position names 
+		/// It is used in Add worker dialog window
+		/// </summary>
+		private static List<PositionsTuple> PositionsNames  = new List<PositionsTuple>()
 		{
-		new PositionsTuple() { Pos = Positions.President, PositionName = "President"},
-		new PositionsTuple() { Pos = Positions.VicePresident, PositionName = "VicePresident"},
-		new PositionsTuple() { Pos = Positions.DivisionHead, PositionName = "Head of the Division"},
-		new PositionsTuple() { Pos = Positions.ViceDivisionHead, PositionName = "Deputy Head of the Division"},
-		new PositionsTuple() { Pos = Positions.DeptDirector, PositionName = "Director"},
-		new PositionsTuple() { Pos = Positions.ViceDeptDirector, PositionName = "Vice Director"},
-		new PositionsTuple() { Pos = Positions.Employee, PositionName = "Employee"},
-		new PositionsTuple() { Pos = Positions.Intern, PositionName = "Intern"}
+		new PositionsTuple() { Pos = Positions.President,			PositionName = "President"},
+		new PositionsTuple() { Pos = Positions.VicePresident,		PositionName = "VicePresident"},
+		new PositionsTuple() { Pos = Positions.DivisionHead,		PositionName = "Head of the Division"},
+		new PositionsTuple() { Pos = Positions.ViceDivisionHead,	PositionName = "Deputy Head of the Division"},
+		new PositionsTuple() { Pos = Positions.DeptDirector,		PositionName = "Director"},
+		new PositionsTuple() { Pos = Positions.ViceDeptDirector,	PositionName = "Vice Director"},
+		new PositionsTuple() { Pos = Positions.Employee,			PositionName = "Employee"},
+		new PositionsTuple() { Pos = Positions.Intern,				PositionName = "Intern"}
 		};
+
+		/// <summary>
+		/// Returns list of available positions (position, position name string)
+		/// </summary>
+		/// <returns></returns>
+		public List<PositionsTuple> AvailablePositionsList()
+		{
+			return new List<PositionsTuple>(PositionsNames);
+		}
 
 		/// <summary>
 		/// Collection (DataBase table) of all workers of the organization
 		/// </summary>
-		public List<Worker> Workers { get; set; }
+		private List<Worker> Workers { get; set; }
 
 		/// <summary>
 		/// Constructor initializes Workers collection
@@ -79,12 +92,6 @@ namespace MLM
 		public Director GetDirector(uint deptID)
 		{
 			return Workers.Find(w => w.DeptID == deptID && (w is Director)) as Director;
-
-			// In the beginning I wrote as below
-			//int wi = Workers.FindIndex(w => w.DeptID == deptID && (w is Director));
-			//if (wi != -1)
-			//	return Workers[wi] as Director;
-			//return null;
 		}
 
 		/// <summary>
@@ -93,7 +100,7 @@ namespace MLM
 		/// </summary>
 		/// <param name="deptID">ID of the department</param>
 		/// <returns>Collection of workers who works in the department with deptID</returns>
-		public List<Worker> DepartmentWorkersList(uint deptID)
+		public List<Worker> OneDepartmentWorkersList(uint deptID)
 		{
 			return Workers.FindAll(w => w.DeptID == deptID);
 		}
