@@ -224,33 +224,18 @@ namespace MLM
 
 			// For each hierarchy level provide proper list of available positions
 			// i.e. you can't add Head of the Division at the Department level
-			var availablePositionsList = Apple.AvailablePositionsList();
-			
-			// if d is HQ 
-			if (d is HQ)
-				// take off Division and Department leaders & vice leaders positions from the list
-				availablePositionsList.RemoveRange(2, 4);
+			var availablePositionsList = Apple.AvailablePositionsList(d);
 
-			// if d is Division 
-			if (d is Division)
-			{
-				// take off President and Vice President from the list
-				availablePositionsList.RemoveRange(0, 2);
-
-				// and Department Director and Vice Director
-				availablePositionsList.RemoveRange(2, 2);
-			}
-			// if d is Department
-			if (d is Department)
-				// take off President and Vice President, Head and Vice Head of Division from the list
-				availablePositionsList.RemoveRange(0, 4);
+			// also you can't appoint someone at the leader's position if leader is present in the dept
+			// Remove leader position from the list if department has a leader
+			if (Apple.GetDirector(d.DeptID) != null) availablePositionsList.RemoveRange(0, 1);
 
 			AddWorker addWorkerWin = new AddWorker(d.DeptName, availablePositionsList);
 
 			bool? result = addWorkerWin.ShowDialog();
 			if (result != true) return;
 
-			Apple.AddWorker(
+			Apple.CreateWorker(
 				addWorkerWin.FirstNameEntryBox.Text,
 				addWorkerWin.LastNameEntryBox.Text,
 				(DateTime)addWorkerWin.DateOfBirthPicker.SelectedDate,
@@ -268,8 +253,17 @@ namespace MLM
 			var ws = WorkersView.SelectedItem as Worker;
 			if (ws == null) return;
 
-			EditWorker editWorkerWin = new EditWorker(ws, Apple.GetDepartment(ws.DeptID).DeptName,
-														  Apple.AvailablePositionsList());
+			var d  = Apple.GetDepartment(ws.DeptID);
+			// For each hierarchy level provide proper list of available positions
+			// i.e. you can't add Head of the Division at the Department level
+			var availablePositionsList = Apple.AvailablePositionsList(d);
+
+			// also you can't appoint someone at the leader's position if leader is present in the dept
+			// Remove leader position from the list if department has a leader and ws is not leader
+			if (Apple.GetDirector(d.DeptID) != null && !(ws is Director)) 
+				availablePositionsList.RemoveRange(0, 1);
+
+			EditWorker editWorkerWin = new EditWorker(ws, d.DeptName, availablePositionsList);
 			bool? result = editWorkerWin.ShowDialog();
 
 			if (result != true) return;

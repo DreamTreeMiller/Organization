@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="PositionsTable.cs" />
     <Compile Include="UI\CreateWorkerMenu.xaml.cs">
       <DependentUpon>CreateWorkerMenu.xaml</DependentUpon>
     </Compile>

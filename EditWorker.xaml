@@ -128,7 +128,7 @@
 		</ComboBox>
 		<TextBlock x:Name="salarybasetitle"
 				   Grid.Column="0" Grid.Row="6"
-				   Text="Salary Base"
+				   Text="Salary"
 				   Margin="0,0,10,0"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Right"
@@ -137,7 +137,8 @@
 					Orientation="Horizontal"
 					Margin="10,0,0,0"
 					>
-			<TextBlock Text="USD"
+			<TextBlock x:Name="salarybaseprefix"  
+					   Text="USD"
 					   VerticalAlignment="Center"
 					   />
 			<TextBox x:Name="SalaryBaseEntryBox"

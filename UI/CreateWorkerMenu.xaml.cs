@@ -26,7 +26,10 @@ namespace MLM
 
 			DeptNameDisplay.Text = DeptName;
 			// List of available positions - WorkersTable.PositionsNames
-			PositionEntryBox.ItemsSource = PosList;  
+			PositionEntryBox.ItemsSource  = PosList;  
+
+			// Set lowest position as default
+			PositionEntryBox.SelectedItem = PosList.Find(p => p.Pos == Positions.Intern);
 		}
 
 		private void btnOk_AddEmployee_Click(object sender, RoutedEventArgs e)

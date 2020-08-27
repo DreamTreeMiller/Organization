@@ -29,12 +29,16 @@ namespace MLM
 			EmployedOnDatePicker.SelectedDate	= w.EmployedOn;
 			PositionEntryBox.ItemsSource		= PosList;
 			PositionEntryBox.SelectedItem		= PosList.Find(p => p.Pos == w.Position);
-			string salaryBaseSuffix = " per month";
+			string salaryBaseSuffix = "";
 			if (w is Director)
-				salaryBaseSuffix = " per month (15% from salaries of subordinates)";
+				salaryBaseSuffix = " (15% from salaries of subordinates)";
+			SalaryBaseEntryBox.Text = $"{w.Salary}";
 			if (w is Employee)
-				salaryBaseSuffix = " per hour";
-			SalaryBaseEntryBox.Text = $"{w.salaryBase}";
+			{
+				salarybaseprefix.Text = $"USD {w.Salary}";
+				SalaryBaseEntryBox.Text = $"${w.salaryBase}";
+				salaryBaseSuffix = $" per hour, for {(w as Employee).HoursWorked} hours.";
+			}
 			salarybasesuffix.Text = salaryBaseSuffix;
 
 		}
@@ -59,6 +63,8 @@ namespace MLM
 			switch((PositionEntryBox.SelectedItem as PositionsTuple).Pos)
 			{
 				case Positions.Intern:
+					break;
+
 
 			}
 		}

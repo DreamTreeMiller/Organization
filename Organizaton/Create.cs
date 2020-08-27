@@ -109,16 +109,16 @@ namespace MLM
 					case Hierarchy.Division:
 						maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 5) ? 5 : r.Next(5, maxNumOfWorkersInDept);
 						posHead = Positions.DivisionHead;
-						posHeadStr = "Head of the Division_" + deptNameCode;
+						posHeadStr = "Head of the Division" + deptNameCode;
 						posViceHead = Positions.ViceDivisionHead;
-						posViceHeadStr = "Deputy Head of the Division_" + deptNameCode;
+						posViceHeadStr = "Deputy Head of the Division" + deptNameCode;
 						break;
 					case Hierarchy.Department:
 						maxNumOfWorkersInDept = (maxNumOfWorkersInDept <= 3) ? 3 : r.Next(3, maxNumOfWorkersInDept);
 						posHead = Positions.DeptDirector;
-						posHeadStr = "Director_" + deptNameCode;
+						posHeadStr = "Director" + deptNameCode;
 						posViceHead = Positions.ViceDeptDirector;
-						posViceHeadStr = "Vice Director_" + deptNameCode;
+						posViceHeadStr = "Vice Director" + deptNameCode;
 						break;
 				}
 

@@ -18,12 +18,6 @@ namespace MLM
 		Intern
 	}
 
-	public class PositionsTuple
-	{
-		public Positions Pos { get; set; }
-		public string PositionName { get; set; }
-	}
-
 	public enum PaymentType
 	{
 		Standard,

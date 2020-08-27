@@ -21,6 +21,8 @@ namespace MLM
 		/// </summary>
 		private WorkersTable		WorkersTable	 { get; set; }
 
+		private PositionsTable		PositionsTable { get; }
+
 		/// <summary>
 		/// Constructor. Creates root department with 0 as parent dept ID, 
 		/// and with 0 workers and 0 subdepartments. Adds it to the collection of all departments
@@ -29,10 +31,11 @@ namespace MLM
 		public Organization (string orgName) 
 		{
 			Random r = new Random();
-			BaseDepartment root = new HQ(orgName);
-			root.CreatedOn = new DateTime(r.Next(2000, 2020), r.Next(1, 13), r.Next(1, 29));
-			DepartmentsTable = new DepartmentsTable();
-			WorkersTable = new WorkersTable();
+			BaseDepartment root	= new HQ(orgName);
+			root.CreatedOn		= new DateTime(r.Next(2000, 2020), r.Next(1, 13), r.Next(1, 29));
+			DepartmentsTable	= new DepartmentsTable();
+			WorkersTable		= new WorkersTable();
+			PositionsTable		= new PositionsTable();
 			AddDepartment(null, root);
 		}
 
@@ -165,7 +168,7 @@ namespace MLM
 		/// -1 if worker with same ID already exists which should not happen in principle
 		/// because worker is newly created 
 		/// </returns>
-		public int AddWorker(string fn, string ln, DateTime dob, uint deptID, Positions pos)
+		public int CreateWorker(string fn, string ln, DateTime dob, uint deptID, Positions pos)
 		{
 			Worker newWorker = null;
 			switch(pos)
@@ -204,19 +207,41 @@ namespace MLM
 			return AddWorker(newWorker);
 		}
 
+		/// <summary>
+		/// Finds worker with specified ID
+		/// </summary>
+		/// <param name="workerID">Worker's ID</param>
+		/// <returns>
+		/// Worker with specified ID, 
+		/// null if worker with such ID does not exist
+		/// </returns>
 		public Worker GetWorker(uint workerID)
 		{
 			return WorkersTable.GetWorker(workerID);
 		}
 
+		/// <summary>
+		/// Finds director (president,head) of deptID department
+		/// </summary>
+		/// <param name="deptID">Department ID</param>
+		/// <returns>
+		/// Worker of the Director class or 
+		/// null if a director of deptID department is not found
+		/// </returns>
 		public Director GetDirector(uint deptID)
 		{
 			return WorkersTable.GetDirector(deptID);
 		}
 
-		public List<PositionsTuple> AvailablePositionsList()
+		/// <summary>
+		/// Returns list of available positions (position, position name string)
+		/// </summary>
+		/// <returns></returns>
+		public List<PositionsTuple> AvailablePositionsList(BaseDepartment d)
 		{
-			return WorkersTable.AvailablePositionsList();
+			if (d == null) return null;
+			var availablePositionsList = PositionsTable.Available(d);
+			return availablePositionsList;
 		}
 
 		public List<Worker> OneDepartmentWorkersList(uint deptID)
