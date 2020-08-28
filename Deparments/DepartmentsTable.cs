@@ -11,7 +11,7 @@ namespace MLM
 		/// <summary>
 		/// List (database table) of organization departments
 		/// </summary>
-		private List<BaseDepartment> Departments { get; set; }
+		public List<BaseDepartment> Departments { get; set; }
 
 		/// <summary>
 		/// Constructor. Initializes Departments collection
@@ -35,7 +35,7 @@ namespace MLM
 		{
 			// Creation of root department
 			// it means childDept is root department
-			if (parentDept == null && childDept.ParentDept == 0)
+			if (parentDept == null && childDept.ParentDeptID == 0)
 			{
 				Departments.Add(childDept);
 				return 0;
@@ -50,7 +50,7 @@ namespace MLM
 			// Adding child department to 
 			Departments.Add(childDept);
 			parentDept.SubDepts.Add(childDept.DeptID);
-			childDept.ParentDept = parentDept.DeptID;
+			childDept.ParentDeptID = parentDept.DeptID;
 			return 0;
 		}
 
@@ -76,7 +76,7 @@ namespace MLM
 		/// <returns>Root department</returns>
 		public BaseDepartment GetRootDepartment()
 		{
-			int di = Departments.FindIndex(d => d.ParentDept == 0);
+			int di = Departments.FindIndex(d => d.ParentDeptID == 0);
 			if (di != -1)
 				return Departments[di];
 			return null;
@@ -102,17 +102,18 @@ namespace MLM
 			return new List<BaseDepartment>(Departments);
 		}
 
-		/// <summary>
-		/// Collects list of sub-departments of the specified department
-		/// </summary>
-		/// <param name="deptID">Department ID</param>
-		/// <returns>
-		/// Collection of departments which have specified department ID as parent department ID
-		/// </returns>
-		public List<BaseDepartment> SubDepartments(uint deptID)
-		{
-			return Departments.FindAll(w => w.ParentDept == deptID); ;
-		}
+		// Not sure if I need this method
+		///// <summary>
+		///// Collects list of sub-departments of the specified department
+		///// </summary>
+		///// <param name="deptID">Department ID</param>
+		///// <returns>
+		///// Collection of departments which have specified department ID as parent department ID
+		///// </returns>
+		//public List<BaseDepartment> SubDepartments(uint deptID)
+		//{
+		//	return Departments.FindAll(w => w.ParentDeptID == deptID); ;
+		//}
 
 		/// <summary>
 		/// Removes department with specified ID from the list of departments

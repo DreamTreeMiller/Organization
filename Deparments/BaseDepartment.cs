@@ -55,7 +55,7 @@ namespace MLM
 		/// <summary>
 		/// ID of parent department
 		/// </summary>
-		public uint ParentDept { get; set; }
+		public uint ParentDeptID { get; set; }
 
 		/// <summary>
 		/// Collection of sub-departments' IDs
@@ -77,6 +77,9 @@ namespace MLM
 		/// Director's salary is 15% of salaries of all dept workers and all sub-departments
 		/// /// </summary>
 		public int TotalDepartmentSalary { get; set; }
+
+		public int TotalDeptStaff_withoutBoss_Salary { get; set; }
+		public int TotalSubDepartmentsSalary { get; set; }
 
 		//public BaseDepartment()
 		//{ }
@@ -101,13 +104,23 @@ namespace MLM
 			DeptID					= NextID();
 			DeptName				= deptName;
 			CreatedOn				= DateTime.Now;
-			ParentDept				= parentDeptID;
+			ParentDeptID			= parentDeptID;
 			SubDepts				= new List<uint>();
 			NumberOfEmployees		= 0;
+			// Total Department salary is sum of:
+			// - Director's salary
+			// - Sum of salaries of all department staff except director
+			// - Sum of Total Department salaries of all sub departments
 			TotalDepartmentSalary	= 0;
-		}
 
-		public override string ToString()
+			// Sum of salaries of all department staff except director
+			TotalDeptStaff_withoutBoss_Salary = 0;
+
+			// Sum of Total Department salaries of all sub departments
+			TotalSubDepartmentsSalary = 0;
+	}
+
+	public override string ToString()
 		{
 			return $"ID: {DeptID,16} " +
 					$"{DeptName,20} " +

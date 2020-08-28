@@ -24,7 +24,7 @@ namespace MLM
 		/// List of position names 
 		/// It is used in Add worker dialog window
 		/// </summary>
-		private static List<PositionsTuple> PositionsNames = new List<PositionsTuple>()
+		public List<PositionsTuple> PositionsNames = new List<PositionsTuple>()
 		{
 		new PositionsTuple(Positions.President,		   "President"),
 		new PositionsTuple(Positions.VicePresident,    "VicePresident"),

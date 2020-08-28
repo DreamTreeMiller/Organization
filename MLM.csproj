@@ -58,7 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="PositionsTable.cs" />
+    <Compile Include="Organizaton\PositionsTable.cs" />
     <Compile Include="UI\CreateWorkerMenu.xaml.cs">
       <DependentUpon>CreateWorkerMenu.xaml</DependentUpon>
     </Compile>
@@ -69,7 +69,7 @@
     <Compile Include="Deparments\BaseDepartment.cs" />
     <Compile Include="Deparments\Department.cs" />
     <Compile Include="Deparments\DepartmentsTable.cs" />
-    <Compile Include="EditWorker.xaml.cs">
+    <Compile Include="UI\EditWorker.xaml.cs">
       <DependentUpon>EditWorker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workers\Director.cs" />
@@ -84,7 +84,7 @@
       <DependentUpon>MoveWorker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Organizaton\Organization.cs" />
-    <Compile Include="Enumerables.cs" />
+    <Compile Include="Organizaton\Enumerables.cs" />
     <Compile Include="Workers\Worker.cs" />
     <Compile Include="Workers\WorkersTable.cs" />
     <Page Include="UI\CreateWorkerMenu.xaml">
@@ -107,7 +107,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="EditWorker.xaml">
+    <Page Include="UI\EditWorker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

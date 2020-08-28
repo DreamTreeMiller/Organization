@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:MLM"
         mc:Ignorable="d"
 		Loaded="Window_Loaded"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+		Height="450" MinHeight="450"
+		Width="800" MinWidth="800"
+		>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40"/>
@@ -147,19 +150,60 @@
 			</DataGrid.Columns>
 			
 		</DataGrid>
-		<TextBlock x:Name="totalDeptSalary"
-				   Grid.Row="2"
-				   Grid.Column="2"
-				   VerticalAlignment="Center"
-				   HorizontalAlignment="Right"
-				   Margin="0,0,30,0"
-				   FontWeight="Bold"
-				   />
-		<!--
-		<ListBox x:Name="unixmilliseconds"
-				 Grid.Row="1"
-				 ScrollViewer.VerticalScrollBarVisibility="Auto">
-		</ListBox>
-		-->
+		<StackPanel x:Name="InformationBar"
+					Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+					Orientation="Horizontal"
+					>
+			<TextBlock Text="TOTAL SALARIES"
+					   Margin="40,0,10,0"
+					   VerticalAlignment="Center"
+					   FontSize="14"
+					   FontWeight="Bold"
+					   />
+			<TextBlock x:Name="BossTitle" 
+					   Margin="10,0,0,0"
+					   VerticalAlignment="Center"
+					   FontSize="14"
+					   />
+			<TextBlock x:Name="DirectorSalary"
+					   Margin="0,0,10,0"
+					   VerticalAlignment="Center"
+					   FontSize="14"
+					   FontWeight="Bold"
+					   />
+			<TextBlock Text="Staff: "
+					   Margin="10,0,0,0"
+					   VerticalAlignment="Center"
+					   FontSize="14"
+					   />
+			<TextBlock x:Name="StaffSalary"
+					   Margin="0,0,10,0"
+					   VerticalAlignment="Center"
+					   FontSize="14"
+					   FontWeight="Bold"
+					   />
+			<TextBlock Text="Sub Depts: "
+					   Margin="10,0,0,0"
+					   VerticalAlignment="Center"
+					   FontSize="14"
+					   />
+			<TextBlock x:Name="SubDepartmentsSalary"
+					   Margin="0,0,10,0"
+					   VerticalAlignment="Center"
+					   FontSize="14"
+					   FontWeight="Bold"
+					   />
+			<TextBlock Text="Dept: "
+					   Margin="10,0,0,0"
+					   VerticalAlignment="Center"
+					   FontSize="14"
+					   />
+			<TextBlock x:Name="TotalDepartmentSalary"
+					   Margin="0,0,10,0"
+					   VerticalAlignment="Center"
+					   FontSize="14"
+					   FontWeight="Bold"
+					   />
+		</StackPanel>
 	</Grid>
 </Window>

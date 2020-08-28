@@ -73,14 +73,12 @@ namespace MLM
 		private void Department_Selected(object sender, RoutedEventArgs e)
 		{
 			var es = e.OriginalSource as TreeViewItem;
-			var dept = (BaseDepartment)es.Tag;
+			var d = (BaseDepartment)es.Tag;
 
 			// Binds employees of the current department to a DataGrid
-			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(dept.DeptID);
-			
-			// Shows total department salary at the bottom right corner of the window
-			totalDeptSalary.Text = $"Total department salary: " +
-				dept.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(d.DeptID);
+
+			UpdateInfoBar(d);
 		}
 
 		#endregion
@@ -209,8 +207,38 @@ namespace MLM
 
 		#endregion
 
-		#region Manipulations with worker
+		/// <summary>
+		/// Shows salaries of director, staff, sub departments, department
+		/// </summary>
+		/// <param name="d"></param>
+		private void UpdateInfoBar(BaseDepartment d)
+		{
+			// Shows salaries at the bottom of the window
+			var dir = Apple.GetDirector(d.DeptID);
 
+			// Put proper position title for the department boss
+			BossTitle.Text = Apple.PositionsTable[Positions.DeptDirector] + ": ";
+			if (d is HQ)		BossTitle.Text = Apple.PositionsTable[Positions.President] + ": ";
+			if (d is Division)	BossTitle.Text = Apple.PositionsTable[Positions.DivisionHead] + ": ";
+
+			// Check if a department has director
+			if (dir != null)
+				DirectorSalary.Text =
+					dir.Salary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+			else
+				DirectorSalary.Text = "$0";
+
+			StaffSalary.Text =
+				d.TotalDeptStaff_withoutBoss_Salary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US")) +
+				$" ({d.NumberOfEmployees - 1} ppl)";
+
+			SubDepartmentsSalary.Text =
+				d.TotalSubDepartmentsSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+
+			TotalDepartmentSalary.Text =
+				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+		}
+		#region Manipulations with worker
 		/// <summary>
 		/// Creates new worker
 		/// </summary>
@@ -243,8 +271,8 @@ namespace MLM
 				(addWorkerWin.PositionEntryBox.SelectedItem as PositionsTuple).Pos
 				);
 			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(d.DeptID);
-			totalDeptSalary.Text = $"Total department salary: " +
-				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+
+			UpdateInfoBar(d);
 		}
 
 		private void EditWorker_Click(object sender, RoutedEventArgs e)
@@ -263,11 +291,12 @@ namespace MLM
 			if (Apple.GetDirector(d.DeptID) != null && !(ws is Director)) 
 				availablePositionsList.RemoveRange(0, 1);
 
-			EditWorker editWorkerWin = new EditWorker(ws, d.DeptName, availablePositionsList);
+			EditWorker editWorkerWin = new EditWorker(ws, d, availablePositionsList);
 			bool? result = editWorkerWin.ShowDialog();
 
 			if (result != true) return;
 
+			UpdateInfoBar(d);
 		}
 
 		/// <summary>
@@ -307,15 +336,13 @@ namespace MLM
 
 			// Display new total salary of current department after moving of the worker
 			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(currDept.DeptID);
-			totalDeptSalary.Text = $"Total department salary: " +
-				currDept.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
 
+			UpdateInfoBar(currDept);
 		}
 
 		private void DeleteWorker_Click(object sender, RoutedEventArgs e)
 		{
-			var ws = WorkersView.SelectedItem as Worker;
-			if (ws == null) return;
+			if (!(WorkersView.SelectedItem is Worker ws)) return;
 			DeleteItemConfirmationDialog delCon = 
 				new DeleteItemConfirmationDialog(
 					$"Are you sure you want to delete worker:\n\n" +
@@ -327,20 +354,20 @@ namespace MLM
 			Apple.RemoveWorker(ws.ID);
 			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(ws.DeptID);
 			BaseDepartment d = Apple.GetDepartment(ws.DeptID);
-			totalDeptSalary.Text = $"Total department salary: " +
-				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+
+			UpdateInfoBar(d);
 		}
 
 		#endregion
+	}
+}
+
 		/*
 			MessageBox.Show(
 				$"TreeView Selected Item: {AppleTree.SelectedItem}\n" +
 				$"DataGrid Selected Item: {employeesView.SelectedItem}" 
 				);
 		 */
-	}
-}
-
 
 #region Experiments
 //DateTime start, end;

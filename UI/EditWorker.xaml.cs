@@ -19,26 +19,32 @@ namespace MLM
 	/// </summary>
 	public partial class EditWorker : Window
 	{
-		public EditWorker(Worker w, string deptName, List<PositionsTuple> PosList)
+		BaseDepartment currDept;
+		Worker currWorker;
+		public EditWorker(Worker w, BaseDepartment d, List<PositionsTuple> PosList)
 		{
 			InitializeComponent();
+			currWorker = w;
+			currDept = d;
 			FirstNameEntryBox.Text				= w.FirstName;
 			LastNameEntryBox.Text				= w.LastName;
 			DateOfBirthPicker.SelectedDate		= w.DateOfBirth;
-			DeptNameDisplay.Text				= deptName;
+			DeptNameDisplay.Text				= d.DeptName;
 			EmployedOnDatePicker.SelectedDate	= w.EmployedOn;
 			PositionEntryBox.ItemsSource		= PosList;
 			PositionEntryBox.SelectedItem		= PosList.Find(p => p.Pos == w.Position);
+			string salaryBasePrefix = "$";
 			string salaryBaseSuffix = "";
 			if (w is Director)
 				salaryBaseSuffix = " (15% from salaries of subordinates)";
 			SalaryBaseEntryBox.Text = $"{w.Salary}";
 			if (w is Employee)
 			{
-				salarybaseprefix.Text = $"USD {w.Salary}";
+				salaryBasePrefix = $"${w.Salary}";
 				SalaryBaseEntryBox.Text = $"${w.salaryBase}";
 				salaryBaseSuffix = $" per hour, for {(w as Employee).HoursWorked} hours.";
 			}
+			salarybaseprefix.Text = salaryBasePrefix;
 			salarybasesuffix.Text = salaryBaseSuffix;
 
 		}
@@ -60,12 +66,20 @@ namespace MLM
 
 		private void PositionEntryBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			switch((PositionEntryBox.SelectedItem as PositionsTuple).Pos)
+			switch ((PositionEntryBox.SelectedItem as PositionsTuple).Pos)
 			{
 				case Positions.Intern:
+					SalaryBaseEntryBox.Text = "$500 per month";
 					break;
-
-
+				case Positions.President:
+				case Positions.DivisionHead:
+				case Positions.DeptDirector:
+					SalaryBaseEntryBox.Text = "15% of salaries of employees and subdepartments.\n" +
+											"Minimum $1,300 per month";
+					break;
+				default:
+					SalaryBaseEntryBox.Text = "$12 per hour";
+					break;
 			}
 		}
 	}

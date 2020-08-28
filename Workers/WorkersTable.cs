@@ -12,7 +12,7 @@ namespace MLM
 		/// <summary>
 		/// Collection (DataBase table) of all workers of the organization
 		/// </summary>
-		private List<Worker> Workers { get; set; }
+		public List<Worker> Workers { get; set; }
 
 		/// <summary>
 		/// Constructor initializes Workers collection
@@ -70,7 +70,7 @@ namespace MLM
 		}
 
 		/// <summary>
-		/// Finds all workers who work in the same department with deptID
+		/// Finds all workers, including director, who work in the same department with deptID
 		/// and puts them in the collection List
 		/// </summary>
 		/// <param name="deptID">ID of the department</param>
