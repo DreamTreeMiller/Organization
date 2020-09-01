@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	class WorkersTable
+	public class WorkersTable
 	{
 		/// <summary>
 		/// Collection (DataBase table) of all workers of the organization
@@ -32,7 +32,7 @@ namespace MLM
 		/// </returns>
 		public int AddWorker(Worker worker)
 		{
-			if (Workers.Find(w => w.ID == worker.ID) != null) return -1;       // Worker with such ID already works in dept
+			if (Workers.Find(w => w.ID == worker.ID) != null) return -1;      
 			Workers.Add(worker);
 			return 0;
 		}
@@ -97,7 +97,7 @@ namespace MLM
 		//		Workers[wi].DateOfBirth	= worker.DateOfBirth;
 		//		Workers[wi].EmployedOn	= worker.EmployedOn;
 		//		Workers[wi].DeptID		= worker.DeptID;
-		//		Workers[wi].JobTitle	= worker.JobTitle;
+		//		Workers[wi].PositionTitle	= worker.PositionTitle;
 		//		Workers[wi].Position	= worker.Position;
 		//		Workers[wi].salaryBase	= worker.salaryBase;
 		//		return 0;           // Worker was updated successfully

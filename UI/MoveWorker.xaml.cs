@@ -25,16 +25,18 @@ namespace MLM
 		/// <param name="w">Being moved worker</param>
 		/// <param name="currDept">Department where worker currently works in</param>
 		/// <param name="deptTable">List of available destination departments</param>
-		public MoveWorker(Worker w, string currDept, List<BaseDepartment> deptTable)
+		public MoveWorker(Worker w, string currDept, List<BaseDepartment> deptList)
 		{
 			InitializeComponent();
 
-			// Show name of the being moved worker
+			// Show ID and full name of the being moved worker
+			IdDisplay.Text = w.ID.ToString();
 			FirstNameDisplay.Text = w.FirstName;
 			LastNameDisplay.Text  = w.LastName;
 
+			// Show worker's department name
 			CurrentDepartmentDisplay.Text = currDept;
-			DeparmmentEntryBox.ItemsSource = deptTable;
+			DeparmmentEntryBox.ItemsSource = deptList;
 		}
 
 		/// <summary>

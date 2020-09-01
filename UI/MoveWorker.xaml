@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MLM"
         mc:Ignorable="d"
         Title="Move Worker" Height="300" Width="500"
-		WindowStartupLocation="CenterScreen"
+		WindowStartupLocation="CenterScreen" 
 		>
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -43,7 +43,7 @@
 				   />
 		<TextBlock x:Name="workernametitile"
 				   Grid.Row="2" Grid.Column="0"
-				   Text="Full Name:"
+				   Text="ID and Full Name:"
 				   Margin="0,0,10,0"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Right"
@@ -51,6 +51,11 @@
 		<StackPanel Orientation="Horizontal"
 					Grid.Row="2" Grid.Column="1"
 					>
+			<TextBlock x:Name="IdDisplay" 
+					   VerticalAlignment="Center"
+					   Margin="10,0,0,0"
+					   />
+			<TextBlock Text=" " />
 			<TextBlock x:Name="FirstNameDisplay" 
 					   VerticalAlignment="Center"
 					   Margin="10,0,0,0"

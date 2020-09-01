@@ -7,21 +7,25 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	class Organization
+	public class Organization
 	{
 		private Random r = new Random();
 
 		/// <summary>
 		/// Collection of all departments of the organization
 		/// </summary>
-		public DepartmentsTable	DepartmentsTable { get; set; }
+		public DepartmentsTable	DepartmentsTable	{ get; set; }
 
 		/// <summary>
 		/// Collection of all workers of the organization 
 		/// </summary>
-		public WorkersTable		WorkersTable	 { get; set; }
+		public WorkersTable		WorkersTable		{ get; set; }
 
-		public PositionsTable		PositionsTable { get; }
+		/// <summary>
+		/// List of positions in the company. 
+		/// Method 'Available' returns positions available for specified department
+		/// </summary>
+		public PositionsTable	PositionsTable		{ get; }
 
 		/// <summary>
 		/// Constructor. Creates root department with 0 as parent dept ID, 
@@ -40,78 +44,6 @@ namespace MLM
 		}
 
 		#region Salary manipulations
-
-		///// <summary>
-		///// Calculates total salary of specified department by calculating salaries of:
-		///// - employees, inters
-		///// - sub departments
-		///// - director whose salary is calculated based on dept employees' and sub departments' salaries
-		///// </summary>
-		///// <param name="deptID">Department ID</param>
-		///// <param name="pymnt">Type of payment: 
-		///// Standard - all employees work same number of hours.
-		///// Random - each employee is assigned with a random number of hours between 100 and 240.
-		///// </param>
-		///// <returns>Total salary of the specified department</returns>
-		//public int CalculateTotalDeptSalary(uint deptID, PaymentType pymnt)
-		//{
-		//	int TotalDeptSal = 0;
-		//	foreach (Worker w in OneDepartmentWorkersList(deptID))
-		//		if (!(w is Director))
-		//		{
-		//			w.Salary = (pymnt == PaymentType.Standard) ?
-		//												22 * 8 :    // Standard 8 hours per 22 working days
-		//									   r.Next(100, 240);    // Random selection of hours
-		//			TotalDeptSal += w.Salary;
-		//		}
-		//	foreach (BaseDepartment d in SubDepartments(deptID))
-		//		TotalDeptSal += CalculateTotalDeptSalary(d.DeptID, pymnt);
-
-		//	Director dir = GetDirector(deptID);
-		//	dir.Salary = TotalDeptSal / 100 * 15;
-		//	//UpdateEmployee(dir);
-		//	TotalDeptSal += dir.Salary;
-		//	GetDepartment(deptID).TotalDepartmentSalary = TotalDeptSal;
-		//	return TotalDeptSal;
-		//}
-
-		/// <summary>
-		/// Updates total department and director's salary of specified department
-		/// and all parent departments up to the root
-		/// It assumes that first salary change happened in the child department's salary
-		/// </summary>
-		/// <param name="startDeptID">ID of starting department</param>
-		/// <param name="newTotalDeptSalary">Salary difference either positive or negative</param>
-		//private void UpdateUpperDeptSalaries(uint startDeptID, int salaryDiff)
-		//{
-		//	BaseDepartment d = DepartmentsTable.GetDepartment(startDeptID);
-		//	Director dir = WorkersTable.GetDirector(startDeptID);
-
-		//	// We are changing this now!!
-		//	// Important!!! This method is called when a worker is already updated, added or deleted)
-		//	// but Total Department Salary is still NOT updated!
-		//	int currTotalDeptSal = d.TotalDepartmentSalary;
-		//	int newSubDeptAndWorkersSalary = currTotalDeptSal + salaryDiff;
-
-		//	if (dir != null)
-		//	{
-		//		// ==> if director present - one way to update salary
-
-		//		// Get new total workers and sub-dept salaries in order to calculate new salary of dept boss
-		//		newSubDeptAndWorkersSalary -= dir.Salary;
-		//		dir.Salary = newSubDeptAndWorkersSalary / 100 * 15;
-		//		d.TotalDepartmentSalary = newSubDeptAndWorkersSalary + dir.Salary;
-		//	}
-		//	else
-		//	{
-		//		// ==> if not another - new total department salary is already calculated
-		//		d.TotalDepartmentSalary = newSubDeptAndWorkersSalary;
-		//	}
-		//	// Parent is reached. Calculation is completed
-		//	if (startDeptID == 0) return;
-
-		//	UpdateUpperDeptSalaries(d.ParentDeptID, d.TotalDepartmentSalary - currTotalDeptSal);
-		//}
 
 		/// <summary>
 		/// Updates salaries of current department and all upper departments.
@@ -295,29 +227,24 @@ namespace MLM
 			// Check if destination department is not current worker's department
 			if (destinationDeptID == oldDeptID) return -3;
 
-			// The oder below is very important.
-			// First we move worker to new department, then update departments
-
+			// Worker can be moved to another department only either as Employee or Intern
+			if (w.Position != Positions.Employee && w.Position != Positions.Intern)
+				w.Position = Positions.Employee;
 
 			// Move worker to destination department
 			w.DeptID = destinationDeptID;
 
 			if (w is Director)
-				AddWorker(w as Employee);
+			{
+				// Change type of w from Director to Employee
+				// Since there is not explicit type cast, 
+				// need to create new instace of Employee class with same ID
+				Employee e = new Employee(w, Positions.Employee);
+				AddWorker(e);
+			}
 			else
 				AddWorker(w);
 			return 0;
-		}
-
-		/// <summary>
-		/// Returns list of available positions (position, position name string)
-		/// </summary>
-		/// <returns></returns>
-		public List<PositionsTuple> AvailablePositionsList(BaseDepartment d)
-		{
-			if (d == null) return null;
-			var availablePositionsList = PositionsTable.Available(d);
-			return availablePositionsList;
 		}
 
 		/// <summary>

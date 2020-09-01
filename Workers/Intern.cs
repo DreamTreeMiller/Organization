@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	class Intern : Worker
+	public class Intern : Worker, IWorkerDTO
 	{
+		public Intern(uint ID)
+			: base(ID)
+		{ }
 		public Intern (string FN, string LN, DateTime DOB,
 					   DateTime hired,
 					   uint deptID, string jobTitle, int salaryBase=500) 
@@ -18,6 +21,10 @@ namespace MLM
 		{
 			get { return salaryBase; }
 			set { }		// Do nothing becase salary is already set by the constructor
+		}
+		public object Clone()
+		{
+			return (Intern)this.MemberwiseClone();
 		}
 	}
 }

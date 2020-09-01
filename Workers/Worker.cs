@@ -71,7 +71,10 @@ namespace MLM
 		/// For now this is just string format of Position 
 		/// Not good decision yet ...
 		/// </summary>
-		public string	JobTitle	{ get; set; }
+		public string	PositionTitle	
+		{ 
+			get { return PositionsTable.PositionsDict[(int)Position].PositionName; } 
+		}
 
 		/// <summary>
 		/// Position - enum type of several possible posisitons
@@ -87,13 +90,15 @@ namespace MLM
 		/// <summary>
 		/// Worker's salary calculated based on salaryBase or other parameters
 		/// </summary>
-		public abstract int Salary { get; set; }       
+		public abstract int Salary { get; set; }
 
 		/// <summary>
-		/// Constructor to create dummy worker with particular ID in order to check 
-		/// if a worker with such ID already exists
+		/// Constructor to create dummy worker with particular ID 
+		/// in order to change class of a worker! 
+		/// Because type casting will not work in this case:
+		/// Employee emp; Director dir; dir = emp as Director; will assign null to dir.
 		/// </summary>
-		/// <param name="workerID"></param>
+		/// <param name="workerID">Worker's ID</param>
 		public Worker(uint workerID)
 		{
 			this.ID = workerID;
@@ -121,7 +126,6 @@ namespace MLM
 			this.DateOfBirth	= DOB;
 			this.EmployedOn		= hired;
 			this.DeptID			= depID;
-			this.JobTitle		= jobTitle;
 			this.Position		= position;
 			this.salaryBase		= salaryBase;
 		}
@@ -133,7 +137,7 @@ namespace MLM
 					$"DOB: {DateOfBirth:dd.MM.yyyy} " +
 					$"Hired: {EmployedOn:dd.MM.yyyy} " +
 					$"DepID: {DeptID,5} " +
-					$"{JobTitle,30} " + 
+					$"{PositionTitle,30} " + 
 					$"Salary: ${Salary:## ###}";
 		}
 	}

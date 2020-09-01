@@ -17,20 +17,24 @@ namespace MLM
 	/// <summary>
 	/// Interaction logic for EditWorker.xaml
 	/// </summary>
-	public partial class EditWorker : Window
+	public partial class EditWorkerMenu : Window
 	{
-		BaseDepartment currDept;
-		Worker currWorker;
-		public EditWorker(Worker w, BaseDepartment d, List<PositionsTuple> PosList)
+		IWorkerDTO wCopy;
+		public EditWorkerMenu(Organization org, Worker w)
 		{
 			InitializeComponent();
-			currWorker = w;
-			currDept = d;
-			FirstNameEntryBox.Text				= w.FirstName;
-			LastNameEntryBox.Text				= w.LastName;
-			DateOfBirthPicker.SelectedDate		= w.DateOfBirth;
+			if (w == null) return;
+			wCopy = (IWorkerDTO)w.Clone();
+			BaseDepartment d = org.GetDepartment(w.DeptID);
+			PositionsTable pt = new PositionsTable();
+			var PosList = pt.Available(org, d);
+			EditWorkerGrid.DataContext = wCopy;
+			//IDdisplay.Text						= w.ID.ToString();
+			//FirstNameEntryBox.Text				= w.FirstName;
+			//LastNameEntryBox.Text				= w.LastName;
+			//DateOfBirthPicker.SelectedDate		= w.DateOfBirth;
 			DeptNameDisplay.Text				= d.DeptName;
-			EmployedOnDatePicker.SelectedDate	= w.EmployedOn;
+			//EmployedOnDatePicker.SelectedDate	= w.EmployedOn;
 			PositionEntryBox.ItemsSource		= PosList;
 			PositionEntryBox.SelectedItem		= PosList.Find(p => p.Pos == w.Position);
 			string salaryBasePrefix = "$";
@@ -66,7 +70,7 @@ namespace MLM
 
 		private void PositionEntryBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			switch ((PositionEntryBox.SelectedItem as PositionsTuple).Pos)
+			switch ((PositionEntryBox.SelectedItem as IPositionTuple).Pos)
 			{
 				case Positions.Intern:
 					SalaryBaseEntryBox.Text = "$500 per month";

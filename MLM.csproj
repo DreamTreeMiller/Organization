@@ -58,7 +58,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Organizaton\PositionsTable.cs" />
+    <Compile Include="Interfaces\IWorkerDTO.cs" />
+    <Compile Include="ManipulationsOnWorkers\EditWorkerMethod.cs" />
+    <Compile Include="Positions\IPositionTuple.cs" />
+    <Compile Include="Positions\IPositions.cs" />
+    <Compile Include="Positions\PositionsTable.cs" />
     <Compile Include="UI\CreateWorkerMenu.xaml.cs">
       <DependentUpon>CreateWorkerMenu.xaml</DependentUpon>
     </Compile>
@@ -69,8 +73,8 @@
     <Compile Include="Deparments\BaseDepartment.cs" />
     <Compile Include="Deparments\Department.cs" />
     <Compile Include="Deparments\DepartmentsTable.cs" />
-    <Compile Include="UI\EditWorker.xaml.cs">
-      <DependentUpon>EditWorker.xaml</DependentUpon>
+    <Compile Include="UI\EditWorkerMenu.xaml.cs">
+      <DependentUpon>EditWorkerMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workers\Director.cs" />
     <Compile Include="Deparments\Division.cs" />
@@ -107,7 +111,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UI\EditWorker.xaml">
+    <Page Include="UI\EditWorkerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,5 +159,6 @@
   <ItemGroup>
     <Resource Include="Images\SaveFileFloppyIcon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

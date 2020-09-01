@@ -20,12 +20,13 @@ namespace MLM
 	public partial class AddWorker : Window
 	{
 
-		public AddWorker(string DeptName, List<PositionsTuple> PosList)
+		public AddWorker(string DeptName, List<IPositionTuple> PosList)
 		{
 			InitializeComponent();
 
 			DeptNameDisplay.Text = DeptName;
-			// List of available positions - WorkersTable.PositionsNames
+			
+			// List of available positions 
 			PositionEntryBox.ItemsSource  = PosList;  
 
 			// Set lowest position as default
@@ -45,7 +46,7 @@ namespace MLM
 
 		private void PositionEntryBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			switch ((PositionEntryBox.SelectedItem as PositionsTuple).Pos)
+			switch ((PositionEntryBox.SelectedItem as IPositionTuple).Pos)
 			{
 				case Positions.Intern:
 					SalaryBaseResult.Text = "$500 per month";

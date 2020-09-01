@@ -27,12 +27,13 @@ namespace MLM
 	{
 		#region Constructor
 		Organization Apple;
+		IPositions positions;
 
 		public MainWindow()
 		{
 			InitializeComponent();
 			Apple = Create.Organization(5, 5, "Apple Inc.", 30);
-			//Apple.CalculateTotalDeptSalary(Apple.GetRootDeptID(), PaymentType.Random);
+			positions = new PositionsTable();
 		}
 
 		#endregion
@@ -217,9 +218,9 @@ namespace MLM
 			var dir = Apple.GetDirector(d.DeptID);
 
 			// Put proper position title for the department boss
-			BossTitle.Text = Apple.PositionsTable[Positions.DeptDirector] + ": ";
-			if (d is HQ)		BossTitle.Text = Apple.PositionsTable[Positions.President] + ": ";
-			if (d is Division)	BossTitle.Text = Apple.PositionsTable[Positions.DivisionHead] + ": ";
+			BossTitle.Text = positions[Positions.DeptDirector] + ": ";
+			if (d is HQ)		BossTitle.Text = positions[Positions.President] + ": ";
+			if (d is Division)	BossTitle.Text = positions[Positions.DivisionHead] + ": ";
 
 			// Check if a department has director
 			if (dir != null)
@@ -238,6 +239,7 @@ namespace MLM
 			TotalDepartmentSalary.Text =
 				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
 		}
+
 		#region Manipulations with worker
 		/// <summary>
 		/// Creates new worker
@@ -252,11 +254,7 @@ namespace MLM
 
 			// For each hierarchy level provide proper list of available positions
 			// i.e. you can't add Head of the Division at the Department level
-			var availablePositionsList = Apple.AvailablePositionsList(d);
-
-			// also you can't appoint someone at the leader's position if leader is present in the dept
-			// Remove leader position from the list if department has a leader
-			if (Apple.GetDirector(d.DeptID) != null) availablePositionsList.RemoveRange(0, 1);
+			var availablePositionsList = positions.Available(Apple, d);
 
 			AddWorker addWorkerWin = new AddWorker(d.DeptName, availablePositionsList);
 
@@ -268,7 +266,7 @@ namespace MLM
 				addWorkerWin.LastNameEntryBox.Text,
 				(DateTime)addWorkerWin.DateOfBirthPicker.SelectedDate,
 				d.DeptID,
-				(addWorkerWin.PositionEntryBox.SelectedItem as PositionsTuple).Pos
+				(addWorkerWin.PositionEntryBox.SelectedItem as IPositionTuple).Pos
 				);
 			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(d.DeptID);
 
@@ -282,19 +280,17 @@ namespace MLM
 			if (ws == null) return;
 
 			var d  = Apple.GetDepartment(ws.DeptID);
+
 			// For each hierarchy level provide proper list of available positions
 			// i.e. you can't add Head of the Division at the Department level
-			var availablePositionsList = Apple.AvailablePositionsList(d);
+			var availablePositionsList = positions.Available(Apple, d);
 
-			// also you can't appoint someone at the leader's position if leader is present in the dept
-			// Remove leader position from the list if department has a leader and ws is not leader
-			if (Apple.GetDirector(d.DeptID) != null && !(ws is Director)) 
-				availablePositionsList.RemoveRange(0, 1);
-
-			EditWorker editWorkerWin = new EditWorker(ws, d, availablePositionsList);
+			// Open Edit Worker dialog window
+			EditWorkerMenu editWorkerWin = new EditWorkerMenu(Apple, ws);
 			bool? result = editWorkerWin.ShowDialog();
 
 			if (result != true) return;
+
 
 			UpdateInfoBar(d);
 		}
@@ -317,26 +313,23 @@ namespace MLM
 			var deptTable = Apple.GetDepartmentsList();
 			deptTable.Remove(currDept);
 
-			// Open Move Worker dialog windo
+			// Open Move Worker dialog window
 			MoveWorker moveWorkerWin = new MoveWorker(ws, currDept.DeptName, deptTable);
 
 			bool? result = moveWorkerWin.ShowDialog();
 			if (result != true) return;
 
-			// Gen destination department of the being moved worker from ComboBox selection
+			// Get destination department of the being moved worker from ComboBox selection
 			var newDept = moveWorkerWin.DeparmmentEntryBox.SelectedItem as BaseDepartment;
-
-			// Worker can be moved to another department only either as Employee or Intern
-			if (ws.Position != Positions.Employee && ws.Position != Positions.Intern)
-				ws.Position = Positions.Employee;
 
 			// Move worker to another department. 
 			// Salaries of current and destination departments, and departments above, will be updated
 			Apple.MoveWorker(ws.ID, newDept.DeptID);
 
-			// Display new total salary of current department after moving of the worker
+			// Update workers' list
 			WorkersView.ItemsSource = Apple.OneDepartmentWorkersList(currDept.DeptID);
 
+			// Display new total salary of current department after moving of the worker
 			UpdateInfoBar(currDept);
 		}
 

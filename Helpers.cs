@@ -19,7 +19,7 @@ namespace MLM
 		{
 			// We take first 6 bytes of Guid and compose a unique ulong ID out of them
 			byte[] guid = Guid.NewGuid().ToByteArray();
-			return ((ulong)guid[3] << 8 * 5) |        // This is the oder of bytes 
+			return  ((ulong)guid[3] << 8 * 5) |        // This is the oder of bytes 
 					((ulong)guid[2] << 8 * 4) |        // according to the string format of Guid
 					((ulong)guid[1] << 8 * 3) |
 					((ulong)guid[0] << 8 * 2) |
