@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MLM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,15 +13,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MLM
+namespace MLM.ManipulationsOnWorkers
 {
 	/// <summary>
 	/// Interaction logic for AddWorker.xaml
 	/// </summary>
-	public partial class AddWorker : Window
+	public partial class AddWorkerMenu : Window
 	{
 
-		public AddWorker(string DeptName, List<IPositionTuple> PosList)
+		public AddWorkerMenu(string DeptName, List<IPositionTuple> PosList)
 		{
 			InitializeComponent();
 
@@ -63,5 +64,11 @@ namespace MLM
 			}
 		}
 
+		public void AddingMistakeWarning(int warning)
+		{
+			if (warning == -1) MessageBox.Show("Worker with same ID already exists!");
+			if (warning == -2) MessageBox.Show( "You are trying to add a director\n" +
+												"while department already has one!");
+		}
 	}
 }

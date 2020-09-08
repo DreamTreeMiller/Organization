@@ -1,8 +1,11 @@
-﻿using System;
+﻿using MLM.Interfaces;
+using MLM.ActionsBackEnd;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MLM.Organizaton;
 
 namespace MLM
 {
@@ -26,13 +29,13 @@ namespace MLM
 
 	}
 
-	public class PositionsTable : IPositions 
+	public class PositionsTable : IPositions
 	{
 		/// <summary>
 		/// List of position names 
 		/// It is used in Add worker dialog window
 		/// </summary>
-		public static List<IPositionTuple> PositionsDict = new List<IPositionTuple>()
+		public List<IPositionTuple> PositionsDict = new List<IPositionTuple>()
 		{
 			new PositionTuple(Positions.President,        "President"),
 			new PositionTuple(Positions.VicePresident,    "Vice President"),
@@ -58,7 +61,7 @@ namespace MLM
 		/// </param>
 		/// <param name="d">Department</param>
 		/// <returns></returns>
-		public List<IPositionTuple> Available(Organization org, BaseDepartment d)
+		public List<IPositionTuple> Available(Organization o, BaseDepartment d)
 		{
 			// For each hierarchy level provide proper list of available positions
 			// i.e. you can't add Head of the Division at the Department level
@@ -83,7 +86,7 @@ namespace MLM
 
 			// also you can't appoint someone at the leader's position if leader is present in the dept
 			// Remove boss position from the list if department has a boss
-			if (org.GetDirector(d.DeptID) != null) availablePositionsList.RemoveRange(0, 1);
+			if (o.Director(d) != null) availablePositionsList.RemoveRange(0, 1);
 
 			return availablePositionsList;
 		}

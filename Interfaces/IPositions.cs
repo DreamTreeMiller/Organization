@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MLM.ActionsBackEnd;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MLM
+namespace MLM.Interfaces
 {
 	/// <summary>
 	/// Interface to get positions availabe for certain department, and
@@ -12,8 +13,6 @@ namespace MLM
 	/// </summary>
 	public interface IPositions
 	{
-		List<IPositionTuple> Available(Organization org, BaseDepartment d);
-
 		string this[Positions index]
 		{ get; }
 	}

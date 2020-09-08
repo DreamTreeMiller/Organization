@@ -58,22 +58,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="InterfacesActions\ICreateOrganization.cs" />
+    <Compile Include="InterfacesActions\IDepartmentsActions.cs" />
+    <Compile Include="InterfacesActions\IWorkersActions.cs" />
+    <Compile Include="InterfacesActions\IRetrieve.cs" />
+    <Compile Include="InterfacesActions\I_Json.cs" />
+    <Compile Include="MainWindow-WorkersUI.cs" />
+    <Compile Include="Organizaton\Organization-DepartmentsActions.cs" />
+    <Compile Include="Organizaton\Organization-WorkersActions.cs" />
+    <Compile Include="Organizaton\Organization-Retrieve.cs" />
+    <Compile Include="UI_actions\ActionsUI.cs" />
+    <Compile Include="UI_actions\JsonUI.cs" />
+    <Compile Include="Interfaces\IDepartmentDTO.cs" />
+    <Compile Include="Interfaces\IDivision.cs" />
+    <Compile Include="Interfaces\IHQ.cs" />
+    <Compile Include="Interfaces\IOrganization.cs" />
     <Compile Include="Interfaces\IWorkerDTO.cs" />
     <Compile Include="ManipulationsOnWorkers\EditWorkerMethod.cs" />
-    <Compile Include="Positions\IPositionTuple.cs" />
-    <Compile Include="Positions\IPositions.cs" />
-    <Compile Include="Positions\PositionsTable.cs" />
-    <Compile Include="UI\CreateWorkerMenu.xaml.cs">
-      <DependentUpon>CreateWorkerMenu.xaml</DependentUpon>
+    <Compile Include="Interfaces\IPositionTuple.cs" />
+    <Compile Include="Interfaces\IPositions.cs" />
+    <Compile Include="Organizaton\PositionsTable.cs" />
+    <Compile Include="ManipulationsOnWorkers\AddWorkerMenu.xaml.cs">
+      <DependentUpon>AddWorkerMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Organizaton\Create.cs" />
-    <Compile Include="UI\DeleteItemConfirmationDialog.xaml.cs">
+    <Compile Include="ActionsBackEnd\CreateOrganization.cs" />
+    <Compile Include="ManipulationsOnWorkers\DeleteItemConfirmationDialog.xaml.cs">
       <DependentUpon>DeleteItemConfirmationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Deparments\BaseDepartment.cs" />
     <Compile Include="Deparments\Department.cs" />
-    <Compile Include="Deparments\DepartmentsTable.cs" />
-    <Compile Include="UI\EditWorkerMenu.xaml.cs">
+    <Compile Include="ManipulationsOnWorkers\EditWorkerMenu.xaml.cs">
       <DependentUpon>EditWorkerMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workers\Director.cs" />
@@ -83,19 +97,19 @@
     <Compile Include="Helpers.cs" />
     <Compile Include="Deparments\HQ.cs" />
     <Compile Include="Workers\Intern.cs" />
-    <Compile Include="JsonSerializer.cs" />
-    <Compile Include="UI\MoveWorker.xaml.cs">
+    <Compile Include="ActionsBackEnd\JsonSerializer.cs" />
+    <Compile Include="ManipulationsOnWorkers\MoveWorker.xaml.cs">
       <DependentUpon>MoveWorker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Organizaton\Organization.cs" />
     <Compile Include="Organizaton\Enumerables.cs" />
     <Compile Include="Workers\Worker.cs" />
     <Compile Include="Workers\WorkersTable.cs" />
-    <Page Include="UI\CreateWorkerMenu.xaml">
+    <Page Include="ManipulationsOnWorkers\AddWorkerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\DeleteItemConfirmationDialog.xaml">
+    <Page Include="ManipulationsOnWorkers\DeleteItemConfirmationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,11 +125,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UI\EditWorkerMenu.xaml">
+    <Page Include="ManipulationsOnWorkers\EditWorkerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\MoveWorker.xaml">
+    <Page Include="ManipulationsOnWorkers\MoveWorker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -159,6 +173,8 @@
   <ItemGroup>
     <Resource Include="Images\SaveFileFloppyIcon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ManipulationsOnDepartments\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MLM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Design;
@@ -11,7 +12,7 @@ using System.Windows.Data;
 
 namespace MLM
 {
-	 public abstract class BaseDepartment
+	 public abstract class BaseDepartment : IDepartmentDTO
 	{
 		/// <summary>
 		/// Current ID to assign to the next department
@@ -56,6 +57,8 @@ namespace MLM
 		/// ID of parent department
 		/// </summary>
 		public uint ParentDeptID { get; set; }
+
+		public int NumberOfSubDepts { get => SubDepts.Count; }
 
 		/// <summary>
 		/// Collection of sub-departments' IDs

@@ -10,34 +10,6 @@ namespace MLM
 	public class WorkersTable
 	{
 		/// <summary>
-		/// Collection (DataBase table) of all workers of the organization
-		/// </summary>
-		public List<Worker> Workers { get; set; }
-
-		/// <summary>
-		/// Constructor initializes Workers collection
-		/// </summary>
-		public WorkersTable()
-		{
-			Workers = new List<Worker>();
-		}
-
-		/// <summary>
-		/// Adds new worker to the worker's list. Checks if a worker with the same ID already works in the company
-		/// </summary>
-		/// <param name="worker"></param>
-		/// <returns>
-		///  0 if worker was added successfully, 
-		/// -1 if such worker already exists
-		/// </returns>
-		public int AddWorker(Worker worker)
-		{
-			if (Workers.Find(w => w.ID == worker.ID) != null) return -1;      
-			Workers.Add(worker);
-			return 0;
-		}
-
-		/// <summary>
 		/// Finds worker with specified ID
 		/// </summary>
 		/// <param name="workerID">Worker's ID</param>
@@ -45,40 +17,10 @@ namespace MLM
 		/// Worker with specified ID, 
 		/// null if worker with such ID does not exist
 		/// </returns>
-		public Worker GetWorker(uint workerID) 
-		{
-			return Workers.Find(w => w.ID == workerID);
-
-			// In the beginning I wrote as below
-			//int wi = Workers.FindIndex(w => w.ID == workerID);
-			//if (wi != -1)
-			//	return Workers[wi];
-			//return null;
-		}
-
-		/// <summary>
-		/// Finds director (president,head) of deptID department
-		/// </summary>
-		/// <param name="deptID">Department ID</param>
-		/// <returns>
-		/// Worker of the Director class or 
-		/// null if a director of deptID department is not found
-		/// </returns>
-		public Director GetDirector(uint deptID)
-		{
-			return Workers.Find(w => w.DeptID == deptID && (w is Director)) as Director;
-		}
-
-		/// <summary>
-		/// Finds all workers, including director, who work in the same department with deptID
-		/// and puts them in the collection List
-		/// </summary>
-		/// <param name="deptID">ID of the department</param>
-		/// <returns>Collection of workers who works in the department with deptID</returns>
-		public List<Worker> OneDepartmentWorkersList(uint deptID)
-		{
-			return Workers.FindAll(w => w.DeptID == deptID);
-		}
+		//public Worker GetWorker(uint workerID) 
+		//{
+		//	return Workers.Find(w => w.ID == workerID);
+		//}
 
 		/// <summary>
 		/// Updates worker with the specified ID
@@ -113,12 +55,12 @@ namespace MLM
 		/// Removed worker, if he was removed successfully, 
 		/// null if the worker was not found
 		/// </returns>
-		public Worker RemoveWorker(uint workerID)
-		{
-			Worker w = GetWorker(workerID);
-			if (w != null) Workers.Remove(w); 
-			return w;    
-		}
+		//public Worker RemoveWorker(uint workerID)
+		//{
+		//	Worker w = GetWorker(workerID);
+		//	//if (w != null) Workers.Remove(w); 
+		//	return w;    
+		//}
 
 		private class CompareByPosition : IComparer<Worker>
 		{

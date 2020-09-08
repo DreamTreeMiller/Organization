@@ -64,17 +64,12 @@ namespace MLM
 		/// </summary>
 		public uint DeptID			{ get; set; }
 		
-		//public string DepName							// Name of department'
-		// need to think how to implement
-
 		/// <summary>
-		/// For now this is just string format of Position 
-		/// Not good decision yet ...
+		/// Current text of position.
+		/// Amended by EditWorker method based on Position property value and 
+		/// department of worker
 		/// </summary>
-		public string	PositionTitle	
-		{ 
-			get { return PositionsTable.PositionsDict[(int)Position].PositionName; } 
-		}
+		public string	PositionTitle { get; set; }
 
 		/// <summary>
 		/// Position - enum type of several possible posisitons
@@ -117,7 +112,7 @@ namespace MLM
 		/// <param name="salaryBase">Base to calculate salary</param>
 		public Worker(string FN, string LN, DateTime DOB, 
 						DateTime hired,
-						uint depID, string jobTitle, Positions position,
+						uint depID, string positionTitle, Positions position,
 						int salaryBase = 0)
 		{
 			this.ID				= NextID(); 
@@ -126,6 +121,7 @@ namespace MLM
 			this.DateOfBirth	= DOB;
 			this.EmployedOn		= hired;
 			this.DeptID			= depID;
+			this.PositionTitle	= positionTitle;
 			this.Position		= position;
 			this.salaryBase		= salaryBase;
 		}

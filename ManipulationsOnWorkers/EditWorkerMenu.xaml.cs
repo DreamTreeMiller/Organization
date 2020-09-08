@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MLM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,23 +21,20 @@ namespace MLM
 	public partial class EditWorkerMenu : Window
 	{
 		IWorkerDTO wCopy;
-		public EditWorkerMenu(Organization org, Worker w)
+		public EditWorkerMenu(IWorkerDTO w, string deptName, List<IPositionTuple> posList)
 		{
 			InitializeComponent();
-			if (w == null) return;
+
 			wCopy = (IWorkerDTO)w.Clone();
-			BaseDepartment d = org.GetDepartment(w.DeptID);
-			PositionsTable pt = new PositionsTable();
-			var PosList = pt.Available(org, d);
 			EditWorkerGrid.DataContext = wCopy;
 			//IDdisplay.Text						= w.ID.ToString();
 			//FirstNameEntryBox.Text				= w.FirstName;
 			//LastNameEntryBox.Text				= w.LastName;
 			//DateOfBirthPicker.SelectedDate		= w.DateOfBirth;
-			DeptNameDisplay.Text				= d.DeptName;
+			DeptNameDisplay.Text				= deptName;
 			//EmployedOnDatePicker.SelectedDate	= w.EmployedOn;
-			PositionEntryBox.ItemsSource		= PosList;
-			PositionEntryBox.SelectedItem		= PosList.Find(p => p.Pos == w.Position);
+			PositionEntryBox.ItemsSource		= posList;
+			PositionEntryBox.SelectedItem		= posList.Find(p => p.Pos == w.Position);
 			string salaryBasePrefix = "$";
 			string salaryBaseSuffix = "";
 			if (w is Director)

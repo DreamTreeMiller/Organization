@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MLM
+namespace MLM.Interfaces
 {
-	public interface IPositionTuple
+	public interface IDivision
 	{
-		Positions Pos { get; }
-		string PositionName { get; }
 	}
 }

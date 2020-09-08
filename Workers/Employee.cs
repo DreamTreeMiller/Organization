@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MLM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,11 @@ namespace MLM
 
 		public Employee(string FN, string LN, DateTime DOB,
 						DateTime hired,
-						uint deptID, string jobTitle, Positions position = Positions.Employee,
+						uint deptID, 
+						string positionTitle = "Employee", 
+						Positions position = Positions.Employee,
 						int hourlyRate = 12)
-				: base(FN, LN, DOB, hired, deptID, jobTitle, position, hourlyRate)
+				: base(FN, LN, DOB, hired, deptID, positionTitle, position, hourlyRate)
 		{
 			this.HoursWorked = 22 * 8;
 		}
@@ -32,17 +35,18 @@ namespace MLM
 		/// Salary fields will be initialized as if new Employee was created
 		/// </summary>
 		/// <param name="w">Worker to change to Employee class</param>
-		public Employee(Worker w, Positions newPosition)
+		public Employee(Worker w)
 			: base (w.ID)
 		{
-			this.FirstName = w.FirstName;
-			this.LastName = w.LastName;
-			this.DateOfBirth = w.DateOfBirth;
-			this.EmployedOn = w.EmployedOn;
-			this.DeptID = w.DeptID;
-			this.Position = newPosition;
-			this.salaryBase = 12;
-			this.HoursWorked = 22 * 8;
+			this.FirstName		= w.FirstName;
+			this.LastName		= w.LastName;
+			this.DateOfBirth	= w.DateOfBirth;
+			this.EmployedOn		= w.EmployedOn;
+			this.DeptID			= w.DeptID;
+			this.PositionTitle	= "Employee";
+			this.Position		= Positions.Employee; ;
+			this.salaryBase		= 12;
+			this.HoursWorked	= 22 * 8;
 		}
 		public object Clone()
 		{

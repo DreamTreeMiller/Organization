@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using MLM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Linq;
@@ -9,10 +11,9 @@ namespace MLM.ManipulationsOnWorkers
 {
 	public class EditWorkerMethod
 	{
-		public void EditWorker(Organization org, Worker w, string[] newData)
+		public void EditWorker(IOrganization o, Worker w)
 		{
 			if (w == null) return;
-			BaseDepartment d = org.GetDepartment(w.DeptID);
 
 
 		}

@@ -75,7 +75,7 @@
 					  >
 					<MenuItem Header="Employee"
 							  VerticalAlignment="Center">
-						<MenuItem x:Name="CreateWorker" Header="Create" Click="CreateWorker_Click" />
+						<MenuItem x:Name="AddWorker" Header="Add" Click="AddWorker_Click" />
 						<MenuItem x:Name="EditWorker" Header="Edit" Click="EditWorker_Click" />
 						<MenuItem x:Name="MoveWorker" Header="Move" Click="MoveWorker_Click" />
 						<MenuItem x:Name="DeleteWorker" Header="Delete" Click="DeleteWorker_Click" />
