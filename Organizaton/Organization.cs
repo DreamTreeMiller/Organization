@@ -16,6 +16,10 @@ namespace MLM.Organizaton
 		/// </summary>
 		public List<Worker> Workers { get; set; }
 
+		/// <summary>
+		/// Keeps list of all positions in the organization.
+		/// Provides list of positions available in different departments and situations
+		/// </summary>
 		private PositionsTable _positions { get; }
 
 		/// <summary>
@@ -27,20 +31,26 @@ namespace MLM.Organizaton
 		{
 			Departments = new List<BaseDepartment>();
 			Workers = new List<Worker>();
-			_positions = new PositionsTable();
+			_positions = new PositionsTable(this);
 		}
 
 		#region IOrganization interface implementation
 
 		/// <summary>
 		/// List of positions in the company. 
-		/// Method 'Available' returns positions available for specified department
+		/// It is necessary to access to positions via indexer.
+		/// IPositions provides indexer access to positions
 		/// </summary>
 		public IPositions PositionsData { get => _positions; }
 
-		public List<IPositionTuple> Available(IDepartmentDTO dept)
+		/// <summary>
+		/// Returns positions available for specified department
+		/// </summary>
+		/// <param name="dept">Department</param>
+		/// <returns></returns>
+		public List<IPositionTuple> Available(IDepartmentDTO dept, bool keepDirector)
 		{
-			return _positions.Available(this, dept as BaseDepartment);
+			return _positions.Available(dept as BaseDepartment, keepDirector);
 		}
 
 		#endregion

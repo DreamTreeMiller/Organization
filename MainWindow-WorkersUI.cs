@@ -29,7 +29,7 @@ namespace MLM
 
 			// For each hierarchy level provide proper list of available positions
 			// i.e. you can't add Head of the Division at the Department level
-			var availablePositionsList = Apple.Available(d);
+			var availablePositionsList = Apple.Available(d, false);
 
 			// Invoke Add Worker Menu window
 			AddWorkerMenu addWorkerWin = new AddWorkerMenu(d.DeptName, availablePositionsList);
@@ -70,7 +70,9 @@ namespace MLM
 
 			// For each hierarchy level provide proper list of available positions
 			// i.e. you can't add Head of the Division at the Department level
-			var availablePositionsList = Apple.Available(d);
+			bool keepDirector = false;
+			if (w is IDirector) keepDirector = true;
+			var availablePositionsList = Apple.Available(d, keepDirector);
 
 			// Open Edit Worker dialog window
 			EditWorkerMenu editWorkerWin = new EditWorkerMenu(w, d.DeptName, availablePositionsList);
@@ -78,6 +80,7 @@ namespace MLM
 
 			if (result != true) return;
 
+			UI.Workers.EditWorker(editWorkerWin.wCopy);
 
 			UpdateMainWindow();
 		}
@@ -89,34 +92,34 @@ namespace MLM
 		/// <param name="e"></param>
 		private void MoveWorker_Click(object sender, RoutedEventArgs e)
 		{
-			// Worker to be moved
-			//var ws = WorkersView.SelectedItem as Worker;
-			//if (ws == null) return;
+			//Worker to be moved
+			var ws = WorkersView.SelectedItem as IWorkerDTO;
+			if (ws == null) return;
 
-			//// Get currently selected department from the Tree View
-			//var tvis = AppleTree.SelectedItem as TreeViewItem;
-			//if (tvis == null) return;
-			//var currDept = tvis.Tag as IDepartmentDTO;
+			// Get currently selected department from the Tree View
+			var tvis = AppleTree.SelectedItem as TreeViewItem;
+			if (tvis == null) return;
+			var currDept = tvis.Tag as IDepartmentDTO;
 
-			//var deptTable = UI.Get.DepartmentsList(Apple);
+			var deptTable = UI.Get.DepartmentsList();
 
-			//// Take out current department from the list of destination departments
-			//deptTable.Remove(currDept);
+			// Take out current department from the list of destination departments
+			deptTable.Remove(currDept);
 
-			//// Open Move Worker dialog window
-			//MoveWorker moveWorkerWin = new MoveWorker(ws, currDept.DeptName, deptTable);
+			// Open Move Worker dialog window
+			MoveWorker moveWorkerWin = new MoveWorker(ws, currDept.DeptName, deptTable);
 
-			//bool? result = moveWorkerWin.ShowDialog();
-			//if (result != true) return;
+			bool? result = moveWorkerWin.ShowDialog();
+			if (result != true) return;
 
-			//// Get destination department of the being moved worker from ComboBox selection
-			//var newDept = moveWorkerWin.DeparmmentEntryBox.SelectedItem as BaseDepartment;
+			// Get destination department of the being moved worker from ComboBox selection
+			var newDept = moveWorkerWin.DeparmmentEntryBox.SelectedItem as BaseDepartment;
 
-			//// Move worker to another department. 
-			//// Salaries of current and destination departments, and departments above, will be updated
-			//Apple.MoveWorker(ws.ID, newDept.DeptID);
+			// Move worker to another department. 
+			// Salaries of current and destination departments, and departments above, will be updated
+			UI.Workers.MoveWorker(ws, newDept);
 
-			//UpdateMainWindow();
+			UpdateMainWindow();
 		}
 
 		private void DeleteWorker_Click(object sender, RoutedEventArgs e)
@@ -131,7 +134,7 @@ namespace MLM
 			bool? result = delCon.ShowDialog();
 
 			if (result != true) return;
-			UI.Workers.Remove(ws);
+			UI.Workers.RemoveWorker(ws);
 
 			UpdateMainWindow();
 		}

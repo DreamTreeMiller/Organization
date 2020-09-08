@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MLM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace MLM
 		/// <param name="w">Being moved worker</param>
 		/// <param name="currDept">Department where worker currently works in</param>
 		/// <param name="deptTable">List of available destination departments</param>
-		public MoveWorker(Worker w, string currDept, List<BaseDepartment> deptList)
+		public MoveWorker(IWorkerDTO w, string currDept, List<IDepartmentDTO> deptList)
 		{
 			InitializeComponent();
 

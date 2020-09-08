@@ -6,9 +6,26 @@ using System.Threading.Tasks;
 
 namespace MLM.Interfaces
 {
+	/// <summary>
+	/// Interface alias of Organization
+	/// Necessary to separate UI and back-end
+	/// Also implements access to positions of organization
+	/// </summary>
 	public interface IOrganization
 	{
+		/// <summary>
+		/// List of positions in the company. 
+		/// It is necessary to access to positions via indexer.
+		/// IPositions provides indexer access to positions
+		/// </summary>
 		IPositions PositionsData { get; }
-		List<IPositionTuple> Available(IDepartmentDTO dept);
+
+		/// <summary>
+		/// Returns positions available for specified department
+		/// </summary>
+		/// <param name="dept">Department</param>
+		/// <param name="keepDirector">Keep director in positins list or not</param>
+		/// <returns></returns>
+		List<IPositionTuple> Available(IDepartmentDTO dept, bool keepDirector);
 	}
 }

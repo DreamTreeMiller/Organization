@@ -47,21 +47,6 @@ namespace MLM
 		//	return -1;              // No such worker in the dept
 		//}
 
-		/// <summary>
-		/// Completely removes worker with specified ID from the list
-		/// </summary>
-		/// <param name="workerID">Employee ID</param>
-		/// <returns>
-		/// Removed worker, if he was removed successfully, 
-		/// null if the worker was not found
-		/// </returns>
-		//public Worker RemoveWorker(uint workerID)
-		//{
-		//	Worker w = GetWorker(workerID);
-		//	//if (w != null) Workers.Remove(w); 
-		//	return w;    
-		//}
-
 		private class CompareByPosition : IComparer<Worker>
 		{
 			public int Compare(Worker x, Worker y)

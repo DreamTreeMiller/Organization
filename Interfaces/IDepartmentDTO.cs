@@ -41,7 +41,10 @@ namespace MLM.Interfaces
 		/// /// </summary>
 		int TotalDepartmentSalary { get; set; }
 
+		// Sum of salaries of all department staff except director
 		int TotalDeptStaff_withoutBoss_Salary { get; set; }
+
+		// Sum of Total Department salaries of all sub departments
 		int TotalSubDepartmentsSalary { get; set; }
 	}
 }

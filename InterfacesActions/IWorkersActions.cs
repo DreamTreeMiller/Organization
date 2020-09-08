@@ -27,6 +27,29 @@ namespace MLM.InterfacesActions
 				IDepartmentDTO d, Positions pos);
 
 		/// <summary>
+		/// Updates worker with new data from
+		/// </summary>
+		/// <param name="">Updated worker</param>
+		/// <returns>
+		///  0 if worker was updated successfully
+		/// -1 if worker with such ID was not found
+		/// </returns>
+		int EditWorker(IWorkerDTO updatedW);
+
+		/// <summary>
+		/// Moves worker to the department with specified ID
+		/// </summary>
+		/// <param name="worker">Worker to move</param>
+		/// <param name="destDept">Destination department</param>
+		/// <returns>
+		/// 0 if moved successfully
+		/// -1 if worker with such ID does not exist
+		/// -2 if department with such ID does not exist
+		/// -3 if destination department is current worker's department
+		/// </returns>
+		int MoveWorker(IWorkerDTO worker, IDepartmentDTO destDept);
+
+		/// <summary>
 		/// Completely removes worker with specified ID from the list
 		/// </summary>
 		/// <param name="w">Worker to remove</param>
@@ -34,6 +57,6 @@ namespace MLM.InterfacesActions
 		/// Removed worker, if he was removed successfully, 
 		/// null if the worker was not found
 		/// </returns>
-		IWorkerDTO Remove(IWorkerDTO w);
+		IWorkerDTO RemoveWorker(IWorkerDTO w);
 	}
 }

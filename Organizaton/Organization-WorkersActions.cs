@@ -97,50 +97,78 @@ namespace MLM.Organizaton
 		}
 
 		/// <summary>
+		/// Updates worker with new data from
+		/// </summary>
+		/// <param name="">Updated worker</param>
+		/// <returns>
+		///  0 if worker was updated successfully
+		/// -1 if worker with such ID was not found
+		/// </returns>
+		public int EditWorker(IWorkerDTO updatedW)
+		{
+			// Check if worker with same ID exists
+			var worker = Workers.Find(w => w.ID == updatedW.ID);
+			if (worker == null) return -1;
+
+			worker.FirstName		= updatedW.FirstName;
+			worker.LastName			= updatedW.LastName;
+			worker.DateOfBirth		= updatedW.DateOfBirth;
+			worker.EmployedOn		= updatedW.EmployedOn;
+			worker.DeptID			= updatedW.DeptID;
+			worker.PositionTitle	= updatedW.PositionTitle;
+			worker.Position			= updatedW.Position;
+			worker.salaryBase		= updatedW.salaryBase;
+
+			return 0;           // Worker was updated successfully
+		}
+		/// <summary>
 		/// Moves worker to the department with specified ID
 		/// </summary>
-		/// <param name="workerID">Worker's ID</param>
-		/// <param name="destinationDeptID">ID of destination department</param>
+		/// <param name="worker">Worker to move</param>
+		/// <param name="destDept">Destination department</param>
 		/// <returns>
 		/// 0 if moved successfully
 		/// -1 if worker with such ID does not exist
 		/// -2 if department with such ID does not exist
 		/// -3 if destination department is current worker's department
 		/// </returns>
-		//public int MoveWorker(uint workerID, uint destinationDeptID)
-		//{
-		//	// Check if worker with such ID exists
-		//	Worker w = RemoveWorker(workerID);
-		//	if (w == null) return -1;
+		public int MoveWorker(IWorkerDTO worker, IDepartmentDTO destDept)
+		{
+			// Check if worker with such ID exists
+			var w = RemoveWorker(worker);
+			if (w == null) return -1;
 
-		//	// Check if destination departmetn exists
-		//	var newDept = GetDepartment(destinationDeptID);
-		//	if (newDept == null) return -2;
+			// Check if destination departmetn exists
+			var newDept = Department(destDept.DeptID);
+			if (newDept == null) return -2;
 
-		//	uint oldDeptID = w.DeptID;
+			uint oldDeptID = w.DeptID;
 
-		//	// Check if destination department is not current worker's department
-		//	if (destinationDeptID == oldDeptID) return -3;
+			// Check if destination department is not current worker's department
+			if (destDept.DeptID == oldDeptID) return -3;
 
-		//	// Worker can be moved to another department only either as Employee or Intern
-		//	if (w.Position != Positions.Employee && w.Position != Positions.Intern)
-		//		w.Position = Positions.Employee;
+			// Worker can be moved to another department only either as Employee or Intern
+			if (w.Position != Positions.Employee &&
+				w.Position != Positions.Intern)
+			{
+				w.Position = Positions.Employee;
+			}
 
-		//	// Move worker to destination department
-		//	w.DeptID = destinationDeptID;
+			// Move worker to destination department
+			w.DeptID = destDept.DeptID;
 
-		//	if (w is Director)
-		//	{
-		//		// Change type of w from Director to Employee
-		//		// Since there is not explicit type cast, 
-		//		// need to create new instace of Employee class with same ID
-		//		Employee e = new Employee(w);
-		//		AddWorker(e);
-		//	}
-		//	else
-		//		AddWorker(w);
-		//	return 0;
-		//}
+			if (w is Director)
+			{
+				// Change type of w from Director to Employee
+				// Since there is not explicit type cast, 
+				// need to create new instace of Employee class with same ID
+				Employee e = new Employee(w as Worker);
+				AddWorker(e);
+			}
+			else
+				AddWorker(w);
+			return 0;
+		}
 
 		/// <summary>
 		/// Completely removes worker with specified ID from the list
@@ -150,7 +178,7 @@ namespace MLM.Organizaton
 		/// Removed worker, if he was removed successfully, 
 		/// null if the worker was not found
 		/// </returns>
-		public IWorkerDTO Remove(IWorkerDTO w)
+		public IWorkerDTO RemoveWorker(IWorkerDTO w)
 		{
 			bool result = Workers.Remove(w as Worker);
 			if (result)
@@ -158,8 +186,9 @@ namespace MLM.Organizaton
 				var d = Department(w.DeptID);
 				d.NumberOfEmployees--;
 				UpdateSalaries(d as BaseDepartment);
+				return w;
 			}
-			return w;
+			return null;
 		}
 	}
 }

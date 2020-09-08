@@ -63,6 +63,8 @@
     <Compile Include="InterfacesActions\IWorkersActions.cs" />
     <Compile Include="InterfacesActions\IRetrieve.cs" />
     <Compile Include="InterfacesActions\I_Json.cs" />
+    <Compile Include="Interfaces\IDirector.cs" />
+    <Compile Include="Interfaces\IEmployee.cs" />
     <Compile Include="MainWindow-WorkersUI.cs" />
     <Compile Include="Organizaton\Organization-DepartmentsActions.cs" />
     <Compile Include="Organizaton\Organization-WorkersActions.cs" />
@@ -74,20 +76,19 @@
     <Compile Include="Interfaces\IHQ.cs" />
     <Compile Include="Interfaces\IOrganization.cs" />
     <Compile Include="Interfaces\IWorkerDTO.cs" />
-    <Compile Include="ManipulationsOnWorkers\EditWorkerMethod.cs" />
     <Compile Include="Interfaces\IPositionTuple.cs" />
     <Compile Include="Interfaces\IPositions.cs" />
     <Compile Include="Organizaton\PositionsTable.cs" />
-    <Compile Include="ManipulationsOnWorkers\AddWorkerMenu.xaml.cs">
+    <Compile Include="UI_WorkersActions\AddWorkerMenu.xaml.cs">
       <DependentUpon>AddWorkerMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="ActionsBackEnd\CreateOrganization.cs" />
-    <Compile Include="ManipulationsOnWorkers\DeleteItemConfirmationDialog.xaml.cs">
+    <Compile Include="UI_WorkersActions\DeleteItemConfirmationDialog.xaml.cs">
       <DependentUpon>DeleteItemConfirmationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Deparments\BaseDepartment.cs" />
     <Compile Include="Deparments\Department.cs" />
-    <Compile Include="ManipulationsOnWorkers\EditWorkerMenu.xaml.cs">
+    <Compile Include="UI_WorkersActions\EditWorkerMenu.xaml.cs">
       <DependentUpon>EditWorkerMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workers\Director.cs" />
@@ -98,18 +99,18 @@
     <Compile Include="Deparments\HQ.cs" />
     <Compile Include="Workers\Intern.cs" />
     <Compile Include="ActionsBackEnd\JsonSerializer.cs" />
-    <Compile Include="ManipulationsOnWorkers\MoveWorker.xaml.cs">
+    <Compile Include="UI_WorkersActions\MoveWorker.xaml.cs">
       <DependentUpon>MoveWorker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Organizaton\Organization.cs" />
     <Compile Include="Organizaton\Enumerables.cs" />
     <Compile Include="Workers\Worker.cs" />
     <Compile Include="Workers\WorkersTable.cs" />
-    <Page Include="ManipulationsOnWorkers\AddWorkerMenu.xaml">
+    <Page Include="UI_WorkersActions\AddWorkerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ManipulationsOnWorkers\DeleteItemConfirmationDialog.xaml">
+    <Page Include="UI_WorkersActions\DeleteItemConfirmationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,11 +126,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ManipulationsOnWorkers\EditWorkerMenu.xaml">
+    <Page Include="UI_WorkersActions\EditWorkerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ManipulationsOnWorkers\MoveWorker.xaml">
+    <Page Include="UI_WorkersActions\MoveWorker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -174,7 +175,7 @@
     <Resource Include="Images\SaveFileFloppyIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ManipulationsOnDepartments\" />
+    <Folder Include="UI_DepartmentsActions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

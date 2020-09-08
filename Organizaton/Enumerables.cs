@@ -18,12 +18,6 @@ namespace MLM
 		Intern
 	}
 
-	public enum PaymentType
-	{
-		Standard,
-		Random
-	}
-
 	public enum Hierarchy
 	{
 		Top, Division, Department

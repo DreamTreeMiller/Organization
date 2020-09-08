@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	public class Director : Worker, IWorkerDTO
+	public class Director : Worker, IWorkerDTO, IDirector
 	{
 		public Director(string FN, string LN, DateTime DOB,
 						DateTime hired,

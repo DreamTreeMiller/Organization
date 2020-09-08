@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	public class Employee : Worker, IWorkerDTO
+	public class Employee : Worker, IWorkerDTO, IEmployee
 	{
 		public int HoursWorked { get; set; }    // recalulated on the last day of the month
 

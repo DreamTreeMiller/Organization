@@ -1,10 +1,6 @@
 ﻿using MLM.Interfaces;
 using MLM.ActionsUserInterface;
 using MLM.InterfacesActions;
-
-using MLM.ManipulationsOnWorkers;
-using MLM.ActionsBackEnd;
-using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -175,15 +171,19 @@ namespace MLM
 			if (d is IDivision)	BossTitle.Text = Apple.PositionsData[Positions.DivisionHead] + ": ";
 
 			// Check if a department has director
+			int dirPresent = 1;
 			if (dir != null)
 				DirectorSalary.Text =
 					dir.Salary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
 			else
+			{
 				DirectorSalary.Text = "$0";
+				dirPresent--;
+			}
 
 			StaffSalary.Text =
 				d.TotalDeptStaff_withoutBoss_Salary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US")) +
-				$" ({d.NumberOfEmployees - 1} ppl)";
+				$" ({d.NumberOfEmployees - dirPresent} ppl)";
 
 			SubDepartmentsSalary.Text =
 				d.TotalSubDepartmentsSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));

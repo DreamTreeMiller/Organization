@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace MLM.Interfaces
 {
-	/// <summary>
-	/// Interface alias of Division class
-	/// It is necessary for UI
-	/// </summary>
-	public interface IDivision
+	/// Interface alias for Employee worker type
+	public interface IEmployee
 	{
+		int HoursWorked { get; set; }
 	}
 }

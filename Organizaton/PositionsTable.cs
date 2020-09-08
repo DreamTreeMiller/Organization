@@ -12,12 +12,12 @@ namespace MLM
 	struct PositionTuple : IPositionTuple
 	{
 		/// <summary>
-		/// IPositinTupe interface field implementation
+		/// Position type
 		/// </summary>
 		public Positions Pos { get; }
 
 		/// <summary>
-		/// IPositionTuple interface field implementation
+		/// Name of position
 		/// </summary>
 		public string PositionName { get; }
 
@@ -26,9 +26,12 @@ namespace MLM
 			Pos = p;
 			PositionName = n;
 		}
-
 	}
 
+	/// <summary>
+	/// Keeps list of all positions in the organization.
+	/// Provides list of positions available in different departments and situations
+	/// </summary>
 	public class PositionsTable : IPositions
 	{
 		/// <summary>
@@ -47,11 +50,22 @@ namespace MLM
 			new PositionTuple(Positions.Intern,           "Intern")
 		};
 
+		/// <summary>
+		/// Provides access to the positions list via value of Positions enum type
+		/// </summary>
+		/// <param name="index">index of Positions enum type</param>
+		/// <returns></returns>
 		public string this[Positions index]
 		{
 			get { return PositionsDict[(int)index].PositionName; }
 		}
 
+		private Organization org;
+
+		public PositionsTable(Organization org)
+		{
+			this.org = org;
+		}
 		/// <summary>
 		/// Provides list of positions available to take by an employee
 		/// </summary>
@@ -61,7 +75,7 @@ namespace MLM
 		/// </param>
 		/// <param name="d">Department</param>
 		/// <returns></returns>
-		public List<IPositionTuple> Available(Organization o, BaseDepartment d)
+		public List<IPositionTuple> Available(BaseDepartment d, bool keepDirector)
 		{
 			// For each hierarchy level provide proper list of available positions
 			// i.e. you can't add Head of the Division at the Department level
@@ -86,7 +100,8 @@ namespace MLM
 
 			// also you can't appoint someone at the leader's position if leader is present in the dept
 			// Remove boss position from the list if department has a boss
-			if (o.Director(d) != null) availablePositionsList.RemoveRange(0, 1);
+			if ((org.Director(d) != null) && !keepDirector)
+				availablePositionsList.RemoveRange(0, 1);
 
 			return availablePositionsList;
 		}

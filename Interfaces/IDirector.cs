@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 namespace MLM.Interfaces
 {
 	/// <summary>
-	/// Interface alias of Division class
-	/// It is necessary for UI
+	/// Interface alias for Director worker type
 	/// </summary>
-	public interface IDivision
+	public interface IDirector
 	{
 	}
 }
