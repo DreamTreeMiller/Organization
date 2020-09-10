@@ -9,7 +9,8 @@ namespace MLM.Interfaces
 	/// <summary>
 	/// Interface alias for Director worker type
 	/// </summary>
-	public interface IDirector
+	public interface IDirector : IWorkerDTO
 	{
+		//object Clone();
 	}
 }

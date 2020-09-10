@@ -76,14 +76,9 @@ namespace MLM
 		/// withing organization President, VP, Head of Division, Vice Head, Dept Director, Vice Dir, Employee, Intern
 		/// </summary>
 		public Positions Position	{ get; set; }       // 
-		
-		/// <summary>
-		/// Base how salary is calculated: money. For Employee type - hours worked
-		/// </summary>
-		public int salaryBase		{ get; set; }
 
 		/// <summary>
-		/// Worker's salary calculated based on salaryBase or other parameters
+		/// Worker's salary calculated based on worker type
 		/// </summary>
 		public abstract int Salary { get; set; }
 
@@ -109,11 +104,9 @@ namespace MLM
 		/// <param name="depID">Department worker works in</param>
 		/// <param name="jobTitle">String expression of Position</param>
 		/// <param name="position">Position</param>
-		/// <param name="salaryBase">Base to calculate salary</param>
 		public Worker(string FN, string LN, DateTime DOB, 
 						DateTime hired,
-						uint depID, string positionTitle, Positions position,
-						int salaryBase = 0)
+						uint depID, string positionTitle, Positions position)
 		{
 			this.ID				= NextID(); 
 			this.FirstName		= FN;
@@ -123,7 +116,6 @@ namespace MLM
 			this.DeptID			= depID;
 			this.PositionTitle	= positionTitle;
 			this.Position		= position;
-			this.salaryBase		= salaryBase;
 		}
 
 		public override string ToString()

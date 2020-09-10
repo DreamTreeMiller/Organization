@@ -1,5 +1,5 @@
 ﻿using MLM.Interfaces;
-using MLM.ActionsUserInterface;
+using MLM.InterfacesActions;
 using MLM.ManipulationsOnWorkers;
 using MLM.ActionsBackEnd;
 using System;
@@ -68,6 +68,11 @@ namespace MLM
 			if (tvis == null) return;
 			var d = tvis.Tag as IDepartmentDTO;
 
+			// Check if deparment has director. 
+			// This is necessary to calculate salaries in EditWorker Window
+			bool hasDirector = true;
+			if ((Apple as IRetrieve).Director(d) == null) hasDirector = false;
+
 			// For each hierarchy level provide proper list of available positions
 			// i.e. you can't add Head of the Division at the Department level
 			bool keepDirector = false;
@@ -75,7 +80,10 @@ namespace MLM
 			var availablePositionsList = Apple.Available(d, keepDirector);
 
 			// Open Edit Worker dialog window
-			EditWorkerMenu editWorkerWin = new EditWorkerMenu(w, d.DeptName, availablePositionsList);
+			EditWorkerMenu editWorkerWin = 
+				new EditWorkerMenu(w, d, hasDirector, 
+				availablePositionsList,
+				(Apple as IRetrieve).RootDepartment().CreatedOn);
 			bool? result = editWorkerWin.ShowDialog();
 
 			if (result != true) return;

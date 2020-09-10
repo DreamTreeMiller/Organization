@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MLM.Interfaces
 {
-	/// Interface alias for Employee worker type
-	public interface IEmployee : IWorkerDTO
+	/// <summary>
+	/// Interface alias for Intern class
+	/// </summary>
+	public interface IIntern : IWorkerDTO
 	{
-		int HourlyRate { get; set; }
-		int HoursWorked { get; set; }
 		//object Clone();
 	}
 }

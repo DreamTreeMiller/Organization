@@ -99,7 +99,8 @@ namespace MLM
 				availablePositionsList.RemoveRange(0, 4);
 
 			// also you can't appoint someone at the leader's position if leader is present in the dept
-			// Remove boss position from the list if department has a boss
+			// In case of adding new worker or editing non-director while director is present
+			// remove boss position from the list 
 			if ((org.Director(d) != null) && !keepDirector)
 				availablePositionsList.RemoveRange(0, 1);
 

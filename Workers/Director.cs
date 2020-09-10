@@ -9,17 +9,21 @@ namespace MLM
 {
 	public class Director : Worker, IWorkerDTO, IDirector
 	{
+		private int _salary;
+
 		public Director(string FN, string LN, DateTime DOB,
 						DateTime hired,
 						uint deptID, string positionTitle, Positions position = Positions.DeptDirector,
-						int salaryBase = 1300)
-				: base(FN, LN, DOB, hired, deptID, positionTitle, position, salaryBase)
-		{ }
+						int salary = 1300)
+				: base(FN, LN, DOB, hired, deptID, positionTitle, position)
+		{
+			_salary = salary;
+		}
 
 		public override int Salary
 		{
-			get { return base.salaryBase; }
-			set { base.salaryBase = value > 1300 ? value : 1300; }
+			get { return _salary; }
+			set { _salary = value > 1300 ? value : 1300; }
 		}
 
 		/// <summary>
@@ -37,7 +41,7 @@ namespace MLM
 			this.EmployedOn = w.EmployedOn;
 			this.DeptID = w.DeptID;
 			this.Position = newPosition;
-			this.salaryBase = 1300;
+			this.Salary = 1300;
 		}
 
 		public object Clone()

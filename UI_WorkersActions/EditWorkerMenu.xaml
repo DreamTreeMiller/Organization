@@ -67,6 +67,7 @@
 				   Width="300"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Left" 
+				   LostFocus="FirstNameEntryBox_LostFocus" 
 				   />
 		<TextBlock x:Name="lastnametitle"
 				   Grid.Column="0" Grid.Row="3"
@@ -81,7 +82,7 @@
 				   Margin="10,0,0,0"
 				   Width="300"
 				   VerticalAlignment="Center"
-				   HorizontalAlignment="Left" 
+				   HorizontalAlignment="Left" LostFocus="LastNameEntryBox_LostFocus" 
 				   />
 		<TextBlock x:Name="dateofbirthtitle"
 				   Grid.Column="0" Grid.Row="4"
@@ -97,8 +98,7 @@
 					Width="100"
 					VerticalAlignment="Center"
 					HorizontalAlignment="Left" 
-					>
-		</DatePicker>
+					/>
 		<TextBlock x:Name="departmenttitle"
 				   Grid.Column="0" Grid.Row="5"
 				   Text="Department"
@@ -122,10 +122,8 @@
 					Grid.Column="4" Grid.Row="5"
 					Width="100"
 					SelectedDate="{Binding EmployedOn}"
-					VerticalAlignment="Center"
-					HorizontalAlignment="Left" 
-					>
-		</DatePicker>
+					VerticalAlignment="Center" 
+					/>
 		<TextBlock x:Name="positiontitle"
 				   Grid.Column="0" Grid.Row="6"
 				   Text="Position"
@@ -147,47 +145,109 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<TextBlock x:Name="salarybasetitle"
+		<TextBlock x:Name="salarytitle"
 				   Grid.Column="0" Grid.Row="7"
 				   Text="Salary"
 				   Margin="0,0,10,0"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Right"
 				   />
-		<StackPanel Grid.Column="1" Grid.Row="7"  Grid.ColumnSpan="3"
+		<StackPanel x:Name="DirectorSalary" 
+					Grid.Column="1" Grid.Row="7"  Grid.ColumnSpan="3"
 					Orientation="Horizontal"
 					Margin="10,0,0,0"
 					>
-			<TextBlock x:Name="salarybaseprefix"  
-					   Text="USD"
+			<TextBlock Text="$"
 					   VerticalAlignment="Center"
 					   />
-			<TextBox x:Name="SalaryBaseEntryBox"
-					 Text="{Binding salaryBase}"
+			<TextBlock x:Name="d_salary"
+					   Text="{Binding DirSalary}"
+					   Margin="3,0,0,0"
+					   MaxWidth="80" MinWidth="80"
+					   TextAlignment="Right"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Left"
+					   />
+			<TextBlock Text="15% of salaries of employees and subdepartments. Minimum $1,300 per month"
+					   TextWrapping="Wrap"
+					   Width="300"
+					   Height="Auto"
+					   Margin="10,0,0,0"
+					   VerticalAlignment="Center"
+					   />
+		</StackPanel>
+		<StackPanel x:Name="EmployeeSalary" 
+					Grid.Column="1" Grid.Row="7"  Grid.ColumnSpan="3"
+					Orientation="Horizontal"
+					Margin="10,0,0,0"
+					>
+			<TextBlock Text="$"
+					   VerticalAlignment="Center"
+					   />
+			<TextBox x:Name="e_salary"
+					 Text="{Binding EmpSalary, UpdateSourceTrigger=PropertyChanged}"
 					 Margin="3,0,0,0"
-					 MaxWidth="80" MinWidth="80" MaxLines="1"
+					 MaxWidth="80" MinWidth="80"
 					 TextAlignment="Right"
+					 BorderThickness="0"
+					 IsReadOnly="True"
 					 VerticalAlignment="Center"
 					 HorizontalAlignment="Left"
 					 />
-			<TextBlock x:Name="salarybasesuffix"
-					   TextWrapping="Wrap"
+			<TextBlock Text=" = $"
+					   Width="Auto"
+					   Margin="0"
+					   VerticalAlignment="Center"
+					   />
+			<TextBox x:Name="HourlyRateEntryBox"
+					 Text="{Binding HourlyRate}"
+					 Margin="3,0,0,0"
+					 MaxWidth="30" MinWidth="30" MaxLines="1"
+					 TextAlignment="Right"
+					 VerticalAlignment="Center"
+					 HorizontalAlignment="Left" 
+					 LostFocus="HourlyRateEntryBox_LostFocus"
+					 />
+			<TextBlock Text=" per hour, for "
 					   Width="Auto"
 					   Margin="10,0,0,0"
 					   VerticalAlignment="Center"
 					   />
 			<TextBox x:Name="HoursWorkedEntryBox"
-					 Text="{Binding hoursWorked}"
+					 Text="{Binding HoursWorked}"
 					 Margin="3,0,0,0"
 					 MaxWidth="30" MinWidth="30" MaxLines="1"
 					 TextAlignment="Right"
 					 VerticalAlignment="Center"
-					 HorizontalAlignment="Left"
+					 HorizontalAlignment="Left" 
+					 LostFocus="HoursWorkedEntryBox_LostFocus" 
 					 />
-			<TextBlock x:Name="hoursworkedsuffix"
-					   TextWrapping="Wrap"
+			<TextBlock Text=" hours"
 					   Width="Auto"
 					   Margin="10,0,0,0"
+					   VerticalAlignment="Center"
+					   />
+		</StackPanel>
+		<StackPanel x:Name="InternSalary" 
+					Grid.Column="1" Grid.Row="7"  Grid.ColumnSpan="3"
+					Orientation="Horizontal"
+					Margin="10,0,0,0"
+					>
+			<TextBlock Text="$"
+					   VerticalAlignment="Center"
+					   />
+			<TextBox x:Name="InternSalaryEntryBox"
+					 Text="{Binding IntSalary}"
+					 Margin="3,0,0,0"
+					 MaxWidth="80" MinWidth="80" MaxLines="1"
+					 TextAlignment="Right"
+					 VerticalAlignment="Center"
+					 HorizontalAlignment="Left" LostFocus="InternSalaryEntryBox_LostFocus"
+					 />
+			<TextBlock Text=" per month"
+					   TextWrapping="Wrap"
+					   Width="Auto"
+					   Margin="0"
 					   VerticalAlignment="Center"
 					   />
 		</StackPanel>
@@ -201,7 +261,7 @@
 					BorderThickness="0"
 					Foreground="White"
 					Background="LightSlateGray"
-					IsDefault="True" 
+					IsDefault="False" 
 					Click="btnOk_EditWorker_Click" 
 					>
 				<Button.Resources>

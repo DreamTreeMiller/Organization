@@ -7,18 +7,16 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	public class Intern : Worker, IWorkerDTO
+	public class Intern : Worker, IWorkerDTO, IIntern
 	{
-		public override int Salary
-		{
-			get { return salaryBase;  }
-			set { salaryBase = value; }		// Do nothing becase salary is already set by the constructor
-		}
+		public override int Salary { get; set; }
+
 		public Intern (string FN, string LN, DateTime DOB,
 					   DateTime hired,
-					   uint deptID, string jobTitle, int salaryBase=500) 
-				: base (FN, LN, DOB, hired, deptID, jobTitle, Positions.Intern, salaryBase)
+					   uint deptID, string jobTitle, int salary=500) 
+				: base (FN, LN, DOB, hired, deptID, jobTitle, Positions.Intern)
 		{
+			Salary = salary;
 		}
 
 		/// <summary>
@@ -37,7 +35,7 @@ namespace MLM
 			this.DeptID			= w.DeptID;
 			this.PositionTitle	= "Intern";
 			this.Position		= Positions.Intern;
-			this.salaryBase		= 500;
+			this.Salary			= 500;
 		}
 
 		public object Clone()

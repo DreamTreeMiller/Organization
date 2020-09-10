@@ -117,7 +117,6 @@ namespace MLM.Organizaton
 			worker.DeptID			= updatedW.DeptID;
 			worker.PositionTitle	= updatedW.PositionTitle;
 			worker.Position			= updatedW.Position;
-			worker.salaryBase		= updatedW.salaryBase;
 
 			return 0;           // Worker was updated successfully
 		}

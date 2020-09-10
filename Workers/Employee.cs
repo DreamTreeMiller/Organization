@@ -9,6 +9,7 @@ namespace MLM
 {
 	public class Employee : Worker, IWorkerDTO, IEmployee
 	{
+		public int HourlyRate { get; set; }		
 		public int HoursWorked { get; set; }    // recalulated on the last day of the month
 
 		public Employee(string FN, string LN, DateTime DOB,
@@ -17,16 +18,17 @@ namespace MLM
 						string positionTitle = "Employee", 
 						Positions position = Positions.Employee,
 						int hourlyRate = 12)
-				: base(FN, LN, DOB, hired, deptID, positionTitle, position, hourlyRate)
+				: base(FN, LN, DOB, hired, deptID, positionTitle, position)
 		{
+			this.HourlyRate = hourlyRate;
 			this.HoursWorked = 22 * 8;
 		}
 
 		// for an employee salaryBase is an hourly base of payment
 		public override int Salary
 		{
-			get { return base.salaryBase * this.HoursWorked; }
-			set { this.HoursWorked = value; }
+			get { return HourlyRate * HoursWorked; }
+			set {  } // do nothing
 		}
 
 		/// <summary>
@@ -45,7 +47,7 @@ namespace MLM
 			this.DeptID			= w.DeptID;
 			this.PositionTitle	= "Employee";
 			this.Position		= Positions.Employee; ;
-			this.salaryBase		= 12;
+			this.HourlyRate		= 12;
 			this.HoursWorked	= 22 * 8;
 		}
 		public object Clone()

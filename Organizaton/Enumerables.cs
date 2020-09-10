@@ -23,4 +23,9 @@ namespace MLM
 		Top, Division, Department
 	}
 
+	public enum WorkerHierarchy
+	{
+		Director, Employee, Intern
+	}
+
 }

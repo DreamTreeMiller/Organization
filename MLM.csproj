@@ -65,6 +65,7 @@
     <Compile Include="InterfacesActions\I_Json.cs" />
     <Compile Include="Interfaces\IDirector.cs" />
     <Compile Include="Interfaces\IEmployee.cs" />
+    <Compile Include="Interfaces\IIntern.cs" />
     <Compile Include="MainWindow-WorkersUI.cs" />
     <Compile Include="Organizaton\Organization-DepartmentsActions.cs" />
     <Compile Include="Organizaton\Organization-WorkersActions.cs" />

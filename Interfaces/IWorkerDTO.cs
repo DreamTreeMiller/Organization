@@ -52,11 +52,6 @@ namespace MLM.Interfaces
 		Positions Position { get; set; }       // 
 
 		/// <summary>
-		/// Base how salary is calculated: money. For Employee type - hours worked
-		/// </summary>
-		int salaryBase { get; set; }
-
-		/// <summary>
 		/// Worker's salary calculated based on salaryBase or other parameters
 		/// </summary>
 		int Salary { get; set; }
