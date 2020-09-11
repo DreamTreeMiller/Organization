@@ -6,56 +6,49 @@ using System.Threading.Tasks;
 
 namespace MLM.Interfaces
 {
-	public interface IWorkerDTO
+	/// <summary>
+	/// Interface to transer new worker's data
+	/// from UI part of Edit worker to 
+	/// back end of edit worker
+	/// </summary>
+	public interface IWorkerDTO : IWorker
 	{
+		WorkerHierarchy OriginalWorkerType { get; set; }
 		/// <summary>
-		/// Unique worker's Id
+		/// New type of worker
 		/// </summary>
-		uint ID { get; }
+		WorkerHierarchy SelectedWorkerType { get; set; }
+
+		//uint ID { get; }
+		//string FirstName { get; set; }
+		//string LastName { get; set; }
+
+		//DateTime DateOfBirth { get; set; }
+		//DateTime EmployedOn { get; set; }
+		//uint DeptID { get; set; }
+		//Positions Position { get; set; }
+		//string PositionTitle { get; set; }
+
+		#region Salaries
+
+		// Director class does not need salary field
+		// becaus his salary is automatically calculated base on subordinates' salaries
 
 		/// <summary>
-		/// Worker's first name
+		/// For calculation of Employee's salary - hourly rate
 		/// </summary>
-		string FirstName { get; set; }
+		int HourlyRate { get; set; }
 
 		/// <summary>
-		/// Worker's last name
+		/// For calculation of Employee's salary - hours worked
 		/// </summary>
-		string LastName { get; set; }
+		int HoursWorked { get; set; }
 
 		/// <summary>
-		/// Worker's date of birth
+		/// New salary of intern
 		/// </summary>
-		DateTime DateOfBirth { get; set; }
+		int IntSalary { get; set; }
 
-		/// <summary>
-		/// Date of hiring in organization
-		/// </summary>
-		DateTime EmployedOn { get; set; }
-
-		/// <summary>
-		/// ID of a department worker works in
-		/// </summary>
-		uint DeptID { get; set; }
-
-		/// <summary>
-		/// Current text of position.
-		/// Amended by EditWorker method based on Position property value and 
-		/// department of worker
-		/// </summary>
-		string PositionTitle { get; set; }
-
-		/// <summary>
-		/// Position - enum type of several possible posisitons
-		/// withing organization President, VP, Head of Division, Vice Head, Dept Director, Vice Dir, Employee, Intern
-		/// </summary>
-		Positions Position { get; set; }       // 
-
-		/// <summary>
-		/// Worker's salary calculated based on salaryBase or other parameters
-		/// </summary>
-		int Salary { get; set; }
-
-		object Clone();
+		#endregion
 	}
 }

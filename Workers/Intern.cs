@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	public class Intern : Worker, IWorkerDTO, IIntern
+	public class Intern : Worker, IWorker, IIntern
 	{
 		public override int Salary { get; set; }
 
@@ -21,10 +21,21 @@ namespace MLM
 
 		/// <summary>
 		/// Constructor to change type of worker to Intern
-		/// ID and common fields will be copied to new instance of Employee class 
-		/// Salary fields will be initialized as if new Employee was created
+		/// ID and common fields will be copied to new instance of the Intern class 
+		/// position related and Salary properties need to be updated additionally
+		/// after creating new instance of the Intern
 		/// </summary>
 		/// <param name="w">Worker to change to Employee class</param>
+		public Intern(IWorkerDTO w)
+			: base(w.ID)
+		{
+			this.FirstName		= w.FirstName;
+			this.LastName		= w.LastName;
+			this.DateOfBirth	= w.DateOfBirth;
+			this.EmployedOn		= w.EmployedOn;
+			this.DeptID			= w.DeptID;
+		}
+
 		public Intern(Worker w)
 			: base(w.ID)
 		{
@@ -33,14 +44,14 @@ namespace MLM
 			this.DateOfBirth	= w.DateOfBirth;
 			this.EmployedOn		= w.EmployedOn;
 			this.DeptID			= w.DeptID;
+			this.Position		= Positions.Employee;
 			this.PositionTitle	= "Intern";
-			this.Position		= Positions.Intern;
 			this.Salary			= 500;
 		}
 
-		public object Clone()
-		{
-			return (Intern)this.MemberwiseClone();
-		}
+		//public object Clone()
+		//{
+		//	return (Intern)this.MemberwiseClone();
+		//}
 	}
 }

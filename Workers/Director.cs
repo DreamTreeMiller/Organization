@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	public class Director : Worker, IWorkerDTO, IDirector
+	public class Director : Worker, IWorker, IDirector
 	{
 		private int _salary;
 
@@ -29,10 +29,21 @@ namespace MLM
 		/// <summary>
 		/// Constructor to change type of worker to Director
 		/// ID and common fields will be copied to new instance of Director class 
-		/// Salary fields will be initialized as if new Director was created
+		/// position related and Salary properties need to be updated additionally
+		/// after creating new instance of the Director
 		/// </summary>
 		/// <param name="w">Worker to change to Employee class</param>
-		public Director(Worker w, Positions newPosition)
+		public Director(IWorkerDTO w)
+			: base(w.ID)
+		{
+			this.FirstName   = w.FirstName;
+			this.LastName	 = w.LastName;
+			this.DateOfBirth = w.DateOfBirth;
+			this.EmployedOn	 = w.EmployedOn;
+			this.DeptID		 = w.DeptID;
+		}
+
+		public Director(Worker w)
 			: base(w.ID)
 		{
 			this.FirstName = w.FirstName;
@@ -40,13 +51,12 @@ namespace MLM
 			this.DateOfBirth = w.DateOfBirth;
 			this.EmployedOn = w.EmployedOn;
 			this.DeptID = w.DeptID;
-			this.Position = newPosition;
 			this.Salary = 1300;
 		}
 
-		public object Clone()
-		{
-			return (Director) this.MemberwiseClone();
-		}
+		//public object Clone()
+		//{
+		//	return (Director) this.MemberwiseClone();
+		//}
 	}
 }

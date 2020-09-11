@@ -26,7 +26,7 @@ namespace MLM
 		/// <param name="w">Being moved worker</param>
 		/// <param name="currDept">Department where worker currently works in</param>
 		/// <param name="deptTable">List of available destination departments</param>
-		public MoveWorker(IWorkerDTO w, string currDept, List<IDepartmentDTO> deptList)
+		public MoveWorker(IWorker w, string currDept, List<IDepartmentDTO> deptList)
 		{
 			InitializeComponent();
 

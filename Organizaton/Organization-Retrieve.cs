@@ -20,7 +20,7 @@ namespace MLM.Organizaton
 		/// Worker of the Director class or 
 		/// null if a director of deptID department is not found
 		/// </returns>
-		public IWorkerDTO Director(IDepartmentDTO d)
+		public IWorker Director(IDepartmentDTO d)
 		{
 			Director dir = Workers.Find(w => w.DeptID == d.DeptID && w is Director) as Director;
 			return dir;
@@ -31,13 +31,13 @@ namespace MLM.Organizaton
 		/// and puts them in the collection List
 		/// </summary>
 		/// <param name="d">Department</param>
-		/// <returns>Collection of workers of IWorkerDTO type who works in the department d</returns>
-		public List<IWorkerDTO> OneDepartmentWorkersList(IDepartmentDTO d)
+		/// <returns>Collection of workers of IWorker type who works in the department d</returns>
+		public List<IWorker> OneDepartmentWorkersList(IDepartmentDTO d)
 		{
-			List<IWorkerDTO> wl = new List<IWorkerDTO>();
+			List<IWorker> wl = new List<IWorker>();
 			foreach (Worker w in Workers)
 				if (w.DeptID == d.DeptID)
-					wl.Add(w as IWorkerDTO);
+					wl.Add(w as IWorker);
 			return wl;
 		}
 

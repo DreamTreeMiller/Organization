@@ -60,7 +60,7 @@ namespace MLM
 		private void EditWorker_Click(object sender, RoutedEventArgs e)
 		{
 			// Worker to be edited
-			var w = WorkersView.SelectedItem as IWorkerDTO;
+			var w = WorkersView.SelectedItem as IWorker;
 			if (w == null) return;
 
 			// Get currently selected department from the Tree View
@@ -80,14 +80,17 @@ namespace MLM
 			var availablePositionsList = Apple.Available(d, keepDirector);
 
 			// Open Edit Worker dialog window
+			DateTime orgCreationDate = (Apple as IRetrieve).RootDepartment().CreatedOn;
 			EditWorkerMenu editWorkerWin = 
 				new EditWorkerMenu(w, d, hasDirector, 
 				availablePositionsList,
-				(Apple as IRetrieve).RootDepartment().CreatedOn);
+				orgCreationDate);
+			
 			bool? result = editWorkerWin.ShowDialog();
 
 			if (result != true) return;
 
+			// Pass new data of worker to back-end method to update the worker
 			UI.Workers.EditWorker(editWorkerWin.wCopy);
 
 			UpdateMainWindow();
@@ -101,7 +104,7 @@ namespace MLM
 		private void MoveWorker_Click(object sender, RoutedEventArgs e)
 		{
 			//Worker to be moved
-			var ws = WorkersView.SelectedItem as IWorkerDTO;
+			var ws = WorkersView.SelectedItem as IWorker;
 			if (ws == null) return;
 
 			// Get currently selected department from the Tree View
@@ -132,7 +135,7 @@ namespace MLM
 
 		private void DeleteWorker_Click(object sender, RoutedEventArgs e)
 		{
-			IWorkerDTO ws = WorkersView.SelectedItem as IWorkerDTO;
+			IWorker ws = WorkersView.SelectedItem as IWorker;
 			if (ws == null) return;
 			DeleteItemConfirmationDialog delCon =
 				new DeleteItemConfirmationDialog(

@@ -185,7 +185,7 @@
 					   VerticalAlignment="Center"
 					   />
 			<TextBox x:Name="e_salary"
-					 Text="{Binding EmpSalary, UpdateSourceTrigger=PropertyChanged}"
+					 Text="{Binding EmpSalary}"
 					 Margin="3,0,0,0"
 					 MaxWidth="80" MinWidth="80"
 					 TextAlignment="Right"

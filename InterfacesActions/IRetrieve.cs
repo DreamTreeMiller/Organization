@@ -19,15 +19,15 @@ namespace MLM.InterfacesActions
 		/// Worker of the Director class or 
 		/// null if a director of deptID department is not found
 		/// </returns>
-		IWorkerDTO Director(IDepartmentDTO d);
+		IWorker Director(IDepartmentDTO d);
 
 		/// <summary>
 		/// Finds all workers, including director, who work in the department d
 		/// and puts them in the collection List
 		/// </summary>
 		/// <param name="d">Department</param>
-		/// <returns>Collection of workers of IWorkerDTO type who works in the department d</returns>
-		List<IWorkerDTO> OneDepartmentWorkersList(IDepartmentDTO d);
+		/// <returns>Collection of workers of IWorker type who works in the department d</returns>
+		List<IWorker> OneDepartmentWorkersList(IDepartmentDTO d);
 
 		/// <summary>
 		/// Returns a list of all organization departments

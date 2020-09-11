@@ -70,7 +70,7 @@ namespace MLM.Organizaton
 				default:
 					break;
 			}
-			return AddWorker(newWorker as IWorkerDTO);
+			return AddWorker(newWorker as IWorker);
 		}
 
 		/// <summary>
@@ -84,7 +84,7 @@ namespace MLM.Organizaton
 		/// -1 if worker with same ID already exists
 		/// -2 if director is already exists
 		/// </returns>
-		public int AddWorker(IWorkerDTO worker)
+		public int AddWorker(IWorker worker)
 		{
 			// Check if a being added worker does not have same ID as someone else
 			if (Workers.Find(w => w.ID == worker.ID) != null) return -1;
@@ -107,19 +107,54 @@ namespace MLM.Organizaton
 		public int EditWorker(IWorkerDTO updatedW)
 		{
 			// Check if worker with same ID exists
-			var worker = Workers.Find(w => w.ID == updatedW.ID);
-			if (worker == null) return -1;
+			int wi = Workers.FindIndex(w => w.ID == updatedW.ID);
+			if (wi == -1) return -1;
 
-			worker.FirstName		= updatedW.FirstName;
-			worker.LastName			= updatedW.LastName;
-			worker.DateOfBirth		= updatedW.DateOfBirth;
-			worker.EmployedOn		= updatedW.EmployedOn;
-			worker.DeptID			= updatedW.DeptID;
-			worker.PositionTitle	= updatedW.PositionTitle;
-			worker.Position			= updatedW.Position;
+			// Check if worker type was changed
+			// In this case need to "cast" new type
+			// It is not real casting of a type, but creating instance of new type 
+			// and copiying proper fields.
+			// Creation of an instance of new type is done through specific constructor
+			// which copies readonly unique worker ID
 
+			Worker newW = new Intern(updatedW);
+
+			if (updatedW.OriginalWorkerType != updatedW.SelectedWorkerType)
+			{
+				// Here new Director(updatedW), new Employee(..), new Intern(..)
+				// Create 
+				switch (updatedW.SelectedWorkerType)
+					{
+						case WorkerHierarchy.Director:
+							newW = new Director(updatedW);
+							break;
+						case WorkerHierarchy.Employee:
+							newW = new Employee(updatedW);
+							(newW as Employee).HourlyRate = updatedW.HourlyRate;
+							(newW as Employee).HoursWorked = updatedW.HoursWorked;
+							break;
+						case WorkerHierarchy.Intern:
+							newW.Salary = updatedW.IntSalary;
+							break;
+					}
+
+				Workers[wi] = newW;
+			}
+
+			// Change type here
+			Workers[wi].FirstName		= updatedW.FirstName;
+			Workers[wi].LastName		= updatedW.LastName;
+			Workers[wi].DateOfBirth		= updatedW.DateOfBirth;
+			Workers[wi].EmployedOn		= updatedW.EmployedOn;
+			Workers[wi].DeptID			= updatedW.DeptID;
+			Workers[wi].Position		= updatedW.Position;
+			Workers[wi].PositionTitle	= updatedW.PositionTitle;
+
+			var d = Department(updatedW.DeptID);
+			UpdateSalaries(d as BaseDepartment);
 			return 0;           // Worker was updated successfully
 		}
+
 		/// <summary>
 		/// Moves worker to the department with specified ID
 		/// </summary>
@@ -131,7 +166,7 @@ namespace MLM.Organizaton
 		/// -2 if department with such ID does not exist
 		/// -3 if destination department is current worker's department
 		/// </returns>
-		public int MoveWorker(IWorkerDTO worker, IDepartmentDTO destDept)
+		public int MoveWorker(IWorker worker, IDepartmentDTO destDept)
 		{
 			// Check if worker with such ID exists
 			var w = RemoveWorker(worker);
@@ -151,6 +186,7 @@ namespace MLM.Organizaton
 				w.Position != Positions.Intern)
 			{
 				w.Position = Positions.Employee;
+				w.PositionTitle = "Employee";
 			}
 
 			// Move worker to destination department
@@ -177,7 +213,7 @@ namespace MLM.Organizaton
 		/// Removed worker, if he was removed successfully, 
 		/// null if the worker was not found
 		/// </returns>
-		public IWorkerDTO RemoveWorker(IWorkerDTO w)
+		public IWorker RemoveWorker(IWorker w)
 		{
 			bool result = Workers.Remove(w as Worker);
 			if (result)

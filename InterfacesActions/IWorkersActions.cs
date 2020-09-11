@@ -47,7 +47,7 @@ namespace MLM.InterfacesActions
 		/// -2 if department with such ID does not exist
 		/// -3 if destination department is current worker's department
 		/// </returns>
-		int MoveWorker(IWorkerDTO worker, IDepartmentDTO destDept);
+		int MoveWorker(IWorker worker, IDepartmentDTO destDept);
 
 		/// <summary>
 		/// Completely removes worker with specified ID from the list
@@ -57,6 +57,6 @@ namespace MLM.InterfacesActions
 		/// Removed worker, if he was removed successfully, 
 		/// null if the worker was not found
 		/// </returns>
-		IWorkerDTO RemoveWorker(IWorkerDTO w);
+		IWorker RemoveWorker(IWorker w);
 	}
 }

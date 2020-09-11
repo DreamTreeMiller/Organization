@@ -43,6 +43,7 @@ namespace MLM
 									 Hierarchy.Top);
 			return orgToCreate;
 
+
 			/// <summary>
 			/// Generates random workers and subdepts
 			/// </summary>
@@ -142,15 +143,13 @@ namespace MLM
 
 				int numOfEmployees = r.Next(1, maxNumOfWorkersInDept - 2 + 1);
 				int numOfInterns = maxNumOfWorkersInDept - 2 - numOfEmployees;
-
+				
 				// Adding head of the organization/division/department
 				orgToCreate.AddWorker(
 					new Director("First_" + UniqueID.Name(),
 								 "Last_" + UniqueID.Name(),
-								 new DateTime(r.Next(1950, 1981), r.Next(1, 13), r.Next(1, 29)),
-								 new DateTime(r.Next(deptCD.Year, 2020),
-											  r.Next(deptCD.Month, 13),
-											  r.Next(1, 29)),
+								 GenRandomDate(new DateTime(1950, 1,1), new DateTime(1981,12, 31)),
+								 GenRandomDate(deptCD, DateTime.Now),
 								 dept.DeptID,
 								 posHeadStr,
 								 posHead));
@@ -158,10 +157,8 @@ namespace MLM
 				orgToCreate.AddWorker(
 					new Employee("First_" + UniqueID.Name(),
 								 "Last_" + UniqueID.Name(),
-								 new DateTime(r.Next(1950, 1981), r.Next(1, 13), r.Next(1, 29)),
-								 new DateTime(r.Next(deptCD.Year, 2020),
-											  r.Next(deptCD.Month, 13),
-											  r.Next(1, 29)),
+								 GenRandomDate(new DateTime(1950, 1, 1), new DateTime(1981, 12, 31)),
+								 GenRandomDate(deptCD, DateTime.Now),
 								 dept.DeptID,
 								 posViceHeadStr,
 								 posViceHead));
@@ -170,10 +167,8 @@ namespace MLM
 					orgToCreate.AddWorker(
 						new Employee("First_" + UniqueID.Name(),
 									 "Last_" + UniqueID.Name(),
-									 new DateTime(r.Next(1950, 1996), r.Next(1, 13), r.Next(1, 29)),
-									 new DateTime(r.Next(deptCD.Year, 2020),
-												  r.Next(deptCD.Month, 13),
-												  r.Next(1, 29)),
+									 GenRandomDate(new DateTime(1950, 1, 1), new DateTime(1996, 12, 31)),
+									 GenRandomDate(deptCD, DateTime.Now),
 									 dept.DeptID,
 									 "Employee"));
 				// Adding interns
@@ -181,14 +176,30 @@ namespace MLM
 					orgToCreate.AddWorker(
 						new Intern ("First_" + UniqueID.Name(),
 									"Last_" + UniqueID.Name(),
-									new DateTime(r.Next(1990, 2003), r.Next(1, 13), r.Next(1, 29)),
-									new DateTime(r.Next(deptCD.Year, 2020),
-												 r.Next(deptCD.Month, 13),
-												 r.Next(1, 29)),
+									GenRandomDate(new DateTime(1990, 1, 1), new DateTime(2003, 12, 31)),
+									GenRandomDate(deptCD, DateTime.Now),
 									dept.DeptID,
 									"Intern"));
 			}
 
+			DateTime GenRandomDate(DateTime sd, DateTime ed)
+			{
+				if (sd >= ed) return ed;
+				DateTime ndate;
+				int ny = r.Next(sd.Year, ed.Year + 1);
+				int nm = r.Next(1, 13);
+				int nd = 1;
+				if (nm == 2) nd = r.Next(1, 29);
+				else if (nm == 4 || nm == 6 || nm == 9 || nm == 11)
+					nd = r.Next(1, 31);
+				else nd = r.Next(1, 32);
+				ndate = new DateTime(ny, nm, nd);
+				if (ndate < sd) ndate = sd;
+				if (ndate > ed) ndate = ed;
+				return ndate;
+			}
+
 		}
+
 	}
 }

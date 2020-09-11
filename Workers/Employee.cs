@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MLM
 {
-	public class Employee : Worker, IWorkerDTO, IEmployee
+	public class Employee : Worker, IWorker, IEmployee
 	{
 		public int HourlyRate { get; set; }		
 		public int HoursWorked { get; set; }    // recalulated on the last day of the month
@@ -33,11 +33,12 @@ namespace MLM
 
 		/// <summary>
 		/// Constructor to change type of worker to Employee
-		/// ID and common fields will be copied to new instance of Employee class 
-		/// Salary fields will be initialized as if new Employee was created
+		/// ID and common properties will be copied to new instance of the Employee class 
+		/// position related, HourlyRate and HoursWorked properties need to be updated additionally
+		/// after creating new instance of the Employee
 		/// </summary>
 		/// <param name="w">Worker to change to Employee class</param>
-		public Employee(Worker w)
+		public Employee(IWorkerDTO w)
 			: base (w.ID)
 		{
 			this.FirstName		= w.FirstName;
@@ -45,14 +46,25 @@ namespace MLM
 			this.DateOfBirth	= w.DateOfBirth;
 			this.EmployedOn		= w.EmployedOn;
 			this.DeptID			= w.DeptID;
+		}
+
+		public Employee(Worker w)
+			: base(w.ID)
+		{
+			this.FirstName		= w.FirstName;
+			this.LastName		= w.LastName;
+			this.DateOfBirth	= w.DateOfBirth;
+			this.EmployedOn		= w.EmployedOn;
+			this.DeptID			= w.DeptID;
+			this.Position		= Positions.Employee;
 			this.PositionTitle	= "Employee";
-			this.Position		= Positions.Employee; ;
 			this.HourlyRate		= 12;
 			this.HoursWorked	= 22 * 8;
 		}
-		public object Clone()
-		{
-			return (Employee)this.MemberwiseClone();
-		}
+
+		//public object Clone()
+		//{
+		//	return (Employee)this.MemberwiseClone();
+		//}
 	}
 }

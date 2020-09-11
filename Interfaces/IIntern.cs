@@ -9,8 +9,7 @@ namespace MLM.Interfaces
 	/// <summary>
 	/// Interface alias for Intern class
 	/// </summary>
-	public interface IIntern : IWorkerDTO
+	public interface IIntern
 	{
-		//object Clone();
 	}
 }

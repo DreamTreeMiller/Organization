@@ -66,6 +66,7 @@
     <Compile Include="Interfaces\IDirector.cs" />
     <Compile Include="Interfaces\IEmployee.cs" />
     <Compile Include="Interfaces\IIntern.cs" />
+    <Compile Include="Interfaces\IWorkerDTO.cs" />
     <Compile Include="MainWindow-WorkersUI.cs" />
     <Compile Include="Organizaton\Organization-DepartmentsActions.cs" />
     <Compile Include="Organizaton\Organization-WorkersActions.cs" />
@@ -76,7 +77,7 @@
     <Compile Include="Interfaces\IDivision.cs" />
     <Compile Include="Interfaces\IHQ.cs" />
     <Compile Include="Interfaces\IOrganization.cs" />
-    <Compile Include="Interfaces\IWorkerDTO.cs" />
+    <Compile Include="Interfaces\IWorker.cs" />
     <Compile Include="Interfaces\IPositionTuple.cs" />
     <Compile Include="Interfaces\IPositions.cs" />
     <Compile Include="Organizaton\PositionsTable.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="UI_WorkersActions\EditWorkerMenu.xaml.cs">
       <DependentUpon>EditWorkerMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI_WorkersActions\EditWorkerValidation.cs" />
     <Compile Include="Workers\Director.cs" />
     <Compile Include="Deparments\Division.cs" />
     <Compile Include="Workers\Employee.cs" />
