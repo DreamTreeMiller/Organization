@@ -67,6 +67,7 @@
     <Compile Include="Interfaces\IEmployee.cs" />
     <Compile Include="Interfaces\IIntern.cs" />
     <Compile Include="Interfaces\IWorkerDTO.cs" />
+    <Compile Include="MainWindow-DepartmentsUI.cs" />
     <Compile Include="MainWindow-WorkersUI.cs" />
     <Compile Include="Organizaton\Organization-DepartmentsActions.cs" />
     <Compile Include="Organizaton\Organization-WorkersActions.cs" />
@@ -81,6 +82,18 @@
     <Compile Include="Interfaces\IPositionTuple.cs" />
     <Compile Include="Interfaces\IPositions.cs" />
     <Compile Include="Organizaton\PositionsTable.cs" />
+    <Compile Include="UI_DepartmentsActions\CreateDepartmentMenu.cs">
+      <DependentUpon>CreateDepartmentMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI_DepartmentsActions\DeleteDepartmentMenu.xaml.cs">
+      <DependentUpon>DeleteDepartmentMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI_DepartmentsActions\EditDepartmentMenu.xaml.cs">
+      <DependentUpon>EditDepartmentMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI_DepartmentsActions\MoveDepartmentMenu.xaml.cs">
+      <DependentUpon>MoveDepartmentMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI_WorkersActions\AddWorkerMenu.xaml.cs">
       <DependentUpon>AddWorkerMenu.xaml</DependentUpon>
     </Compile>
@@ -109,6 +122,22 @@
     <Compile Include="Organizaton\Enumerables.cs" />
     <Compile Include="Workers\Worker.cs" />
     <Compile Include="Workers\WorkersTable.cs" />
+    <Page Include="UI_DepartmentsActions\CreateDepartmentMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI_DepartmentsActions\DeleteDepartmentMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI_DepartmentsActions\EditDepartmentMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI_DepartmentsActions\MoveDepartmentMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI_WorkersActions\AddWorkerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,8 +206,6 @@
   <ItemGroup>
     <Resource Include="Images\SaveFileFloppyIcon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI_DepartmentsActions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

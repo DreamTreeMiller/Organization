@@ -1,12 +1,12 @@
-﻿<Window x:Class="MLM.MoveWorker"
+﻿<Window x:Class="MLM.UI_DepartmentsActions.MoveDepartmentMenu"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MLM"
+        xmlns:local="clr-namespace:MLM.UI_DepartmentsActions"
         mc:Ignorable="d"
-        Title="Move Worker" 
-		Height="300" Width="500"
+        Title="Move Department" 
+		Height="270" Width="500"
 		WindowStartupLocation="CenterScreen" 
 		>
 	<Grid>
@@ -20,12 +20,11 @@
 			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
-			<RowDefinition Height="30" />
 			<RowDefinition Height="50" />
 		</Grid.RowDefinitions>
 		<TextBlock x:Name="headertitle" 
 				   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-				   Text="Transfer Worker to Another Department"
+				   Text="Move Department"
 				   HorizontalAlignment="Center"
 				   VerticalAlignment="Center" 
 				   FontSize="14"
@@ -33,18 +32,18 @@
 				   />
 		<TextBlock x:Name="warningmsgposition"
 				   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-				   Text="After transfer all positions except 'Employee' and 'Intern' will be downgraded to 'Employee' and salary recalculated accordingly!!!"
-				   Foreground="Red"
+				   Text="Department will all employees and sub departments will be nested under destination department"
+				   Foreground="Blue"
 				   FontWeight="Bold"
 				   TextAlignment="Center"
-				   Width="400"
+				   Width="300"
 				   TextWrapping="Wrap"
 				   HorizontalAlignment="Center"
 				   VerticalAlignment="Top"
 				   />
-		<TextBlock x:Name="workernametitile"
+		<TextBlock x:Name="deptametitile"
 				   Grid.Row="2" Grid.Column="0"
-				   Text="ID and Full Name:"
+				   Text="Department to move:"
 				   Margin="0,0,10,0"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Right"
@@ -57,38 +56,20 @@
 					   Margin="10,0,0,0"
 					   />
 			<TextBlock Text=" " />
-			<TextBlock x:Name="FirstNameDisplay" 
-					   VerticalAlignment="Center"
-					   Margin="10,0,0,0"
-					   />
-			<TextBlock Text=" " />
-			<TextBlock x:Name="LastNameDisplay"
+			<TextBlock x:Name="DeptNameDisplay" 
 					   VerticalAlignment="Center"
 					   Margin="10,0,0,0"
 					   />
 		</StackPanel>
-		<TextBlock x:Name="currentdepartmenttitile"
-				   Grid.Row="3" Grid.Column="0"
-				   Text="Current department:"
-				   Margin="0,0,10,0"
-				   VerticalAlignment="Center"
-				   HorizontalAlignment="Right"
-				   />
-		<TextBlock x:Name="CurrentDepartmentDisplay"
-				   Grid.Row="3" Grid.Column="1" 
-				   Margin="10,0,0,0"
-				   VerticalAlignment="Center"
-				   HorizontalAlignment="Left"
-				   />
 		<TextBlock x:Name="destinationdepartmenttitile"
-				   Grid.Row="4" Grid.Column="0"
+				   Grid.Row="3" Grid.Column="0"
 				   Text="Destination department:"
 				   Margin="0,0,10,0"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Right"
 				   />
 		<ComboBox x:Name="DeparmmentEntryBox"
-				  Grid.Row="4" Grid.Column="1"  
+				  Grid.Row="3" Grid.Column="1"  
 				  Margin="10,0,0,0"
 				  VerticalAlignment="Center"
 				  HorizontalAlignment="Left"
@@ -103,15 +84,17 @@
 		<UniformGrid Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2"
 					 Columns="2" Rows="1"
 					 Width="300"
+					 VerticalAlignment="Top"
 					 >
-			<Button Name="btnOk_MoveWorker"
+			<Button Name="btnOk_MoveDepartment"
 					Content="OK"
 					Height="30"
 					Width="70" 
 					BorderThickness="0"
 					Foreground="White"
 					Background="LightSlateGray"
-					IsDefault="True" Click="btnOk_MoveWorker_Click" 
+					IsDefault="True" 
+					Click="btnOk_MoveDepartment_Click" 
 					>
 				<Button.Resources>
 					<Style TargetType="Border">
@@ -119,8 +102,7 @@
 					</Style>
 				</Button.Resources>
 			</Button>
-			<Button Name="btnCancel_MoveWorker"
-					Content="Cancel" 
+			<Button Content="Cancel" 
 					IsCancel="True"
 					Height="30"
 					Width="70" 

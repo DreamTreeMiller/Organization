@@ -21,5 +21,9 @@ namespace MLM
 		public HQ(string orgName)
 			: base(orgName, 0)
 		{ }
+
+		public HQ(BaseDepartment d)
+			: base(d)
+		{ }
 	}
 }

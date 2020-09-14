@@ -30,7 +30,7 @@ namespace MLM
 			var image = "Images/icons8-opened-folder-96.png";
 
             if ((value is BaseDepartment))
-                if ((value as BaseDepartment).DeptName == "Apple Inc.")
+                if ((value as BaseDepartment).DeptName == "HQ")
                     image = "Images/apple-logo.png";
 
             if (value == null)

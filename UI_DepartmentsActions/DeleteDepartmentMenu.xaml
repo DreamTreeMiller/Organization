@@ -1,0 +1,105 @@
+﻿<Window x:Class="MLM.UI_DepartmentsActions.DeleteDepartmentMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MLM.UI_DepartmentsActions"
+        mc:Ignorable="d"
+        Title="Delete Department" 
+		Height="270" Width="500"
+		WindowStartupLocation="CenterScreen"
+		>
+	<Grid x:Name="DeleteDeptGrid">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="50" />
+			<RowDefinition Height="50" />
+			<RowDefinition Height="30" />
+			<RowDefinition Height="30" />
+			<RowDefinition Height="30" />
+			<RowDefinition Height="50" />
+		</Grid.RowDefinitions>
+		<TextBlock x:Name="deletedepttitle"
+				   Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"
+				   Text="Delete Department"
+				   FontWeight="Bold" 
+				   FontSize="14"
+				   HorizontalAlignment="Center" 
+				   VerticalAlignment="Center" 
+				   />
+		<StackPanel x:Name="warningmessage"
+					Orientation="Vertical"
+					Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4"
+					HorizontalAlignment="Center"
+					>
+			<TextBlock Text="Please select method how to delete department"
+					   Margin="0,5,0,0"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Right"
+					   />
+			<TextBlock x:Name="deptnameid"
+					   Margin="0,5,0,0"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Center" 
+					   />
+		</StackPanel>
+
+		<RadioButton x:Name="SelfExcludeDeletion"
+					 Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
+					 GroupName="ExcludeOrCompletely"
+					 Content="Move employees and subdepartments to parent department"
+					 Margin="80,0,0,0"
+					 VerticalAlignment="Center"
+					 IsChecked="True" 
+					 Checked="SelfExcludeDeletion_Checked"
+					 />
+		<RadioButton x:Name="CompleteDeletion"
+					 Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"
+					 GroupName="ExcludeOrCompletely"
+					 Content="Completely delete all employees and subdepartments"
+					 Margin="80,0,0,0"
+					 VerticalAlignment="Center" 
+					 Checked="CompleteDeletion_Checked"
+					 />
+
+		<UniformGrid Grid.Column="1" Grid.ColumnSpan="2"
+					 Grid.Row="5"
+					 Columns="2" Rows="1">
+			<Button Name="btnOk_DeleteDepartment"
+					Content="OK"
+					Height="30"
+					Width="70" 
+					BorderThickness="0"
+					Foreground="White"
+					Background="LightSlateGray"
+					IsDefault="False" 
+					Click="btnOk_DeleteDepartment_Click" 
+					>
+				<Button.Resources>
+					<Style TargetType="Border">
+						<Setter Property="CornerRadius" Value="10"/>
+					</Style>
+				</Button.Resources>
+			</Button>
+			<Button Content="Cancel" 
+					IsCancel="True"
+					Height="30"
+					Width="70" 
+					BorderThickness="0"
+					Foreground="White"
+					Background="LightSlateGray" 
+					>
+				<Button.Resources>
+					<Style TargetType="Border">
+						<Setter Property="CornerRadius" Value="10"/>
+					</Style>
+				</Button.Resources>
+			</Button>
+		</UniformGrid>
+	</Grid>
+</Window>

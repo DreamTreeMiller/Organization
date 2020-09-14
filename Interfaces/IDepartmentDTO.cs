@@ -23,6 +23,11 @@ namespace MLM.Interfaces
 		/// </summary>
 		DateTime CreatedOn { get; set; }
 
+		/// <summary>
+		/// ID of parent department
+		/// </summary>
+		uint ParentDeptID { get; set; }
+
 		int NumberOfSubDepts { get; }
 
 		/// <summary>

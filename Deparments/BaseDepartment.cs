@@ -84,14 +84,11 @@ namespace MLM
 		public int TotalDeptStaff_withoutBoss_Salary { get; set; }
 		public int TotalSubDepartmentsSalary { get; set; }
 
-		//public BaseDepartment()
-		//{ }
-
 		/// <summary>
 		/// Constructor to create dummy worker with particular ID in order to check 
 		/// if a worker with such ID already exists
 		/// </summary>
-		/// <param name="workerID"></param>
+		/// <param name="deptID">ID of department</param>
 		public BaseDepartment(uint deptID)
 		{
 			this.DeptID = deptID;
@@ -121,9 +118,28 @@ namespace MLM
 
 			// Sum of Total Department salaries of all sub departments
 			TotalSubDepartmentsSalary = 0;
-	}
+		}
 
-	public override string ToString()
+		/// <summary>
+		/// Creates copy of the department. Need this constructor to change type
+		/// </summary>
+		/// <param name="d">Department to be copied</param>
+		public BaseDepartment(BaseDepartment d)
+		{
+			DeptID								= d.DeptID;
+			DeptName							= d.DeptName;
+			CreatedOn							= d.CreatedOn;
+			ParentDeptID						= d.ParentDeptID;
+			NumberOfEmployees					= d.NumberOfEmployees;
+			TotalDepartmentSalary				= d.TotalDepartmentSalary;
+			TotalDeptStaff_withoutBoss_Salary	= d.TotalDeptStaff_withoutBoss_Salary;
+			TotalSubDepartmentsSalary			= d.TotalSubDepartmentsSalary;
+
+			SubDepts = new List<uint>();
+			foreach (uint sd in d.SubDepts) SubDepts.Add(sd);
+		}
+
+		public override string ToString()
 		{
 			return $"ID: {DeptID,16} " +
 					$"{DeptName,20} " +

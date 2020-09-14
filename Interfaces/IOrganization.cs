@@ -14,6 +14,16 @@ namespace MLM.Interfaces
 	public interface IOrganization
 	{
 		/// <summary>
+		/// Organization name
+		/// </summary>
+		string Name { get; set; }
+
+		/// <summary>
+		/// Date of establishment of the organization
+		/// </summary>
+		DateTime EstablishedOn { get; set; }
+
+		/// <summary>
 		/// List of positions in the company. 
 		/// It is necessary to access to positions via indexer.
 		/// IPositions provides indexer access to positions

@@ -16,5 +16,9 @@ namespace MLM
 		public Division(string deptName, uint parentDeptID)
 			: base (deptName, parentDeptID)
 		{ }
+
+		public Division(BaseDepartment d)
+			: base(d)
+		{ }
 	}
 }

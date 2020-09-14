@@ -93,7 +93,7 @@ namespace MLM.Organizaton
 			List<IDepartmentDTO> dl = new List<IDepartmentDTO>();
 			foreach (BaseDepartment dept in Departments)
 				if (dept.ParentDeptID == d.DeptID)
-					dl.Add(dept as IDepartmentDTO);
+					dl.Add(dept);
 			return dl;
 		}
 

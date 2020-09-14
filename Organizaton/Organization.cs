@@ -1,4 +1,5 @@
 ﻿using MLM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +7,15 @@ namespace MLM.Organizaton
 {
 	public partial class Organization : IOrganization 
 	{
+		/// <summary>
+		/// Organization name
+		/// </summary>
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Date of establishment of the organization
+		/// </summary>
+		public DateTime EstablishedOn { get; set; }
 		/// <summary>
 		/// List (database table) of organization departments
 		/// </summary>
@@ -27,8 +37,9 @@ namespace MLM.Organizaton
 		/// and with 0 workers and 0 subdepartments. Adds it to the collection of all departments
 		/// </summary>
 		/// <param name="orgName">Name of the organization. It is assigned to the root dept name.</param>
-		public Organization()
+		public Organization(string name)
 		{
+			Name = name;
 			Departments = new List<BaseDepartment>();
 			Workers = new List<Worker>();
 			_positions = new PositionsTable(this);

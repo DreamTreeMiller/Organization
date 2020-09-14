@@ -1,12 +1,9 @@
 ﻿using MLM.Interfaces;
 using MLM.InterfacesActions;
 using MLM.ManipulationsOnWorkers;
-using MLM.ActionsBackEnd;
 using System;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using MLM.Organizaton;
 
 namespace MLM
 {
@@ -124,7 +121,7 @@ namespace MLM
 			if (result != true) return;
 
 			// Get destination department of the being moved worker from ComboBox selection
-			var newDept = moveWorkerWin.DeparmmentEntryBox.SelectedItem as BaseDepartment;
+			var newDept = moveWorkerWin.DeparmmentEntryBox.SelectedItem as IDepartmentDTO;
 
 			// Move worker to another department. 
 			// Salaries of current and destination departments, and departments above, will be updated

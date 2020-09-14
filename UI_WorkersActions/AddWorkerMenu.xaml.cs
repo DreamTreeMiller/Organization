@@ -64,6 +64,10 @@ namespace MLM.ManipulationsOnWorkers
 			}
 		}
 
+		/// <summary>
+		/// Added this warning 
+		/// </summary>
+		/// <param name="warning"></param>
 		public void AddingMistakeWarning(int warning)
 		{
 			if (warning == -1) MessageBox.Show("Worker with same ID already exists!");

@@ -16,7 +16,8 @@ namespace MLM
 		#region Constructor
 
 		private IOrganization Apple;
-		private ActionsUI UI;			// Actions on organization user interface.
+		private Organizaton.Organization org;
+		private ActionsUI UI;           // Actions on organization user interface.
 										// Does not depend on how organization is implemented
 
 		public MainWindow()
@@ -24,17 +25,29 @@ namespace MLM
 			InitializeComponent();
 			ICreateOrganization Create = new CreateOrganization();
 			Apple = Create.Organization(5, 5, "Apple Inc.", 30);
+			org = Apple as Organizaton.Organization;
+			this.Title = "Apple Inc.";
+			this.OrgEstablishedOn.Text = 
+				$"Established on " +
+				Apple.EstablishedOn.ToString("MMMM dd, yyyy",
+				  CultureInfo.CreateSpecificCulture("en-US"));
 			UI = new ActionsUI(Apple);
+
+			AllDepartments.ItemsSource = (Apple as Organizaton.Organization).Departments;
+			AllWorkers.ItemsSource = (Apple as Organizaton.Organization).Workers;
 		}
 
 		#endregion
 
-		#region On loaded
-		private void Window_Loaded(object sender, RoutedEventArgs e)
-		{
-			// Get root department
-			IDepartmentDTO d = UI.Get.RootDepartment();
+		TreeViewItem AppleTreeRoot;
 
+		/// <summary>
+		/// Creates TreeViewItem node for the department
+		/// </summary>
+		/// <param name="d">Department</param>
+		/// <returns></returns>
+		private TreeViewItem CreateTVINode(IDepartmentDTO d)
+		{
 			var item = new TreeViewItem()
 			{
 				// Set the header
@@ -52,12 +65,24 @@ namespace MLM
 
 			// Listen out for item being selected
 			item.Selected += Department_Selected;
-				
+
 			// Listen out for item being expanded
 			item.Expanded += Department_Expanded;
 
+			return item;
+		}
+
+		#region On loaded
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			// Get root department
+			IDepartmentDTO d = UI.Get.RootDepartment();
+
+			var item = CreateTVINode(d);
+
 			// Add it the main tree-view
 			AppleTree.Items.Add(item);
+			AppleTreeRoot = item;
 		}
 		#endregion
 
@@ -79,55 +104,30 @@ namespace MLM
 
 		private void Department_Expanded(object sender, RoutedEventArgs e)
 		{
-			#region Inittial Checks
-
 			var item = (TreeViewItem)sender;
 
-			// If the item only contains the dummy data
-			if (item.Items.Count != 1 || item.Items[0] != null)
+			// If the first item is dummy data (item.Items[0] == null)
+			// It means there is/are subdepartment(s)
+			// We need to add them to TreeViewItem
+			if (item.Items[0] != null)
 				return;
 
-			// Clear dummy data
+			// Clear all data
 			item.Items.Clear();
 
-			#endregion
-
-			#region Get Sub Departments
-
-			// Create a blank list for directories
+			// Refresh list of subdepartments
+			// Because some may were added manually
 			var subDepartments = UI.Get.SubDepartments((IDepartmentDTO)item.Tag);
 
 			// For each dept ...
 			subDepartments.ForEach(d =>
 			{
 				// Create department item
-				var subItem = new TreeViewItem()
-				{
-					// Set the department name as a node texxt
-					Header = d.DeptName,
-
-					// Set tag as a content of the current node
-					Tag = d
-				};
-
-				// Add a dummy item if the item being expanded has subitems
-				// We do this in order to show "expand" arrow next to a tree node name
-				// If a node cannot be expanded, arrow does not appear
-				if ((subItem.Tag as IDepartmentDTO).NumberOfSubDepts != 0)
-					subItem.Items.Add(null);
-
-				// Listen out for item being selected
-				item.Selected += Department_Selected;
-
-				// Handle expanding
-				subItem.Expanded += this.Department_Expanded;
+				var subItem = CreateTVINode(d);
 
 				// Add this item to the parent
 				item.Items.Add(subItem);
 			});
-
-			#endregion
-
 		}
 
 
@@ -193,37 +193,5 @@ namespace MLM
 		}
 
 		#endregion
-
-		#region Manipulations with department
-
-		private void CreateDepartment_Click(object sender, RoutedEventArgs e)
-		{
-			MessageBox.Show("Create department");
-		}
-
-		private void EditDepartment_Click(object sender, RoutedEventArgs e)
-		{
-			MessageBox.Show("Edit department");
-		}
-
-		private void MoveDepartment_Click(object sender, RoutedEventArgs e)
-		{
-			MessageBox.Show("Move department");
-		}
-
-		private void DeleteDepartment_Click(object sender, RoutedEventArgs e)
-		{
-			MessageBox.Show("Delete department");
-		}
-
-		#endregion
 	}
 }
-
-		/*
-			MessageBox.Show(
-				$"TreeView Selected Item: {AppleTree.SelectedItem}\n" +
-				$"DataGrid Selected Item: {employeesView.SelectedItem}" 
-				);
-		 */
-

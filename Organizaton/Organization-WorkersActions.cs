@@ -23,9 +23,7 @@ namespace MLM.Organizaton
 		/// <param name="pos">Position</param>
 		/// <returns>
 		///  0 if worker was added successfully, 
-		/// -1 if worker with same ID already exists which should not happen in principle
-		/// because worker is newly created,
-		/// -2 if worker is director and department already has a director
+		/// -1 if worker is director and department already has a director
 		/// </returns>
 		public int AddWorker(string fn, string ln, DateTime dob, IDepartmentDTO d, Positions pos)
 		{
@@ -34,7 +32,7 @@ namespace MLM.Organizaton
 				pos == Positions.DivisionHead ||
 				pos == Positions.DeptDirector) &&
 				Director(d) != null)
-				return -2;
+				return -1;
 
 			Worker newWorker = null;
 			switch (pos)
@@ -106,9 +104,8 @@ namespace MLM.Organizaton
 		/// </returns>
 		public int EditWorker(IWorkerDTO updatedW)
 		{
-			// Check if worker with same ID exists
+			// Get index of the being updated worker
 			int wi = Workers.FindIndex(w => w.ID == updatedW.ID);
-			if (wi == -1) return -1;
 
 			// Check if worker type was changed
 			// In this case need to "cast" new type
@@ -141,7 +138,7 @@ namespace MLM.Organizaton
 				Workers[wi] = newW;
 			}
 
-			// Change type here
+			// Update worker's properties
 			Workers[wi].FirstName		= updatedW.FirstName;
 			Workers[wi].LastName		= updatedW.LastName;
 			Workers[wi].DateOfBirth		= updatedW.DateOfBirth;
@@ -152,6 +149,7 @@ namespace MLM.Organizaton
 
 			var d = Department(updatedW.DeptID);
 			UpdateSalaries(d as BaseDepartment);
+
 			return 0;           // Worker was updated successfully
 		}
 
