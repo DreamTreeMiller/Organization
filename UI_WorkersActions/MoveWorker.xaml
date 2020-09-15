@@ -103,6 +103,7 @@
 		<UniformGrid Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2"
 					 Columns="2" Rows="1"
 					 Width="300"
+					 VerticalAlignment="Top"
 					 >
 			<Button Name="btnOk_MoveWorker"
 					Content="OK"

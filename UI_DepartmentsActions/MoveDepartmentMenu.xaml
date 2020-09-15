@@ -32,7 +32,7 @@
 				   />
 		<TextBlock x:Name="warningmsgposition"
 				   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-				   Text="Department will all employees and sub departments will be nested under destination department"
+				   Text="All department employees and sub departments will be nested under destination department"
 				   Foreground="Blue"
 				   FontWeight="Bold"
 				   TextAlignment="Center"
@@ -44,13 +44,13 @@
 		<TextBlock x:Name="deptametitile"
 				   Grid.Row="2" Grid.Column="0"
 				   Text="Department to move:"
-				   Margin="0,0,10,0"
+				   Margin="0,0,-10,0"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Right"
 				   />
 		<StackPanel Orientation="Horizontal"
 					Grid.Row="2" Grid.Column="1"
-					>
+					Margin="30,0,0,0">
 			<TextBlock x:Name="IdDisplay" 
 					   VerticalAlignment="Center"
 					   Margin="10,0,0,0"
@@ -64,13 +64,13 @@
 		<TextBlock x:Name="destinationdepartmenttitile"
 				   Grid.Row="3" Grid.Column="0"
 				   Text="Destination department:"
-				   Margin="0,0,10,0"
+				   Margin="0,0,-10,0"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Right"
 				   />
 		<ComboBox x:Name="DeparmmentEntryBox"
 				  Grid.Row="3" Grid.Column="1"  
-				  Margin="10,0,0,0"
+				  Margin="30,0,0,0"
 				  VerticalAlignment="Center"
 				  HorizontalAlignment="Left"
 				  MinWidth="100"

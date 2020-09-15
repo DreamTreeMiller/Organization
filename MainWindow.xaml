@@ -81,12 +81,11 @@
 					</MenuItem>
 				</Menu>
 				<ComboBox x:Name="AllDepartments"
-						  Text="Departments"
+						  MinWidth="100"
 						  />
 				<ComboBox x:Name="AllWorkers"
-						  Text="Workers"
+						  MinWidth="100"
 						  />
-
 			</ToolBar>
 		</ToolBarPanel>
 		<TextBlock x:Name="OrgEstablishedOn"

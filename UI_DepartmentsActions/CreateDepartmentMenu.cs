@@ -68,12 +68,14 @@ namespace MLM.UI_DepartmentsActions
 			}
 		}
 
-		public CreateDepartmentMenu(string proposedName, 
+		public CreateDepartmentMenu(IDepartmentDTO parentDept,
+									string proposedName, 
 									DateTime orgCreationDate,
 									List<IDepartmentDTO> subDepts)
 		{
 			InitializeComponent();
 			_subDepts = subDepts;
+			ParentDeptName.Text = $"ID: {parentDept.DeptID},  {parentDept.DeptName}";
 			DeptName		 = proposedName;
 			orgcreationdate = orgCreationDate;
 			DeptCreationDate = DateTime.Now;

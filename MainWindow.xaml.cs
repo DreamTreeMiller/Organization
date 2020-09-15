@@ -190,6 +190,9 @@ namespace MLM
 
 			TotalDepartmentSalary.Text =
 				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
+
+			AllDepartments.Items.Refresh();
+			AllWorkers.Items.Refresh();
 		}
 
 		#endregion

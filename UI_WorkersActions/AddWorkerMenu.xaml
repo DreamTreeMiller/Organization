@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MLM"
         mc:Ignorable="d"
-        Title="Add Worker" Height="300" Width="600"
+        Title="Add Worker" Height="330" Width="600"
 		WindowStartupLocation="CenterScreen"
 		>
 	<Grid >
@@ -16,7 +16,7 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="30" />
+			<RowDefinition Height="50" />
 			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
@@ -33,8 +33,7 @@
 				   FontWeight="Bold" 
 				   FontSize="14"
 				   HorizontalAlignment="Center" 
-				   Margin="0,10, 0, 0" 
-				   VerticalAlignment="Top" 
+				   VerticalAlignment="Center" 
 				   />
 		<TextBlock x:Name="firstnametitle"
 				   Grid.Column="0" Grid.Row="1"
@@ -128,7 +127,10 @@
 				   />
 		<UniformGrid Grid.Column="1" Grid.ColumnSpan="2"
 					 Grid.Row="7"
-					 Columns="2" Rows="1">
+					 Columns="2" Rows="1"
+					 VerticalAlignment="Top"
+					 Margin="0,20,0,0"
+					 >
 			<Button Name="btnOk_AddEmployee"
 					Content="OK"
 					Height="30"

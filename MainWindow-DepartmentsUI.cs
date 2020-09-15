@@ -33,7 +33,7 @@ namespace MLM
 
 			// Invoke Create Department Menu window
 			CreateDepartmentMenu createDeptWin = 
-				new CreateDepartmentMenu(newDeptName, Apple.EstablishedOn, (Apple as IRetrieve).SubDepartments(d));
+				new CreateDepartmentMenu(d, newDeptName, Apple.EstablishedOn, (Apple as IRetrieve).SubDepartments(d));
 
 			bool? result = createDeptWin.ShowDialog();
 			if (result != true) return;
@@ -201,7 +201,7 @@ namespace MLM
 					result = delWin.ShowDialog();
 					if (result != true) return;
 					UI.Departments.SelfExcludeOfDepartment(d);
-					
+
 					// Update UI TreeView
 					parent.Items.Clear();
 
@@ -229,7 +229,6 @@ namespace MLM
 					result = delWin.ShowDialog();
 					if (result != true) return;
 
-					MessageBox.Show("Remove completely!!!");
 					UI.Departments.DeleteCompletely(d);
 
 					// Remove department from UI TreeView

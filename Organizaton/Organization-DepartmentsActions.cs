@@ -242,12 +242,16 @@ namespace MLM.Organizaton
 		{
 			int i = 0;
 			while (i < Workers.Count)
+			{
+				// We should NOT increment i after taking out a worker
+				// because next worker has the same index as just deleted one
 				if (Workers[i].DeptID == d.DeptID)
 				{
 					Workers.RemoveAt(i);
 				}
 				else
 					i++;
+			}
 
 			// Check if d has sub departments
 			if ((d as BaseDepartment).SubDepts.Count > 0)
@@ -259,14 +263,20 @@ namespace MLM.Organizaton
 				for (i = 0; i < Departments.Count; i++)
 					if ((d as BaseDepartment).SubDepts.Count > 0)
 					{
-						foreach (var sd in (d as BaseDepartment).SubDepts)
-							if (Departments[i].DeptID == sd)
+						int j = 0;
+						while (j < (d as BaseDepartment).SubDepts.Count)
+						{
+							if (Departments[i].DeptID == (d as BaseDepartment).SubDepts[j])
 							{
 								DeleteCompletely(Departments[i]);
-								Departments.Remove(Departments[i]);
-								(d as BaseDepartment).SubDepts.Remove(sd);
-								break;
+								(d as BaseDepartment).SubDepts.RemoveAt(j);
+								// After deleting subdepartment i will reman the same
+								// but Department[i] will be different
+								// because there will be shift of all list items to position i
 							}
+							else
+								j++;
+						}
 					}
 					else break; // if no mor subdepartments in  
 			}

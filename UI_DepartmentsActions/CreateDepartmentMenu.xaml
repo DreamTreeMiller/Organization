@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MLM.UI_DepartmentsActions"
         mc:Ignorable="d"
         Title="Create Department" 
-		Height="220" Width="500"
+		Height="240" Width="500"
 		WindowStartupLocation="CenterScreen"
 		>
 	<Grid x:Name="CreateDeptGrid">
@@ -17,7 +17,8 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="50" />
+			<RowDefinition Height="40" />
+			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
 			<RowDefinition Height="30" />
@@ -33,15 +34,28 @@
 				   HorizontalAlignment="Center" 
 				   VerticalAlignment="Center" 
 				   />
-		<TextBlock x:Name="deptnametitle"
+		<TextBlock x:Name="parentdeptnametitle"
 				   Grid.Column="0" Grid.Row="1"
+				   Text="Parent Department:"
+				   Margin="0,0,10,0"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Right"
+				   />
+		<TextBlock x:Name="ParentDeptName"
+				   Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"
+				   Margin="10,0,0,0"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Left"
+				   />
+		<TextBlock x:Name="deptnametitle"
+				   Grid.Column="0" Grid.Row="2"
 				   Text="Department name"
 				   Margin="0,0,10,0"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Right"
 				   />
 		<TextBox   x:Name="DeptNameEntryBox"
-				   Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"
+				   Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"
 				   Text="{Binding DeptName}"
 				   Margin="10,0,0,0"
 				   Width="300"
@@ -49,14 +63,14 @@
 				   HorizontalAlignment="Left" 
 				   />
 		<TextBlock x:Name="dpetcreationdatetitle"
-				   Grid.Column="0" Grid.Row="2"
+				   Grid.Column="0" Grid.Row="3"
 				   Text="Created on"
 				   Margin="0,0,10,0"
 				   VerticalAlignment="Center"
 				   HorizontalAlignment="Right"
 				   />
 		<DatePicker	x:Name="CreatedOnDatePicker"
-					Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"
+					Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"
 					SelectedDate="{Binding DeptCreationDate}"
 					Margin="10,0,0,0"
 					Width="100"
@@ -65,8 +79,9 @@
 					>
 		</DatePicker>
 		<UniformGrid Grid.Column="1" Grid.ColumnSpan="2"
-					 Grid.Row="4"
-					 Columns="2" Rows="1">
+					 Grid.Row="5"
+					 Columns="2" Rows="1"
+					 VerticalAlignment="Top">
 			<Button Name="btnOk_CreateDepartment"
 					Content="OK"
 					Height="30"
