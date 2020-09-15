@@ -116,10 +116,10 @@ namespace MLM.Organizaton
 
 			Worker newW = new Intern(updatedW);
 
-			if (updatedW.OriginalWorkerType != updatedW.SelectedWorkerType)
-			{
+			//if (updatedW.OriginalWorkerType != updatedW.SelectedWorkerType)
+			//{
 				// Here new Director(updatedW), new Employee(..), new Intern(..)
-				// Create 
+				// Create new type and update salary
 				switch (updatedW.SelectedWorkerType)
 					{
 						case WorkerHierarchy.Director:
@@ -127,23 +127,34 @@ namespace MLM.Organizaton
 							break;
 						case WorkerHierarchy.Employee:
 							newW = new Employee(updatedW);
-							(newW as Employee).HourlyRate = updatedW.HourlyRate;
+							(newW as Employee).HourlyRate  = updatedW.HourlyRate;
 							(newW as Employee).HoursWorked = updatedW.HoursWorked;
 							break;
 						case WorkerHierarchy.Intern:
 							newW.Salary = updatedW.IntSalary;
 							break;
 					}
+			//}
+			//else
+			//{
+			//	// Only update salary
+			//	switch (updatedW.SelectedWorkerType)
+			//	{
+			//		case WorkerHierarchy.Director:
+			//			break;
+			//		case WorkerHierarchy.Employee:
+			//			(newW as Employee).HourlyRate  = updatedW.HourlyRate;
+			//			(newW as Employee).HoursWorked = updatedW.HoursWorked;
+			//			break;
+			//		case WorkerHierarchy.Intern:
+			//			newW.Salary = updatedW.IntSalary;
+			//			break;
+			//	}
+			//}
 
-				Workers[wi] = newW;
-			}
+			Workers[wi] = newW;
 
 			// Update worker's properties
-			Workers[wi].FirstName		= updatedW.FirstName;
-			Workers[wi].LastName		= updatedW.LastName;
-			Workers[wi].DateOfBirth		= updatedW.DateOfBirth;
-			Workers[wi].EmployedOn		= updatedW.EmployedOn;
-			Workers[wi].DeptID			= updatedW.DeptID;
 			Workers[wi].Position		= updatedW.Position;
 			Workers[wi].PositionTitle	= updatedW.PositionTitle;
 

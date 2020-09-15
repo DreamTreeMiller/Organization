@@ -9,6 +9,11 @@ namespace MLM
 {
 	public class Intern : Worker, IWorker, IIntern
 	{
+		public int Age
+		{
+			get => (int)((DateTime.Now - DateOfBirth).TotalDays / 365.25);
+		}
+
 		public override int Salary { get; set; }
 
 		public Intern (string FN, string LN, DateTime DOB,

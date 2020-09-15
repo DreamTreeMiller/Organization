@@ -28,6 +28,8 @@ namespace MLM.Interfaces
 		/// </summary>
 		DateTime DateOfBirth { get; set; }
 
+		int Age { get; }
+
 		/// <summary>
 		/// Date of hiring in organization
 		/// </summary>

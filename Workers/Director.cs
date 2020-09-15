@@ -9,6 +9,11 @@ namespace MLM
 {
 	public class Director : Worker, IWorker, IDirector
 	{
+		public int Age
+		{
+			get => (int)((DateTime.Now - DateOfBirth).TotalDays / 365.25);
+		}
+
 		private int _salary;
 
 		public Director(string FN, string LN, DateTime DOB,

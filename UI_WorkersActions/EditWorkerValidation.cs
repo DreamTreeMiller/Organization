@@ -44,6 +44,7 @@ namespace MLM
 			}
 		}
 
+		public int Age { get; }
 		private readonly DateTime orgCreationDate;
 		private DateTime _employedon;
 		public DateTime EmployedOn
@@ -153,14 +154,14 @@ namespace MLM
 		public EditWorkerValidation(IWorker w, IDepartmentDTO d, bool hasDirector, DateTime orgCreationDate)
 		{
 			this.ID = w.ID;
-			this.FirstName = w.FirstName;
-			this.LastName = w.LastName;
-			this.DateOfBirth = w.DateOfBirth;
+			this.FirstName		 = w.FirstName;
+			this.LastName		 = w.LastName;
+			this.DateOfBirth	 = w.DateOfBirth;
 			this.orgCreationDate = orgCreationDate;
-			this.EmployedOn = w.EmployedOn;
-			this.DeptID = w.DeptID;
-			this.Position = w.Position;
-			this.PositionTitle = w.PositionTitle;
+			this.EmployedOn		 = w.EmployedOn;
+			this.DeptID			 = w.DeptID;
+			this.Position		 = w.Position;
+			this.PositionTitle	 = w.PositionTitle;
 
 			if (w is Director)
 			{

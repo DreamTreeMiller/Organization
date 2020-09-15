@@ -9,6 +9,12 @@ namespace MLM
 {
 	public class Employee : Worker, IWorker, IEmployee
 	{
+		public int Age
+		{
+			get => (int)((DateTime.Now - DateOfBirth).TotalDays / 365.25);
+		}
+
+
 		public int HourlyRate { get; set; }		
 		public int HoursWorked { get; set; }    // recalulated on the last day of the month
 

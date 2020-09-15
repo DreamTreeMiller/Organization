@@ -34,11 +34,11 @@ namespace MLM
 			wCopy = new EditWorkerValidation(w, d, hasDirector, orgCreationDate);
 			EditWorkerGrid.DataContext = wCopy;
 
-			DateOfBirthPicker.SelectedDate = wCopy.DateOfBirth;
-			EmployedOnDatePicker.SelectedDate = wCopy.EmployedOn; ;
-			DeptNameDisplay.Text = d.DeptName;
-			PositionEntryBox.ItemsSource = posList;
-			PositionEntryBox.SelectedItem = posList.Find(p => p.Pos == w.Position);
+			DateOfBirthPicker.SelectedDate		= wCopy.DateOfBirth;
+			EmployedOnDatePicker.SelectedDate	= wCopy.EmployedOn; ;
+			DeptNameDisplay.Text				= d.DeptName;
+			PositionEntryBox.ItemsSource		= posList;
+			PositionEntryBox.SelectedItem		= posList.Find(p => p.Pos == w.Position);
 
 
 			DirectorSalary.Visibility = Visibility.Collapsed;
@@ -101,10 +101,7 @@ namespace MLM
 		{
 			int value = 0;
 			if (Int32.TryParse(HourlyRateEntryBox.Text, out value))
-			{
-				if (value < 1) value = 1;
 				wCopy.HourlyRate = value;
-			}
 			else
 				HourlyRateEntryBox.Text = $"{wCopy.HourlyRate}";
 
@@ -119,10 +116,7 @@ namespace MLM
 		{
 			int value = 0;
 			if (Int32.TryParse(HoursWorkedEntryBox.Text, out value))
-			{
-				if (value < 0) value = 0;
 				wCopy.HoursWorked = value;
-			}
 			else
 				HoursWorkedEntryBox.Text = $"{wCopy.HoursWorked}";
 		}
@@ -136,14 +130,7 @@ namespace MLM
 		{
 			int value = 0;
 			if (Int32.TryParse(InternSalaryEntryBox.Text, out value))
-			{
-				if (value < 0)
-					value = 0;
-				else if (value > 1000)
-					value = 1000;
-
 				wCopy.IntSalary = value;
-			}
 			else
 				InternSalaryEntryBox.Text = $"{wCopy.IntSalary}";
 		}
