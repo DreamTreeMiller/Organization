@@ -121,7 +121,7 @@
     <Compile Include="Organizaton\Organization.cs" />
     <Compile Include="Organizaton\Enumerables.cs" />
     <Compile Include="Workers\Worker.cs" />
-    <Compile Include="Workers\WorkersTable.cs" />
+    <Compile Include="Workers\Comparer.cs" />
     <Page Include="UI_DepartmentsActions\CreateDepartmentMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

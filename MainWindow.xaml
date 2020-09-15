@@ -143,14 +143,20 @@
 				  CanUserResizeColumns="True"
 				  GridLinesVisibility="None"
 				  RowBackground="WhiteSmoke" 
-				  AlternatingRowBackground="White"
+				  AlternatingRowBackground="White" Sorting="WorkersView_Sorting"
 				  >
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="ID"			Binding="{Binding ID}" />
 				<DataGridTextColumn Header="FirstName"	Binding="{Binding FirstName}" />
 				<DataGridTextColumn Header="LastName"	Binding="{Binding LastName}"/>
-				<DataGridTextColumn Header="Age"		Binding="{Binding Age}" />
-				<DataGridTextColumn Header="PositionTitle"	Binding="{Binding PositionTitle}" />
+				<DataGridTextColumn Header="Age"		Binding="{Binding Age}">
+					<DataGridTextColumn.CellStyle>
+						<Style>
+							<Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+						</Style>
+					</DataGridTextColumn.CellStyle>
+				</DataGridTextColumn>
+				<DataGridTextColumn Header="Position"	Binding="{Binding PositionTitle}" />
 				<DataGridTextColumn x:Name="salaryColumn" Header="Salary" Binding="{Binding StringFormat={}{0:C0}, Path=Salary}">
 					<DataGridTextColumn.CellStyle>
 						<Style>

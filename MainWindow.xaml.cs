@@ -196,5 +196,44 @@ namespace MLM
 		}
 
 		#endregion
+
+		private void WorkersView_Sorting(object sender, DataGridSortingEventArgs e)
+		{
+			// Get currently selected department from the Tree View
+			var tvis = AppleTree.SelectedItem as TreeViewItem;
+			var d = tvis.Tag as IDepartmentDTO;
+
+			if (e.Column.Header.ToString() == "Position")
+			{
+				var wvl = UI.Get.OneDepartmentWorkersList(d);
+
+				if (e.Column.SortDirection == null || 
+					e.Column.SortDirection == 0)		// 0 - ascending, 1 - descending
+				{
+					wvl.Sort(new ByPositionAscending());
+					WorkersView.ItemsSource =wvl;
+
+					// Change direstion to descending
+					e.Column.SortDirection = (System.ComponentModel.ListSortDirection)1;
+				}
+				else
+				{
+					wvl.Sort(new ByPositionDescending());
+					WorkersView.ItemsSource = wvl;
+
+					// Change direstion to ascending
+					e.Column.SortDirection = 0;
+				}
+			}
+
+			// Remove sorting indicators from other columns
+			foreach (var wvColumn in WorkersView.Columns)
+			{
+				if (wvColumn.Header.ToString() != e.Column.Header.ToString())
+				{
+					wvColumn.SortDirection = null;
+				}
+			}
+		}
 	}
 }
