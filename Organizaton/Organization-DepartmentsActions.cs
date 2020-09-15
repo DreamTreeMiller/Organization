@@ -145,9 +145,6 @@ namespace MLM.Organizaton
 			if (d is Division)
 			{
 				cloneDept = new Department(d as BaseDepartment);
-				if (SubDepartments(destinationDept).
-					Find(sameName => sameName.DeptName == destinationDept.DeptName) != null)
-					cloneDept.DeptName += "_" + UniqueID.Name();
 			}
 
 			// If we are moving up to Division level, 
@@ -157,6 +154,9 @@ namespace MLM.Organizaton
 				cloneDept = new Division(d as BaseDepartment);
 				cloneDept.DeptName = "Division_" + UniqueID.Name();
 			}
+			else if (SubDepartments(destinationDept).
+					Find(sameName => sameName.DeptName == cloneDept.DeptName) != null)
+					cloneDept.DeptName += "_" + UniqueID.Name();
 
 			// Set new parent for being moved department
 			cloneDept.ParentDeptID = destinationDept.DeptID;
