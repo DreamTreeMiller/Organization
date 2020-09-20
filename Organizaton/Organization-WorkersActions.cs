@@ -177,24 +177,13 @@ namespace MLM.Organizaton
 		/// </returns>
 		public int MoveWorker(IWorker worker, IDepartmentDTO destDept)
 		{
-			// Check if worker with such ID exists
 			var w = RemoveWorker(worker);
-			if (w == null) return -1;
-
-			// Check if destination departmetn exists
-			var newDept = Department(destDept.DeptID);
-			if (newDept == null) return -2;
-
-			uint oldDeptID = w.DeptID;
-
-			// Check if destination department is not current worker's department
-			if (destDept.DeptID == oldDeptID) return -3;
 
 			// Worker can be moved to another department only either as Employee or Intern
 			if (w.Position != Positions.Employee &&
 				w.Position != Positions.Intern)
 			{
-				w.Position = Positions.Employee;
+				w.Position		= Positions.Employee;
 				w.PositionTitle = "Employee";
 			}
 
@@ -203,10 +192,9 @@ namespace MLM.Organizaton
 
 			if (w is Director)
 			{
-				// Change type of w from Director to Employee
-				// Since there is not explicit type cast, 
-				// need to create new instace of Employee class with same ID
-				Employee e = new Employee(w as Worker);
+				// Using explicit type cast operator from Director to Employee
+				// defined in Employee class
+				Employee e = (Employee)(w as Director);
 				AddWorker(e);
 			}
 			else

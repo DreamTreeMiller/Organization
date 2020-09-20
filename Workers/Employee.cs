@@ -54,23 +54,26 @@ namespace MLM
 			this.DeptID			= w.DeptID;
 		}
 
+
 		public Employee(Worker w)
 			: base(w.ID)
 		{
-			this.FirstName		= w.FirstName;
-			this.LastName		= w.LastName;
-			this.DateOfBirth	= w.DateOfBirth;
-			this.EmployedOn		= w.EmployedOn;
-			this.DeptID			= w.DeptID;
-			this.Position		= Positions.Employee;
-			this.PositionTitle	= "Employee";
-			this.HourlyRate		= 12;
-			this.HoursWorked	= 22 * 8;
+			this.FirstName	 = w.FirstName;
+			this.LastName	 = w.LastName;
+			this.DateOfBirth = w.DateOfBirth;
+			this.EmployedOn	 = w.EmployedOn;
+			this.DeptID		 = w.DeptID;
 		}
 
-		//public object Clone()
-		//{
-		//	return (Employee)this.MemberwiseClone();
-		//}
+		public static explicit operator Employee(Director w)
+		{
+			return new Employee(w)
+			{
+				Position		= Positions.Employee,
+				PositionTitle	= "Employee",
+				HourlyRate		= 12,
+				HoursWorked		= 22 * 8
+			};
+		}
 	}
 }
