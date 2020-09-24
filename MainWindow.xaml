@@ -32,7 +32,7 @@
 					 Margin="0, 0, -15, 0"
 					 Background="Transparent"
 					 >
-				<Button x:Name="openFileBtn"
+				<!--Button x:Name="openFileBtn"
 						Width="30"
 						Margin="3"
 						VerticalAlignment="Center" Click="openFileBtn_Click"
@@ -43,7 +43,7 @@
 							Загрузить из JSON файла
 						</ToolTip>
 					</Button.ToolTip>
-				</Button>
+				</Button-->
 				<Button x:Name="saveFileBtn"
 						Width="30"
 						Margin="3"
@@ -80,12 +80,6 @@
 						<MenuItem x:Name="DeleteWorker" Header="Delete" Click="DeleteWorker_Click" />
 					</MenuItem>
 				</Menu>
-				<ComboBox x:Name="AllDepartments"
-						  MinWidth="100"
-						  />
-				<ComboBox x:Name="AllWorkers"
-						  MinWidth="100"
-						  />
 			</ToolBar>
 		</ToolBarPanel>
 		<TextBlock x:Name="OrgEstablishedOn"
@@ -99,6 +93,8 @@
 				  Grid.Row="1"
 				  Grid.Column="0"
 				  Margin="5,5,0,5"
+				  TreeViewItem.Selected="Department_Selected"
+				  TreeViewItem.Expanded="Department_Expanded"
 				  >
 			<TreeView.Resources>
 				<Style TargetType="{x:Type TreeViewItem}">
@@ -119,7 +115,7 @@
 									<TextBlock VerticalAlignment="Center" 
 											   MinWidth="0"
 											   Text="{Binding}"
-										HorizontalAlignment="Left"
+											   HorizontalAlignment="Left"
 											   />
 								</StackPanel>
 							</DataTemplate>

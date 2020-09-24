@@ -26,15 +26,16 @@ namespace MLM
 			ICreateOrganization Create = new CreateOrganization();
 			Apple = Create.Organization(5, 5, "Apple Inc.", 30);
 			org = Apple as Organizaton.Organization;
+
+			// Display date of organization establishment
 			this.Title = "Apple Inc.";
 			this.OrgEstablishedOn.Text = 
 				$"Established on " +
 				Apple.EstablishedOn.ToString("MMMM dd, yyyy",
 				  CultureInfo.CreateSpecificCulture("en-US"));
+			
 			UI = new ActionsUI(Apple);
 
-			AllDepartments.ItemsSource = (Apple as Organizaton.Organization).Departments;
-			AllWorkers.ItemsSource = (Apple as Organizaton.Organization).Workers;
 		}
 
 		#endregion
@@ -63,11 +64,11 @@ namespace MLM
 			if ((item.Tag as IDepartmentDTO).NumberOfSubDepts != 0)
 				item.Items.Add(null);
 
-			// Listen out for item being selected
-			item.Selected += Department_Selected;
+			// Listen out for item being selected. This method is already added in XAML
+			//item.Selected += Department_Selected;
 
-			// Listen out for item being expanded
-			item.Expanded += Department_Expanded;
+			// Listen out for item being expanded. This method is already added in XAML
+			//item.Expanded += Department_Expanded;
 
 			return item;
 		}
@@ -104,7 +105,7 @@ namespace MLM
 
 		private void Department_Expanded(object sender, RoutedEventArgs e)
 		{
-			var item = (TreeViewItem)sender;
+			var item = e.Source as TreeViewItem;
 
 			// If the first item is dummy data (item.Items[0] == null)
 			// It means there is/are subdepartment(s)
@@ -190,9 +191,6 @@ namespace MLM
 
 			TotalDepartmentSalary.Text =
 				d.TotalDepartmentSalary.ToString("C0", CultureInfo.CreateSpecificCulture("en-US"));
-
-			AllDepartments.Items.Refresh();
-			AllWorkers.Items.Refresh();
 		}
 
 		#endregion
