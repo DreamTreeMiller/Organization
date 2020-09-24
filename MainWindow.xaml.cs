@@ -63,11 +63,11 @@ namespace MLM
 			if ((item.Tag as IDepartmentDTO).NumberOfSubDepts != 0)
 				item.Items.Add(null);
 
-			// Listen out for item being selected
-			item.Selected += Department_Selected;
+			// Listen out for item being selected. This method is already added in XAML
+			//item.Selected += Department_Selected;
 
-			// Listen out for item being expanded
-			item.Expanded += Department_Expanded;
+			// Listen out for item being expanded. This method is already added in XAML
+			//item.Expanded += Department_Expanded;
 
 			return item;
 		}
@@ -104,7 +104,7 @@ namespace MLM
 
 		private void Department_Expanded(object sender, RoutedEventArgs e)
 		{
-			var item = (TreeViewItem)sender;
+			var item = e.Source as TreeViewItem;
 
 			// If the first item is dummy data (item.Items[0] == null)
 			// It means there is/are subdepartment(s)

@@ -99,6 +99,8 @@
 				  Grid.Row="1"
 				  Grid.Column="0"
 				  Margin="5,5,0,5"
+				  TreeViewItem.Selected="Department_Selected"
+				  TreeViewItem.Expanded="Department_Expanded"
 				  >
 			<TreeView.Resources>
 				<Style TargetType="{x:Type TreeViewItem}">
@@ -119,7 +121,7 @@
 									<TextBlock VerticalAlignment="Center" 
 											   MinWidth="0"
 											   Text="{Binding}"
-										HorizontalAlignment="Left"
+											   HorizontalAlignment="Left"
 											   />
 								</StackPanel>
 							</DataTemplate>
