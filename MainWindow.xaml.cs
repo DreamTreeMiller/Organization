@@ -1,6 +1,7 @@
 ﻿using MLM.Interfaces;
 using MLM.ActionsUserInterface;
 using MLM.InterfacesActions;
+using MLM.Organizaton;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,32 +16,41 @@ namespace MLM
 	{
 		#region Constructor
 
-		private IOrganization Apple;
-		private Organizaton.Organization org;
-		private ActionsUI UI;           // Actions on organization user interface.
-										// Does not depend on how organization is implemented
+		private IOrganization	Apple;
+		private TreeViewItem	AppleTreeRoot;
+		private ActionsUI		UI;				// Actions on organization user interface.
+												// Does not depend on how organization is implemented
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			ICreateOrganization Create = new CreateOrganization();
-			Apple = Create.Organization(5, 5, "Apple Inc.", 30);
-			org = Apple as Organizaton.Organization;
+			CreateRandomOrganization(5, 5, "Apple Inc.", 30);
+			InitializeUI();
+			DisplayOrgEstablishmentDate();
+		}
 
-			// Display date of organization establishment
+
+		private void CreateRandomOrganization(int maxDepth, int maxSubDept, string orgName, int maxEmplInDept)
+		{
+			ICreateOrganization Create = new CreateOrganization();
+			Apple = Create.Organization(maxDepth, maxSubDept, orgName, maxEmplInDept);
+		}
+
+		private void InitializeUI()
+		{
+			UI = new ActionsUI(Apple);
+		}
+		
+		private void DisplayOrgEstablishmentDate()
+		{
 			this.Title = "Apple Inc.";
-			this.OrgEstablishedOn.Text = 
+			this.OrgEstablishedOn.Text =
 				$"Established on " +
 				Apple.EstablishedOn.ToString("MMMM dd, yyyy",
 				  CultureInfo.CreateSpecificCulture("en-US"));
-			
-			UI = new ActionsUI(Apple);
-
 		}
 
 		#endregion
-
-		TreeViewItem AppleTreeRoot;
 
 		/// <summary>
 		/// Creates TreeViewItem node for the department
